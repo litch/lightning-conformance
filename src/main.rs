@@ -34,6 +34,26 @@ struct LndPeers {
     peers: Vec<LndPeer>
 }
 
+fn run_lnd_command(passed_args: Vec<&str>) -> Output {
+    let out = Command::new("docker")
+        .args(["exec", "-i", "lnd", "lncli", "--network", "regtest"])
+        .args(&passed_args)
+        .output()
+        .expect(&format!("Failed to execute: {:?}", passed_args));
+
+    return out;
+}
+
+fn run_cln_command(passed_args: Vec<&str>) -> Output {
+    let out = Command::new("docker")
+        .args(["exec", "-i", "cln", "lightning-cli", "--network", "regtest"])
+        .args(&passed_args)
+        .output()
+        .expect(&format!("Failed to execute: {:?}", passed_args));
+
+    return out;
+}
+
 fn start_nigiri() -> Output {
     let output = Command::new("nigiri")
         .arg("start")
@@ -79,28 +99,13 @@ fn main() {
     // nigiri cln connect `nigiri lnd getinfo | jq -r .identity_pubkey`@lnd:9735
     // nigiri lnd openchannel --node_key=`nigiri cln getinfo | jq -r .id` --local_amt=100000
 
-    let out = Command::new("docker")
-        .args(["exec", "-i", "lnd", "lncli", "--network", "regtest", "listpeers"])
-        .output()
-        .expect("Failed to list LND peers");
-
-    io::stdout().write_all(&out.stdout).unwrap();
-    io::stderr().write_all(&out.stderr).unwrap();
-
+    let out = run_lnd_command(vec!["listpeers"]);
 
     let peers: LndPeers = serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap();
 
     println!("{:?}", peers);
 
-    let out = Command::new("docker")
-        .args(["exec", "cln", "lightning-cli", "--network", "regtest", "newaddr"])
-        .output()
-        .expect("Failed to fund cln node");
-
-    // io::stdout().write_all(&out.stdout).unwrap();
-    // io::stderr().write_all(&out.stderr).unwrap();
-
-    assert!(out.status.success(), "Unable to faucet to CLN");
+    let out = run_cln_command(vec!["newaddr"])
 
     let out = Command::new("nigiri")
         .arg("faucet").arg("lnd").arg("1")
