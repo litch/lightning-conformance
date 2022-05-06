@@ -149,7 +149,7 @@ fn initialize_sensei() -> SenseiInstanceInfo {
     let config = load_sensei_config();
     match config {
         Ok(config) => {
-            println!("Sensei Configuration: {:?}", config);
+            println!("Sensei Configuration loaded successfully");
             let reified: SenseiInstanceInfo = serde_json::from_str(&config).unwrap();
             reified
         },
@@ -170,11 +170,10 @@ fn initialize_fresh_sensei() -> SenseiInstanceInfo {
         .output()
         .expect("failed to initialize Sensei admin");
 
-    io::stdout().write_all(&output.stdout).unwrap();
-    io::stderr().write_all(&output.stderr).unwrap();
+    // io::stdout().write_all(&output.stdout).unwrap();
+    // io::stderr().write_all(&output.stderr).unwrap();
     
     let output_string = str::from_utf8(&output.stdout).unwrap().trim();
-    
     
     println!("This is my string I'm going to parse {}", &output_string);
     let admin_config: SenseiAdmin = serde_json::from_str(&output_string).unwrap();
@@ -193,7 +192,7 @@ fn main() {
 
     let peers = get_lnd_peers();
 
-    println!("Peer count: {:?}", peers.peers.len());
+    println!("LND peer count: {:?}", peers.peers.len());
 
     let out = Command::new("nigiri")
         .arg("faucet").arg("lnd").arg("1")
@@ -215,9 +214,38 @@ fn main() {
 
     assert!(out.status.success());
 
-    // stop_nigiri();
+    let sensei_config = initialize_sensei();
 
-    initialize_sensei();
+    // Connect LND to Sensei!
+    let out: Output = Command::new("docker")
+        .args(["exec", "-i", "lnd", "lncli", "--network", "regtest", "connect", &format!("{}@sensei:9735", sensei_config.admin.pubkey)])
+        .output()
+        .expect("Failed to connect nodes");
+
+    io::stdout().write_all(&out.stdout).unwrap();
+    io::stderr().write_all(&out.stderr).unwrap();
+
+    // assert!(out.status.success());
+
+    // Connect CLN to Sensei!
+    let out: Output = Command::new("docker")
+        .args(["exec", "-i", "cln", "lightning-cli", "--network", "regtest", "connect", &format!("{}@sensei:9735", sensei_config.admin.pubkey)])
+        .output()
+        .expect("Failed to connect nodes");
+
+    io::stdout().write_all(&out.stdout).unwrap();
+    io::stderr().write_all(&out.stderr).unwrap();
+
+    // assert!(out.status.success());
+
+    println!("OK now gonig to try to open a channel");
+    let out: Output = Command::new("docker")
+        .args(["exec", "-i", "lnd", "lncli", "--network", "regtest", "openchannel", &format!("{}", sensei_config.admin.pubkey), "100000"])
+        .output()
+        .expect("Failed to connect nodes");
+
+    io::stdout().write_all(&out.stdout).unwrap();
+    io::stderr().write_all(&out.stderr).unwrap();
 
 }
 
