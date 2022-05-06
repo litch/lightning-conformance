@@ -1,12 +1,43 @@
-use std::array;
 use std::process::Command;
 use std::process::Output;
-use std::io::{self, Write};
+use std::io::{self, Read, Write, BufReader};
+use std::{fs, array};
+use std::fs::File;
+use std::path::Path;
 use std::str;
-// use std::{thread, time::Duration};
+use std::error::Error;
 
 use serde::{Deserialize, Serialize};
-use serde_json::Result;
+
+#[derive(Serialize, Deserialize, Debug)]
+struct SenseiInstanceInfo {
+    admin: SenseiAdmin
+}
+
+impl SenseiInstanceInfo {
+    fn path(&self) -> String {
+        format!("sensei_instance_info.json")
+    }
+
+    pub fn save(&mut self) {
+        fs::write(
+            self.path().clone(),
+            serde_json::to_string(&self)
+            .expect("Failed to serialize Sensei Instance Info")
+        )
+        .expect("Failed to write serialized Sensei Instance Info");
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct SenseiAdmin {
+    token: String,
+    pubkey: String,
+    macaroon: String,
+    external_id: String,
+    role: u32,
+}
+
 
 #[derive(Serialize, Deserialize, Debug)]
 struct LndInfo {
@@ -73,6 +104,21 @@ fn stop_nigiri() -> Output {
     return output
 }
 
+fn get_lnd_info() -> LndInfo {
+    let out = run_lnd_command(vec!["getinfo"]);
+
+    // io::stdout().write_all(&out.stdout).unwrap();
+    // io::stderr().write_all(&out.stderr).unwrap();
+
+    serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap()
+}
+
+fn get_lnd_peers() -> LndPeers {
+    let out = run_lnd_command(vec!["listpeers"]);
+
+    serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap()
+}
+
 fn setup() {
     let nigiri_output = start_nigiri();
     
@@ -86,9 +132,55 @@ fn setup() {
         // let restart: Output = start_nigiri();
         // assert!(restart.status.success(), "Nigiri configuration unsuccessful, idk.");
     }
-    println!("Now going to sleep for 4 seconds to let blocks generate, etc");
+    // println!("Now going to sleep for 4 seconds to let blocks generate, etc");
     // thread::sleep(Duration::from_millis(4000));
+}
 
+fn load_sensei_config() -> Result<String, io::Error>  {
+    let path = "sensei_instance_info.json";
+    let mut f = File::open(path)?;
+    let mut s = String::new();
+    f.read_to_string(&mut s)?;
+    Ok(s)
+    
+}
+
+fn initialize_sensei() -> SenseiInstanceInfo {
+    let config = load_sensei_config();
+    match config {
+        Ok(config) => {
+            println!("Sensei Configuration: {:?}", config);
+            let reified: SenseiInstanceInfo = serde_json::from_str(&config).unwrap();
+            reified
+        },
+        Err(err) => {
+            println!("Sensei configuration not found, actually initalizing");
+            initialize_fresh_sensei()
+        }
+    }
+}
+
+fn initialize_fresh_sensei() -> SenseiInstanceInfo {
+    let output = Command::new("senseicli")
+        .arg("--passphrase")
+        .arg("1234")
+        .arg("init")
+        .arg("some-username")
+        .arg("some-alias")
+        .output()
+        .expect("failed to initialize Sensei admin");
+
+    io::stdout().write_all(&output.stdout).unwrap();
+    io::stderr().write_all(&output.stderr).unwrap();
+    
+    let output_string = str::from_utf8(&output.stdout).unwrap().trim();
+    
+    
+    println!("This is my string I'm going to parse {}", &output_string);
+    let admin_config: SenseiAdmin = serde_json::from_str(&output_string).unwrap();
+    let mut sensei = SenseiInstanceInfo{ admin: admin_config };
+    sensei.save();
+    sensei
 }
 
 fn main() {
@@ -99,13 +191,9 @@ fn main() {
     // nigiri cln connect `nigiri lnd getinfo | jq -r .identity_pubkey`@lnd:9735
     // nigiri lnd openchannel --node_key=`nigiri cln getinfo | jq -r .id` --local_amt=100000
 
-    let out = run_lnd_command(vec!["listpeers"]);
+    let peers = get_lnd_peers();
 
-    let peers: LndPeers = serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap();
-
-    println!("{:?}", peers);
-
-    let out = run_cln_command(vec!["newaddr"])
+    println!("Peer count: {:?}", peers.peers.len());
 
     let out = Command::new("nigiri")
         .arg("faucet").arg("lnd").arg("1")
@@ -113,26 +201,10 @@ fn main() {
         .expect("Failed to fund lnd node");
     assert!(out.status.success());
 
-    // let out = Command::new("nigiri")
-    //     .arg("cln").arg("connect").arg(r#"`nigiri lnd getinfo | jq -r .identity_pubkey`@lnd:9735"#)
-    //     .output()
-    //     .expect("Failed to connect nodes");
-
     // get the lnd pubkey
-    let out = Command::new("docker")
-        .args(["exec", "-i", "lnd", "lncli", "--network", "regtest", "getinfo"])
-        .output()
-        .expect("Failed to get lnd node info");
-
-    io::stdout().write_all(&out.stdout).unwrap();
-    io::stderr().write_all(&out.stderr).unwrap();
-
-    let info: LndInfo = serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap();
-
-    println!("{:?}", info);
-    assert!(out.status.success());
-    
+    let info = get_lnd_info();
     let lnd_pubkey = info.identity_pubkey;
+    println!("Retrieved pubkey {}", &lnd_pubkey);
 
     // connect cln to the lnd pubkey
 
@@ -145,5 +217,31 @@ fn main() {
 
     // stop_nigiri();
 
+    initialize_sensei();
 
+}
+
+
+// Goal!
+// Create sensei node, send money from faucet
+
+// 
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn internal() {
+        let my_string = r#"{"pubkey":"03bf8695412986df4df466c10772dfbe9e8147117a0397aa8a896d80c35cb89741","macaroon":"02010773656e73656964029b017b226964656e746966696572223a5b3135332c3138312c3137362c3138332c3233362c37332c37392c33302c3138372c3235312c3234382c3130362c3234362c3134372c3138322c3234305d2c227075626b6579223a22303362663836393534313239383664663464663436366331303737326466626539653831343731313761303339376161386138393664383063333563623839373431227d00000620f403cd8ad2e2faeccb91a8ecbfc376e273495b89160a29d1be3bef5034117dec","external_id":"931ce0bb-e595-468f-aaf2-fe42cf225deb","role":0,"token":"5c56be2bac66425a0037705cc6f36339199b139e1bafe558475dac80987a9712"}"#;
+
+        let obj: super::SenseiAdmin = serde_json::from_str(my_string).unwrap();
+        println!("OBJ: {:?}", obj);
+        assert_eq!(obj, super::SenseiAdmin { 
+            token: "boo".to_string(),
+            pubkey: "bar".to_string(),
+            role: 0,
+            external_id: "saontheu".to_string(),
+            macaroon: "sntahoeu100".to_string(),
+        })
+    }
 }
