@@ -81,6 +81,16 @@ struct LndPeer {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+struct LndPaymentResult {
+    payment_hash: String,
+    value: String,
+    fee: String,
+    status: String,
+    failure_reason: String,
+
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 struct LndPeers {
     peers: Vec<LndPeer>
 }
@@ -152,10 +162,10 @@ fn get_lnd_invoice(amount: u32) -> LndInvoice {
     serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap()
 }
 
-fn lnd_pay_invoice(invoice: &str) -> () {
-    let output = run_lnd_command(vec!["payinvoice", "-f", invoice]);
-    io::stdout().write_all(&output.stdout).unwrap();
-    io::stderr().write_all(&output.stderr).unwrap();
+fn lnd_pay_invoice(invoice: &str) -> Result<LndPaymentResult, serde_json::Error> {
+    let output = run_lnd_command(vec!["payinvoice", "-f", "--json", invoice]);
+    
+    serde_json::from_str(str::from_utf8(&output.stdout).unwrap())
 }
 
 
@@ -274,8 +284,8 @@ fn main() {
     assert!(out.status.success());
 
     // get the lnd pubkey
-    let info = get_lnd_info();
-    let lnd_pubkey = info.identity_pubkey;
+    let lnd_info = get_lnd_info();
+    let lnd_pubkey = lnd_info.identity_pubkey;
     println!("Retrieved LND pubkey {}", &lnd_pubkey);
 
     // get the cln pubkey
@@ -283,67 +293,80 @@ fn main() {
     let cln_pubkey = cln_info.id;
     println!("Retrieved CLN pubkey {}", &cln_pubkey);
 
-    // connect cln to the lnd pubkey
-
-    let out: Output = Command::new("docker")
-        .args(["exec", "-i", "cln", "lightning-cli", "--network", "regtest", "connect", &format!("{}@lnd:9735", lnd_pubkey)])
-        .output()
-        .expect("Failed to connect nodes");
-
-    assert!(out.status.success());
-
+    // get the sensei config (start it up, etc)
     let sensei_config = initialize_sensei();
 
-    // Connect LND to Sensei!
-    let out: Output = Command::new("docker")
-        .args(["exec", "-i", "lnd", "lncli", "--network", "regtest", "connect", &format!("{}@sensei:9735", sensei_config.admin.pubkey)])
-        .output()
-        .expect("Failed to connect nodes");
+    if lnd_info.num_active_channels < 2 {
+        println!("We'll connect up our cluster");
 
-    io::stdout().write_all(&out.stdout).unwrap();
-    io::stderr().write_all(&out.stderr).unwrap();
+        // connect cln to the lnd pubkey
+        let out = run_cln_command(vec!["connect", &format!("{}@lnd:9735", lnd_pubkey)]);
+        assert!(out.status.success());
 
-    // assert!(out.status.success());
+        // Connect LND to Sensei!
+        let out = run_lnd_command(vec!["connect", &format!("{}@sensei:9735", sensei_config.admin.pubkey)]);
+            
+        io::stdout().write_all(&out.stdout).unwrap();
+        io::stderr().write_all(&out.stderr).unwrap();
 
-    // Connect CLN to Sensei!
-    let out: Output = Command::new("docker")
-        .args(["exec", "-i", "cln", "lightning-cli", "--network", "regtest", "connect", &format!("{}@sensei:9735", sensei_config.admin.pubkey)])
-        .output()
-        .expect("Failed to connect nodes");
+        // assert!(out.status.success());
 
-    io::stdout().write_all(&out.stdout).unwrap();
-    io::stderr().write_all(&out.stderr).unwrap();
+        // Connect CLN to Sensei!
+        let out = run_cln_command(vec!["connect", &format!("{}@sensei:9735", sensei_config.admin.pubkey)]);
+            
+        io::stdout().write_all(&out.stdout).unwrap();
+        io::stderr().write_all(&out.stderr).unwrap();
 
-    // assert!(out.status.success());
+        // assert!(out.status.success());
 
-    println!("OK now going to try to open a channel");
-    open_channel_lnd_sensei_admin(&sensei_config, 1000000);
-    open_channel_lnd_cln(&cln_pubkey, 440000);
+        println!("OK now going to try to open a channel");
+        open_channel_lnd_sensei_admin(&sensei_config, 1000000);
+        open_channel_lnd_cln(&cln_pubkey, 440000);
 
-    println!("Now generate some blocks");
-    generate_block();
-    generate_block();
-    generate_block();
-    generate_block();
-    generate_block();
-    generate_block();
+        println!("Now generate some blocks");
+        generate_block();
+        generate_block();
+        generate_block();
+        generate_block();
+        generate_block();
+        generate_block();
+    } else {
+        println!("Cluster connectivity in place");
+    }
 
     // Sending some money around?
 
+    generate_and_pay_invoice_lnd_to_sensei(&sensei_config);
     let lnd_invoice = get_lnd_invoice(random_invoice_amount());
     println!("New LND invoice! {:?}", lnd_invoice);
 
     let sensei_invoice = get_sensei_invoice(&sensei_config.admin, random_invoice_amount());
     
     lnd_pay_invoice(&sensei_invoice.invoice);
-    println!("Paid LND invoice");
+    println!("Paid Sensei from LND");
+    
+    
     let times = 100;
-    println!("Doing {} invoice payments", &times);
+    println!("Doing {} LND -> Sensei invoice payments", &times);
+    let mut failures = 0;
     for _ in 0..times {
         let sensei_invoice = get_sensei_invoice(&sensei_config.admin, random_invoice_amount());
-        lnd_pay_invoice(&sensei_invoice.invoice);
+        match lnd_pay_invoice(&sensei_invoice.invoice) {
+            Ok(res) => {
+                if res.status == "SUCCEEDED" {
+                    // println!("Success")
+                } else {
+                    // println!("Failure - parsed");
+                    failures += 1;
+                }
+            },
+            Err(err) => {
+                println!("Error paying invoice {:?}", err);
+                failures += 1;
+            }
+        }
     }
-    println!("Done")
+    println!("Done - {} failures", failures);
 
 }
 
