@@ -336,14 +336,8 @@ fn main() {
 
     // Sending some money around?
 
-    generate_and_pay_invoice_lnd_to_sensei(&sensei_config);
     let lnd_invoice = get_lnd_invoice(random_invoice_amount());
     println!("New LND invoice! {:?}", lnd_invoice);
-
-    let sensei_invoice = get_sensei_invoice(&sensei_config.admin, random_invoice_amount());
-    
-    lnd_pay_invoice(&sensei_invoice.invoice);
-    println!("Paid Sensei from LND");
     
     
     let times = 100;
