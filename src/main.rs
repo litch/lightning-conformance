@@ -6,6 +6,7 @@ use std::fs::File;
 use std::path::Path;
 use std::str;
 use std::error::Error;
+use rand::Rng;
 
 use serde::{Deserialize, Serialize};
 
@@ -30,12 +31,31 @@ impl SenseiInstanceInfo {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+struct LndInvoice {
+    r_hash: String,
+    payment_request: String,
+    add_index: String,
+    payment_addr: String
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 struct SenseiAdmin {
     token: String,
     pubkey: String,
     macaroon: String,
     external_id: String,
     role: u32,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct ClnInfo {
+    id: String,
+    alias: String,
+    num_peers: u8,
+    num_pending_channels: u8,
+    num_active_channels: u8,
+    blockheight: u64,
+    version: String
 }
 
 
@@ -65,6 +85,11 @@ struct LndPeers {
     peers: Vec<LndPeer>
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+struct SenseiInvoice {
+    invoice: String
+}
+
 fn run_lnd_command(passed_args: Vec<&str>) -> Output {
     let out = Command::new("docker")
         .args(["exec", "-i", "lnd", "lncli", "--network", "regtest"])
@@ -83,6 +108,14 @@ fn run_cln_command(passed_args: Vec<&str>) -> Output {
         .expect(&format!("Failed to execute: {:?}", passed_args));
 
     return out;
+}
+
+fn open_channel_lnd_sensei_admin(sensei_config: &SenseiInstanceInfo, amount: u32) -> () {
+    run_lnd_command(vec!["openchannel", &format!("{}", sensei_config.admin.pubkey), &amount.to_string()]);
+}
+
+fn open_channel_lnd_cln(cln_pubkey: &str, amount: u32) -> () {
+    run_lnd_command(vec!["openchannel", &format!("{}", cln_pubkey), &amount.to_string()]);
 }
 
 fn start_nigiri() -> Output {
@@ -113,8 +146,27 @@ fn get_lnd_info() -> LndInfo {
     serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap()
 }
 
+fn get_lnd_invoice(amount: u32) -> LndInvoice {
+    let out = run_lnd_command(vec!["addinvoice", &amount.to_string()]);
+
+    serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap()
+}
+
+fn lnd_pay_invoice(invoice: &str) -> () {
+    let output = run_lnd_command(vec!["payinvoice", "-f", invoice]);
+    io::stdout().write_all(&output.stdout).unwrap();
+    io::stderr().write_all(&output.stderr).unwrap();
+}
+
+
 fn get_lnd_peers() -> LndPeers {
     let out = run_lnd_command(vec!["listpeers"]);
+
+    serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap()
+}
+
+fn get_cln_info() -> ClnInfo {
+    let out = run_cln_command(vec!["getinfo"]);
 
     serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap()
 }
@@ -134,6 +186,13 @@ fn setup() {
     }
     // println!("Now going to sleep for 4 seconds to let blocks generate, etc");
     // thread::sleep(Duration::from_millis(4000));
+}
+
+fn generate_block() -> () {
+    Command::new("nigiri")
+        .args(["rpc", "-generate=1"])
+        .output()
+        .expect("Failed to generate blocks");
 }
 
 fn load_sensei_config() -> Result<String, io::Error>  {
@@ -182,6 +241,20 @@ fn initialize_fresh_sensei() -> SenseiInstanceInfo {
     sensei
 }
 
+fn get_sensei_invoice(instance: &SenseiAdmin, amount: u32) -> SenseiInvoice {
+    let out: Output = Command::new("senseicli")
+        .args(["--macaroon", &instance.macaroon, "createinvoice", &amount.to_string()])
+        .output()
+        .expect("Failed to create invoice");
+    
+    serde_json::from_str(str::from_utf8(&out.stdout).unwrap()).unwrap()
+
+}
+
+fn random_invoice_amount() -> u32 {
+    rand::thread_rng().gen_range(10..10000)
+}
+
 fn main() {
     
     setup();
@@ -203,7 +276,12 @@ fn main() {
     // get the lnd pubkey
     let info = get_lnd_info();
     let lnd_pubkey = info.identity_pubkey;
-    println!("Retrieved pubkey {}", &lnd_pubkey);
+    println!("Retrieved LND pubkey {}", &lnd_pubkey);
+
+    // get the cln pubkey
+    let cln_info = get_cln_info();
+    let cln_pubkey = cln_info.id;
+    println!("Retrieved CLN pubkey {}", &cln_pubkey);
 
     // connect cln to the lnd pubkey
 
@@ -238,14 +316,34 @@ fn main() {
 
     // assert!(out.status.success());
 
-    println!("OK now gonig to try to open a channel");
-    let out: Output = Command::new("docker")
-        .args(["exec", "-i", "lnd", "lncli", "--network", "regtest", "openchannel", &format!("{}", sensei_config.admin.pubkey), "100000"])
-        .output()
-        .expect("Failed to connect nodes");
+    println!("OK now going to try to open a channel");
+    open_channel_lnd_sensei_admin(&sensei_config, 1000000);
+    open_channel_lnd_cln(&cln_pubkey, 440000);
 
-    io::stdout().write_all(&out.stdout).unwrap();
-    io::stderr().write_all(&out.stderr).unwrap();
+    println!("Now generate some blocks");
+    generate_block();
+    generate_block();
+    generate_block();
+    generate_block();
+    generate_block();
+    generate_block();
+
+    // Sending some money around?
+
+    let lnd_invoice = get_lnd_invoice(random_invoice_amount());
+    println!("New LND invoice! {:?}", lnd_invoice);
+
+    let sensei_invoice = get_sensei_invoice(&sensei_config.admin, random_invoice_amount());
+    
+    lnd_pay_invoice(&sensei_invoice.invoice);
+    println!("Paid LND invoice");
+    let times = 100;
+    println!("Doing {} invoice payments", &times);
+    for _ in 0..times {
+        let sensei_invoice = get_sensei_invoice(&sensei_config.admin, random_invoice_amount());
+        lnd_pay_invoice(&sensei_invoice.invoice);
+    }
+    println!("Done")
 
 }
 
