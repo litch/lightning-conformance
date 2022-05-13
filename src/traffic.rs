@@ -2,7 +2,7 @@ use std::process::Command;
 use std::process::Output;
 use std::io::{self, Read, Write};
 use std::{fs};
-
+use std::thread;
 use std::str;
 use rand::{Rng, seq::SliceRandom};
 
@@ -69,8 +69,8 @@ fn get_cln_invoice(instance: &str, amount: u32) -> ClnInvoice {
 
 fn cln_pay_invoice(instance: &str, invoice: &String) -> Result<ClnPaymentResult, serde_json::Error> {
     let out = run_cln_command(instance, vec!["pay", &invoice]);
-    io::stdout().write_all(&out.stdout).unwrap();
-    io::stderr().write_all(&out.stderr).unwrap();
+    // io::stdout().write_all(&out.stdout).unwrap();
+    // io::stderr().write_all(&out.stderr).unwrap();
 
     serde_json::from_str(str::from_utf8(&out.stdout).unwrap())
 }
@@ -88,29 +88,43 @@ fn main() {
     
     let vs = vec!["c1", "c2", "c3", "c4"];
 
-    let times = 10;
+    let times = 100;
+    let mut invoices = vec![];
+    let mut handles = vec![];
 
     println!("Doing {} Remote -> Child invoice payments", &times);
-    let mut failures = 0;
     for _ in 0..times {
+        
         let instance = vs.choose(&mut rand::thread_rng()).unwrap();
         println!("Fetching invoice from: {}", &instance);
         let invoice = get_cln_invoice(&instance, random_invoice_amount());
-        println!("Fetched invoice, now paying");
-        match cln_pay_invoice("remote", &invoice.bolt11) {
-            Ok(res) => {
-                if res.status == "complete" {
-                    // println!("Success")
-                } else {
-                    // println!("Failure - parsed");
+        println!("Fetched invoice, appending");
+        invoices.push(invoice);
+    }
+
+    let mut failures = 0;
+    for invoice in invoices {
+        let handle = thread::spawn(move || {
+            
+            match cln_pay_invoice("remote", &invoice.bolt11) {
+                Ok(res) => {
+                    if res.status == "complete" {
+                        println!("Success")
+                    } else {
+                        // println!("Failure - parsed");
+                        failures += 1;
+                    }
+                },
+                Err(err) => {
+                    println!("Error paying invoice {:?}", err);
                     failures += 1;
                 }
-            },
-            Err(err) => {
-                println!("Error paying invoice {:?}", err);
-                failures += 1;
             }
-        }
+        });
+        handles.push(handle);
+    }
+    for handle in handles {
+        handle.join().unwrap();
     }
     println!("Done - {} failures", failures);
     
