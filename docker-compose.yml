@@ -37,7 +37,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./volumes/lightningd-hub:/root/.lightning
-    platform: "linux/amd64"
   
   lightning-remote:
     container_name: cln-remote
@@ -60,7 +59,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./volumes/lightningd-remote:/root/.lightning
-    platform: "linux/amd64"
 
   lightning-child1:
     container_name: cln-c1
