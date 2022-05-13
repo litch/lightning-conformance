@@ -7,7 +7,7 @@ Standalone (non-nigiri docker-compose.yml
 - generate 100 blocks
 - generate a block every 10 secs `./generate_blocks.sh`
 
-
+brew install coreutils
 
 # get bitcoin address for a node
 
