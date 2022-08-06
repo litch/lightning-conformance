@@ -9,6 +9,7 @@ services:
     ports:
       - 18443:18443
       - 18444:18444
+      - 18333:18333
       # ZMQ
       - 28332:28332
       - 28333:28333
@@ -16,9 +17,25 @@ services:
       - ./volumes/bitcoin/:/config
     restart: unless-stopped
 
+  lnd:
+    container_name: lnd
+    image: lightninglabs/lnd:v0.14.3-beta
+    user: 1000:1000
+    depends_on:
+      - bitcoin
+    volumes:
+      - ./volumes/lnd:/data/.lnd
+    environment:
+      HOME: /data
+    restart: unless-stopped
+    stop_grace_period: 5m30s
+    ports:
+      - "9735" # p2p
+      - "10009" # grpc
+
   lightning-hub:
     container_name: cln-hub
-    image: docker.io/litch/clightning:latest
+    image: elementsproject/lightningd:latest
     environment:
       EXPOSE_TCP: "true"
     command: 
@@ -40,7 +57,7 @@ services:
   
   lightning-remote:
     container_name: cln-remote
-    image: docker.io/litch/clightning:latest
+    image: elementsproject/lightningd:latest
     environment:
       EXPOSE_TCP: "true"
     command: 
@@ -62,7 +79,7 @@ services:
 
   lightning-child1:
     container_name: cln-c1
-    image: docker.io/litch/clightning:latest
+    image: elementsproject/lightningd:latest
     environment:
       EXPOSE_TCP: "true"
     command: 
@@ -84,7 +101,7 @@ services:
 
   lightning-child2:
     container_name: cln-c2
-    image: docker.io/litch/clightning:latest
+    image: elementsproject/lightningd:latest
     environment:
       EXPOSE_TCP: "true"
     command: 
@@ -106,7 +123,7 @@ services:
 
   lightning-child3:
     container_name: cln-c3
-    image: docker.io/litch/clightning:latest
+    image: elementsproject/lightningd:latest
     environment:
       EXPOSE_TCP: "true"
     command: 
@@ -128,7 +145,7 @@ services:
 
   lightning-child4:
     container_name: cln-c4
-    image: docker.io/litch/clightning:latest
+    image: elementsproject/lightningd:latest
     environment:
       EXPOSE_TCP: "true"
     command: 
