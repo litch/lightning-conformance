@@ -55,7 +55,7 @@ Fund nodes will spray bitcoin around, peer_graph will network the nodes together
 
 You can uses `docker-compose down` to tear everything down.  `docker stop`/start/kick whatever container you want, etc. 
 
-I provided a `./reset_everthyng.sh` script.
+I provided a `./reset_everthyng.sh` script that will start from some pristine state in theory.
 
 Note that the volumes directory contains subdirectories that get mounted into each node.  So you can mess with the node system from outside, edit config files, etc.
 
@@ -73,13 +73,13 @@ jq
 
 # Basic Commands
 
-Get bitcoin address for a node
+Docker exec'ing random stuff
 
 - `docker exec cln-c1 lightning-cli --network=regtest newaddr bech32`
 
-# fund the hub!
+Handy shell scripts!
 
-`./fund_hub.sh`
+- `./fund_nodes.sh`
 
 
 ## Thanks Nigiri
