@@ -2,7 +2,7 @@
 
 This package proivdes a way to startd up a configured regtest environment for testing.
 
-There are a couple of levels of working with it, and I do both.
+There are a couple of levels of working with it, and I do both: handy bash scripts, and just `docker exec`ing random crap.
 
 Generally, this is a docker-compose.yml and a couple of resources that help bootstrap nodes.
 
