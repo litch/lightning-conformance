@@ -1,52 +1,101 @@
-import logo from './logo.svg';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import CytoscapeComponent from 'react-cytoscapejs';
 
-import Flow from './Network';
+import Cytoscape from 'cytoscape';
+import COSEBilkent from 'cytoscape-cose-bilkent';
 
 import graph from './graph.json';
 
-function App() {
-  return (
-    <div className="MyApp" style={{ height: 800 }}>
-      <NetworkContainer />
-    </div>
-  );
+Cytoscape.use(COSEBilkent);
+
+class Visualize extends React.Component {
+  constructor(props){
+    super(props);
+  }
+
+  render() {
+    let initialNodes = graph.nodes;
+    let initialEdges = graph.edges;
+
+    let elements = [
+    ];
+
+    initialNodes.map((n) => {
+      elements.push ({
+        data: {
+            id: n.pub_key,
+            label: n.alias,
+        }
+      })
+    })
+
+    initialEdges.map((e) => {
+      elements.push(
+        {
+          data: {
+            source: e.node1_pub,
+            target: e.node2_pub,
+            label: e.capacity
+          }
+        }
+      )
+    })
+    const layout = { name: 'cose-bilkent' };
+
+
+    return <CytoscapeComponent elements={elements} layout={layout} style={ { width: '600px', height: '600px' } } />;
+  }
 }
 
-function NetworkContainer() {
-  let initialNodes = graph.nodes;
-  let initialEdges = graph.edges;
+export default Visualize
+// import logo from './logo.svg';
 
-  
+// import Flow from './Network';
 
-  let formattedNodes = initialNodes.map((n) => {
-    let x = Math.floor(Math.random() * 600);
-    let y = Math.floor(Math.random() * 200);
+// import graph from './graph.json';
 
-    return ({
-      id: n.pub_key,
-      type: "default",
-      data: {
-        label: n.alias
-      },
-      position: { x, y }
-    })
-  })
+// function App() {
+//   return (
+//     <div className="MyApp" style={{ height: 800 }}>
+//       <NetworkContainer />
+//     </div>
+//   );
+// }
 
-  let formattedEdges = initialEdges.map((e) => {
+// function NetworkContainer() {
+//   let initialNodes = graph.nodes;
+//   let initialEdges = graph.edges;
 
-    return ({
-      id: e.channel_id,
-      source: e.node1_pub,
-      target: e.node2_pub,
-    })
-  })
+//   let formattedNodes = initialNodes.map((n) => {
+//     let x = Math.floor(Math.random() * 600);
+//     let y = Math.floor(Math.random() * 200);
 
-  return(
-    <Flow nodes={formattedNodes} edges={formattedEdges} />
-  )
+//     return ({
+//       id: n.pub_key,
+//       type: "default",
+//       data: {
+//         label: n.alias
+//       },
+//       position: { x, y }
+//     })
+//   })
 
-}
+//   let formattedEdges = initialEdges.map((e) => {
+
+//     return ({
+//       id: e.channel_id,
+//       source: e.node1_pub,
+//       target: e.node2_pub,
+//     })
+//   })
+
+//   return(
+//     <Flow nodes={formattedNodes} edges={formattedEdges} />
+//   )
+
+// }
 
 
 
-export default App;
+// export default App;
