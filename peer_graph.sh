@@ -15,4 +15,4 @@ docker exec cln-hub lightning-cli --network=regtest connect $addr_c1 cln-c1 9735
 docker exec cln-hub lightning-cli --network=regtest connect $addr_c2 cln-c2 9735
 docker exec cln-hub lightning-cli --network=regtest connect $addr_c3 cln-c3 9735
 docker exec cln-hub lightning-cli --network=regtest connect $addr_c4 cln-c4 9735
-
+docker exec lnd lncli --network=regtest connect ${addr_c1}@cln-c1 9735
