@@ -9,6 +9,7 @@ import graph from './graph.json';
 
 Cytoscape.use(COSEBilkent);
 
+
 class Visualize extends React.Component {
   constructor(props){
     super(props);
@@ -18,6 +19,8 @@ class Visualize extends React.Component {
     let initialNodes = graph.nodes;
     let initialEdges = graph.edges;
 
+    console.log(graph)
+
     let elements = [
     ];
 
@@ -26,6 +29,7 @@ class Visualize extends React.Component {
         data: {
             id: n.pub_key,
             label: n.alias,
+            alias: n.alias,
         }
       })
     })
@@ -36,15 +40,36 @@ class Visualize extends React.Component {
           data: {
             source: e.node1_pub,
             target: e.node2_pub,
-            label: e.capacity
+            capacity: e.capacity
           }
         }
       )
     })
     const layout = { name: 'cose-bilkent' };
 
+    const stylesheet = [
+      {
+        selector: 'node',
+        style: {
+          'label': 'data(alias)'
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          "target-arrow-shape": "triangle",   
+          "curve-style": "bezier",
+          "width": 1,
+          'label': 'data(capacity)'
+        }
+      }
+    ]
 
-    return <CytoscapeComponent elements={elements} layout={layout} style={ { width: '600px', height: '600px' } } />;
+    return <CytoscapeComponent 
+      stylesheet={stylesheet} 
+      elements={elements} 
+      layout={layout} 
+      style={ { width: '1000px', height: '1000px' } } />;
   }
 }
 

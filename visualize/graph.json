@@ -1,0 +1,71 @@
+{
+    "nodes": [
+        {
+            "last_update": 1661552464,
+            "pub_key": "029c70b8ccd6e42263b7eeefb7a44b0266c55a00714fc1a5b63278c0ce67a1bd37",
+            "alias": "029c70b8ccd6e42263b7",
+            "addresses": [
+            ],
+            "color": "#3399ff",
+            "features": {
+                "0": {
+                    "name": "data-loss-protect",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "5": {
+                    "name": "upfront-shutdown-script",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "7": {
+                    "name": "gossip-queries",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "9": {
+                    "name": "tlv-onion",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "12": {
+                    "name": "static-remote-key",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "14": {
+                    "name": "payment-addr",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "17": {
+                    "name": "multi-path-payments",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "23": {
+                    "name": "anchors-zero-fee-htlc-tx",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "31": {
+                    "name": "amp",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "45": {
+                    "name": "explicit-commitment-type",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "2023": {
+                    "name": "script-enforced-lease",
+                    "is_required": false,
+                    "is_known": true
+                }
+            }
+        }
+    ],
+    "edges": [
+    ]
+}

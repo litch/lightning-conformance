@@ -7,26 +7,26 @@ addr_c1=$(docker exec cln-c1 lightning-cli --network=regtest getinfo | jq '.id' 
 addr_lnd=$(docker exec lnd lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
 
 echo "C1 to Remote invoice"
-invoice=$(docker exec cln-c1 lightning-cli --network=regtest invoice 1000000 `gdate +%s%N` description | jq '.bolt11' -r)
+invoice=$(docker exec cln-c1 lightning-cli --network=regtest invoice $RANDOM `gdate +%s%N` description | jq '.bolt11' -r)
 docker exec cln-remote lightning-cli --network=regtest pay $invoice
 
 echo "Keysend"
-docker exec cln-remote lightning-cli --network=regtest keysend $addr_c1 12334
-docker exec cln-c1 lightning-cli --network=regtest keysend $addr_r 56784
+docker exec cln-remote lightning-cli --network=regtest keysend $addr_c1 $RANDOM
+docker exec cln-c1 lightning-cli --network=regtest keysend $addr_r $RANDOM
 
 echo "Ok now let's just send the lnd node some sats"
 invoice=$(docker exec lnd lncli --network=regtest addinvoice 1219923 | jq '.payment_request' -r)
 docker exec cln-remote lightning-cli --network=regtest pay $invoice
 
 echo "Send some sats from lnd to each of its buddies"
-invoice_c1=$(docker exec cln-c1 lightning-cli --network=regtest invoice 424000 `gdate +%s%N` description | jq '.bolt11' -r)
-invoice_remote=$(docker exec cln-remote lightning-cli --network=regtest invoice 545000 `gdate +%s%N` description | jq '.bolt11' -r)
+invoice_c1=$(docker exec cln-c1 lightning-cli --network=regtest invoice $RANDOM `gdate +%s%N` description | jq '.bolt11' -r)
+invoice_remote=$(docker exec cln-remote lightning-cli --network=regtest invoice $RANDOM `gdate +%s%N` description | jq '.bolt11' -r)
 docker exec lnd lncli --network=regtest payinvoice -f $invoice_c1
 docker exec lnd lncli --network=regtest payinvoice -f $invoice_remote
 
 echo "Do some onchain"
 addr=$(docker exec cln-hub lightning-cli --network=regtest newaddr bech32 | jq '.bech32' -r)
-docker exec lnd lncli --network=regtest sendcoins "$addr" 8399
+docker exec lnd lncli --network=regtest sendcoins "$addr" $RANDOM
 
 after=$(docker exec lnd lncli --network=regtest fwdinghistory | jq '.last_offset_index' -r)
 

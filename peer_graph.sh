@@ -10,6 +10,7 @@ addr_lnd=$(docker exec lnd lncli --network=regtest getinfo | jq '.identity_pubke
 
 echo "Now opening peering connections"
 docker exec lnd lncli --network=regtest connect ${addr_r}@cln-remote:9735
+docker exec lnd lncli --network=regtest connect ${addr_c1}@cln-c1:9735
 docker exec cln-hub lightning-cli --network=regtest connect $addr_r cln-remote 9735
 docker exec cln-hub lightning-cli --network=regtest connect $addr_c1 cln-c1 9735
 docker exec cln-hub lightning-cli --network=regtest connect $addr_c2 cln-c2 9735
