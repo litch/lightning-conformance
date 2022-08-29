@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -rf volumes -y
+rm -rf volumes
 mkdir -p volumes/bitcoin
 cp resources/bitcoind/bitcoin.conf volumes/bitcoin/bitcoin.conf
 
