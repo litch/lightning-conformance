@@ -7,14 +7,25 @@ addr_c1=$(docker exec cln-c1 lightning-cli --network=regtest getinfo | jq '.id' 
 addr_lnd=$(docker exec lnd lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
 
 echo "C1 to Remote invoice"
-invoice=$(docker exec cln-c1 lightning-cli --network=regtest invoice $RANDOM `gdate +%s%N` description | jq '.bolt11' -r)
+ceil=500000000
+floor=1000000
+invoice_amount=$(((RANDOM % $(($ceil- $floor))) + $floor))
+invoice=$(docker exec cln-c1 lightning-cli --network=regtest invoice $invoice_amount `gdate +%s%N` description | jq '.bolt11' -r)
 docker exec cln-remote lightning-cli --network=regtest pay $invoice
 
-echo "Keysend"
-docker exec cln-remote lightning-cli --network=regtest keysend $addr_c1 $RANDOM
-docker exec cln-c1 lightning-cli --network=regtest keysend $addr_r $RANDOM
+echo "Remote to C1"
+ceil=500000000
+floor=1000000
+invoice_amount=$(((RANDOM % $(($ceil- $floor))) + $floor))
+invoice=$(docker exec cln-remote lightning-cli --network=regtest invoice $invoice_amount `gdate +%s%N` description | jq '.bolt11' -r)
+docker exec cln-c1 lightning-cli --network=regtest pay $invoice
 
-echo "Ok now let's just send the lnd node some sats"
+echo "Keysend remote -> c1"
+docker exec cln-remote lightning-cli --network=regtest keysend $addr_c1 $RANDOM
+echo "Keysend c1 -> lnd"
+docker exec cln-c1 lightning-cli --network=regtest keysend $addr_lnd $RANDOM
+
+echo "Ok now let's just send the lnd node some sats (remote -> lnd)"
 invoice=$(docker exec lnd lncli --network=regtest addinvoice 1219923 | jq '.payment_request' -r)
 docker exec cln-remote lightning-cli --network=regtest pay $invoice
 
@@ -32,8 +43,6 @@ after=$(docker exec lnd lncli --network=regtest fwdinghistory | jq '.last_offset
 
 let diff=$after-$before
 echo "Successfully sent - routed $diff transactions"
-
-
 
 # remote -> lnd -> c1
 

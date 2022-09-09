@@ -31,6 +31,38 @@ services:
     stop_grace_period: 5m30s
     ports:
       - "9735" # p2p
+      - "30009:10009" # grpc
+
+  lnd-15-0:
+    container_name: lnd-15-0
+    image: lightninglabs/lnd:v0.15.0-beta
+    user: 1000:1000
+    depends_on:
+      - bitcoin
+    volumes:
+      - ./volumes/lnd-150:/data/.lnd
+    environment:
+      HOME: /data
+    restart: unless-stopped
+    stop_grace_period: 5m30s
+    ports:
+      - "9735" # p2p
+      - "10009" # grpc
+
+  lnd2:
+    container_name: lnd2
+    image: lightninglabs/lnd:v0.15.1-beta
+    user: 1000:1000
+    depends_on:
+      - bitcoin
+    volumes:
+      - ./volumes/lnd2:/data/.lnd
+    environment:
+      HOME: /data
+    restart: unless-stopped
+    stop_grace_period: 5m30s
+    ports:
+      - "9735" # p2p
       - "10009" # grpc
 
   lightning-hub:
