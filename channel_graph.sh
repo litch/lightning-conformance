@@ -33,4 +33,4 @@ docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet -generate=6
 docker exec cln-hub lightning-cli --network=regtest fundchannel $addr_c3 6000000
 docker exec cln-hub lightning-cli --network=regtest fundchannel $addr_c4 7000000
 
-
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet -generate=6
