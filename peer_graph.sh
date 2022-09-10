@@ -2,6 +2,7 @@
 
 echo "Gathering pubkeys"
 addr_r=$(docker exec cln-remote lightning-cli --network=regtest getinfo | jq '.id' -r)
+addr_hub=$(docker exec cln-hub lightning-cli --network=regtest getinfo | jq '.id' -r)
 addr_c1=$(docker exec cln-c1 lightning-cli --network=regtest getinfo | jq '.id' -r)
 addr_c2=$(docker exec cln-c2 lightning-cli --network=regtest getinfo | jq '.id' -r)
 addr_c3=$(docker exec cln-c3 lightning-cli --network=regtest getinfo | jq '.id' -r)
@@ -17,8 +18,10 @@ docker exec lnd lncli --network=regtest connect ${addr_c1}@cln-c1:9735
 docker exec lnd lncli --network=regtest connect ${addr_lnd2}@lnd2 9735
 docker exec lnd2 lncli --network=regtest connect ${addr_r}@cln-remote:9735
 
-docker exec lnd150 lncli --network=regtest connect ${addr_c1}@cln-c1:9735
-docker exec lnd150 lncli --network=regtest connect ${addr_lnd}@lnd:9735
+docker exec lnd-15-0 lncli --network=regtest connect ${addr_hub}@cln-hub:9735
+docker exec lnd-15-0 lncli --network=regtest connect ${addr_lnd}@lnd:9735
+
+docker exec cln-c1 lightning-cli --network=regtest connect $addr_r cln-remote 9735
 
 docker exec cln-hub lightning-cli --network=regtest connect $addr_r cln-remote 9735
 docker exec cln-hub lightning-cli --network=regtest connect $addr_c1 cln-c1 9735

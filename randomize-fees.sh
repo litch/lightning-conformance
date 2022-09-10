@@ -23,7 +23,7 @@ do
     docker exec $node lightning-cli --network=regtest listfunds | jq -r '.channels[].short_channel_id' | xargs -n 1 -P 10 -I {} bash -c 'randomize_cln "$@" $@ ' _ {} $node
 done
 
-lnd_nodes=( lnd )
+lnd_nodes=( lnd lnd2 lnd-15-0)
 
 function randomize_lnd () {
     chan_point=$1
@@ -42,5 +42,5 @@ export -f randomize_lnd
 for node in "${lnd_nodes[@]}"
 do
     echo "Randomizing fees for $node"
-    docker exec lnd lncli --network=regtest listchannels | jq -r '.channels[].channel_point' |  xargs -n 1 -P 10 -I {} bash -c 'randomize_lnd "$@" $@ ' _ {} $node
+    docker exec $node lncli --network=regtest listchannels | jq -r '.channels[].channel_point' |  xargs -n 1 -P 10 -I {} bash -c 'randomize_lnd "$@" $@ ' _ {} $node
 done
