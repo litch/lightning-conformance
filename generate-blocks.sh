@@ -8,8 +8,6 @@ if [ -z  $numblocks ]; then
     sleep 30 
   done
 else
-  
-
   address=$(docker exec bitcoin bitcoin-cli -rpcwallet=rpcwallet --datadir=config getnewaddress)
 
   docker exec bitcoin bitcoin-cli --datadir=config generatetoaddress $numblocks $address

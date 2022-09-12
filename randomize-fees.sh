@@ -42,5 +42,5 @@ export -f randomize_lnd
 for node in "${lnd_nodes[@]}"
 do
     echo "Randomizing fees for $node"
-    docker exec $node lncli --network=regtest listchannels | jq -r '.channels[].channel_point' |  xargs -n 1 -P 10 -I {} bash -c 'randomize_lnd "$@" $@ ' _ {} $node
+    docker exec $node lncli --network=regtest listchannels | jq -r '.channels[] | select(.state == "CHANNELD_NORMAL") | .channel_point' |  xargs -n 1 -P 10 -I {} bash -c 'randomize_lnd "$@" $@ ' _ {} $node
 done

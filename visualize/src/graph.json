@@ -1,16 +1,26 @@
 {
     "nodes": [
         {
-            "last_update": 1662814609,
-            "pub_key": "029de6f33a8d3b213c8a25518b1b3db3c3091db1a46239245fe95af460992389a1",
-            "alias": "cln-c1",
+            "last_update": 0,
+            "pub_key": "0295f51a452574ec413de776da548bc10d991e246a45737206f8b5dbda944007e6",
+            "alias": "",
             "addresses": [
             ],
-            "color": "#029de6",
+            "color": "#000000",
             "features": {
-                "1": {
+            }
+        },
+        {
+            "last_update": 1663005244,
+            "pub_key": "02b64954c40e4db7c8416492bae0a51e10d87028d3f2d60ccd65eca027e1eac5a4",
+            "alias": "lnd-node-15-0",
+            "addresses": [
+            ],
+            "color": "#3399ff",
+            "features": {
+                "0": {
                     "name": "data-loss-protect",
-                    "is_required": false,
+                    "is_required": true,
                     "is_known": true
                 },
                 "5": {
@@ -23,19 +33,14 @@
                     "is_required": false,
                     "is_known": true
                 },
-                "8": {
+                "9": {
                     "name": "tlv-onion",
-                    "is_required": true,
+                    "is_required": false,
                     "is_known": true
                 },
-                "11": {
-                    "name": "unknown",
-                    "is_required": false,
-                    "is_known": false
-                },
-                "13": {
+                "12": {
                     "name": "static-remote-key",
-                    "is_required": false,
+                    "is_required": true,
                     "is_known": true
                 },
                 "14": {
@@ -48,21 +53,46 @@
                     "is_required": false,
                     "is_known": true
                 },
-                "27": {
-                    "name": "shutdown-any-segwit",
+                "19": {
+                    "name": "wumbo-channels",
                     "is_required": false,
                     "is_known": true
                 },
-                "55": {
-                    "name": "keysend",
+                "23": {
+                    "name": "anchors-zero-fee-htlc-tx",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "31": {
+                    "name": "amp",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "45": {
+                    "name": "explicit-commitment-type",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "2023": {
+                    "name": "script-enforced-lease",
                     "is_required": false,
                     "is_known": true
                 }
             }
         },
         {
-            "last_update": 1662814891,
-            "pub_key": "02ef1514fcf25c1924c2499dc10c498ba60811f98e59f26249252655715be925de",
+            "last_update": 0,
+            "pub_key": "02c03b8a350b43f06d3d3eede385db13123fd8976622f35a3c89a2687818ded6c6",
+            "alias": "",
+            "addresses": [
+            ],
+            "color": "#000000",
+            "features": {
+            }
+        },
+        {
+            "last_update": 1663005267,
+            "pub_key": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
             "alias": "lnd-node",
             "addresses": [
             ],
@@ -136,22 +166,12 @@
             }
         },
         {
-            "last_update": 0,
-            "pub_key": "0323f4b85544bfeaa3c54fba9f771d67d1654e93b4f01792bb1f8fc174037b10f8",
-            "alias": "",
+            "last_update": 1663005313,
+            "pub_key": "039a9b246210d5b87bbd27dd9d94cc2bf14a2acbb55435197cf8d0e6a85f1d9a7a",
+            "alias": "coreln-remote",
             "addresses": [
             ],
-            "color": "#000000",
-            "features": {
-            }
-        },
-        {
-            "last_update": 1662814609,
-            "pub_key": "034845e2e139c244d4d056119eadec32ed2788cba4580f2f4999ffb6eda23249c6",
-            "alias": "cln-remote",
-            "addresses": [
-            ],
-            "color": "#034845",
+            "color": "#039a9b",
             "features": {
                 "1": {
                     "name": "data-loss-protect",
@@ -206,12 +226,12 @@
             }
         },
         {
-            "last_update": 1662814609,
-            "pub_key": "0361ff2656e1480ea565efd85dff200789975b6ba2398be1a9e59b71b21029eb26",
-            "alias": "cln-hub",
+            "last_update": 1662923999,
+            "pub_key": "03a4166999a3ed70e4c1e5ef5be34b710010746117e7ee292a39c11c47c0cedde6",
+            "alias": "coreln-c1",
             "addresses": [
             ],
-            "color": "#0361ff",
+            "color": "#03a416",
             "features": {
                 "1": {
                     "name": "data-loss-protect",
@@ -260,81 +280,6 @@
                 },
                 "55": {
                     "name": "keysend",
-                    "is_required": false,
-                    "is_known": true
-                }
-            }
-        },
-        {
-            "last_update": 1662814864,
-            "pub_key": "0370cdd688144b72c6740e83b97a85f854290cd23996f8cae20b2a6de345a214d3",
-            "alias": "lnd-node-2",
-            "addresses": [
-            ],
-            "color": "#3399ff",
-            "features": {
-                "0": {
-                    "name": "data-loss-protect",
-                    "is_required": true,
-                    "is_known": true
-                },
-                "5": {
-                    "name": "upfront-shutdown-script",
-                    "is_required": false,
-                    "is_known": true
-                },
-                "7": {
-                    "name": "gossip-queries",
-                    "is_required": false,
-                    "is_known": true
-                },
-                "9": {
-                    "name": "tlv-onion",
-                    "is_required": false,
-                    "is_known": true
-                },
-                "12": {
-                    "name": "static-remote-key",
-                    "is_required": true,
-                    "is_known": true
-                },
-                "14": {
-                    "name": "payment-addr",
-                    "is_required": true,
-                    "is_known": true
-                },
-                "17": {
-                    "name": "multi-path-payments",
-                    "is_required": false,
-                    "is_known": true
-                },
-                "19": {
-                    "name": "wumbo-channels",
-                    "is_required": false,
-                    "is_known": true
-                },
-                "23": {
-                    "name": "anchors-zero-fee-htlc-tx",
-                    "is_required": false,
-                    "is_known": true
-                },
-                "27": {
-                    "name": "shutdown-any-segwit",
-                    "is_required": false,
-                    "is_known": true
-                },
-                "31": {
-                    "name": "amp",
-                    "is_required": false,
-                    "is_known": true
-                },
-                "45": {
-                    "name": "explicit-commitment-type",
-                    "is_required": false,
-                    "is_known": true
-                },
-                "2023": {
-                    "name": "script-enforced-lease",
                     "is_required": false,
                     "is_known": true
                 }
@@ -343,358 +288,176 @@
     ],
     "edges": [
         {
-            "channel_id": "135239930347520",
-            "chan_point": "6ab9192df1ed6ff8607403dc61fc84405e0a62fac54c57f0c7b5c0bb156eb1e9:0",
-            "last_update": 1662814254,
-            "node1_pub": "029de6f33a8d3b213c8a25518b1b3db3c3091db1a46239245fe95af460992389a1",
-            "node2_pub": "034845e2e139c244d4d056119eadec32ed2788cba4580f2f4999ffb6eda23249c6",
-            "capacity": "9000000",
+            "channel_id": "360639813976064",
+            "chan_point": "4c4401a2c8089b3161123ac7eeb6f90f99754dc14ab06693331109bc78880865:0",
+            "last_update": 1663004589,
+            "node1_pub": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
+            "node2_pub": "03a4166999a3ed70e4c1e5ef5be34b710010746117e7ee292a39c11c47c0cedde6",
+            "capacity": "3700000",
             "node1_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "0",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "8910000000",
-                "last_update": 1662814254
-            },
-            "node2_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "0",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "8910000000",
-                "last_update": 1662814254
-            }
-        },
-        {
-            "channel_id": "137438953537537",
-            "chan_point": "9c408bd43563c425e5015b68e829a377743eb002c918729e87b5ac8d87aaec06:1",
-            "last_update": 1662814254,
-            "node1_pub": "029de6f33a8d3b213c8a25518b1b3db3c3091db1a46239245fe95af460992389a1",
-            "node2_pub": "0361ff2656e1480ea565efd85dff200789975b6ba2398be1a9e59b71b21029eb26",
-            "capacity": "4000000",
-            "node1_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "0",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "3960000000",
-                "last_update": 1662814254
-            },
-            "node2_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "0",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "3960000000",
-                "last_update": 1662814254
-            }
-        },
-        {
-            "channel_id": "145135534931968",
-            "chan_point": "e1ea3941eec426da48e59cb6673dfb84606d4ff48422ddf0d08bde67ea433c6d:0",
-            "last_update": 1662814625,
-            "node1_pub": "02ef1514fcf25c1924c2499dc10c498ba60811f98e59f26249252655715be925de",
-            "node2_pub": "0323f4b85544bfeaa3c54fba9f771d67d1654e93b4f01792bb1f8fc174037b10f8",
-            "capacity": "12000000",
-            "node1_policy": {
-                "time_lock_delta": 40,
+                "time_lock_delta": 18,
                 "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "11880000000",
-                "last_update": 1662814625
-            },
-            "node2_policy": {
-                "time_lock_delta": 40,
-                "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "11880000000",
-                "last_update": 1662814625
-            }
-        },
-        {
-            "channel_id": "145135534997504",
-            "chan_point": "2528feb0d5c9424ddb0d684271f89b012894ea264dfdd0a2ca3032b78f9028bf:0",
-            "last_update": 1662814347,
-            "node1_pub": "029de6f33a8d3b213c8a25518b1b3db3c3091db1a46239245fe95af460992389a1",
-            "node2_pub": "034845e2e139c244d4d056119eadec32ed2788cba4580f2f4999ffb6eda23249c6",
-            "capacity": "9000000",
-            "node1_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "0",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "8910000000",
-                "last_update": 1662814347
-            },
-            "node2_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "0",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "8910000000",
-                "last_update": 1662814347
-            }
-        },
-        {
-            "channel_id": "146235046559744",
-            "chan_point": "c0aa2a090fab9bdd1dbb3d9c752a46b56f79cef765deee6e772437a4e7850b9b:0",
-            "last_update": 1662814642,
-            "node1_pub": "034845e2e139c244d4d056119eadec32ed2788cba4580f2f4999ffb6eda23249c6",
-            "node2_pub": "0370cdd688144b72c6740e83b97a85f854290cd23996f8cae20b2a6de345a214d3",
-            "capacity": "1200000",
-            "node1_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "1",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "1188000000",
-                "last_update": 1662814347
-            },
-            "node2_policy": {
-                "time_lock_delta": 40,
-                "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "1200000000",
-                "last_update": 1662814642
-            }
-        },
-        {
-            "channel_id": "147334558253056",
-            "chan_point": "38df1a57b2a6ba004465bff4b0e24c05a05db5e83abf46a491addedbc0d9521f:0",
-            "last_update": 1662814348,
-            "node1_pub": "034845e2e139c244d4d056119eadec32ed2788cba4580f2f4999ffb6eda23249c6",
-            "node2_pub": "0361ff2656e1480ea565efd85dff200789975b6ba2398be1a9e59b71b21029eb26",
-            "capacity": "15000000",
-            "node1_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "0",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "14850000000",
-                "last_update": 1662814348
-            },
-            "node2_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "0",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "14850000000",
-                "last_update": 1662814348
-            }
-        },
-        {
-            "channel_id": "147334558318593",
-            "chan_point": "46d1f4dd983db9f222162f5471737186870b9d10d5cfa5ba63beb82ce826cf6f:1",
-            "last_update": 1662814348,
-            "node1_pub": "029de6f33a8d3b213c8a25518b1b3db3c3091db1a46239245fe95af460992389a1",
-            "node2_pub": "0361ff2656e1480ea565efd85dff200789975b6ba2398be1a9e59b71b21029eb26",
-            "capacity": "4000000",
-            "node1_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "0",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "3960000000",
-                "last_update": 1662814348
-            },
-            "node2_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "0",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "3960000000",
-                "last_update": 1662814348
-            }
-        },
-        {
-            "channel_id": "168225279115264",
-            "chan_point": "0bfac4e3d291b9da11d2958dde0f65a49215032b731b478c00c17dd0b98df6a6:0",
-            "last_update": 1662814796,
-            "node1_pub": "02ef1514fcf25c1924c2499dc10c498ba60811f98e59f26249252655715be925de",
-            "node2_pub": "034845e2e139c244d4d056119eadec32ed2788cba4580f2f4999ffb6eda23249c6",
-            "capacity": "1500000",
-            "node1_policy": {
-                "time_lock_delta": 40,
-                "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "1500000000",
-                "last_update": 1662814796
+                "fee_base_msat": "8980",
+                "fee_rate_milli_msat": "179",
+                "disabled": true,
+                "max_htlc_msat": "3700000000",
+                "last_update": 1662987025
             },
             "node2_policy": {
                 "time_lock_delta": 6,
                 "min_htlc": "1",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
+                "fee_base_msat": "765",
+                "fee_rate_milli_msat": "725",
                 "disabled": false,
-                "max_htlc_msat": "1485000000",
-                "last_update": 1662814501
+                "max_htlc_msat": "3663000000",
+                "last_update": 1663004589
             }
         },
         {
-            "channel_id": "168225279180800",
-            "chan_point": "804c3a5e5555e941f6623df6bf5b5f49f54d59cbaed931adbb99c330d7d3c103:0",
-            "last_update": 1662814822,
-            "node1_pub": "02ef1514fcf25c1924c2499dc10c498ba60811f98e59f26249252655715be925de",
-            "node2_pub": "0323f4b85544bfeaa3c54fba9f771d67d1654e93b4f01792bb1f8fc174037b10f8",
-            "capacity": "12000000",
+            "channel_id": "368336395370497",
+            "chan_point": "caa623b31c85f5713a9502324615c9b29f87e1d9375840c2148f4111bcc6081b:1",
+            "last_update": 1663004589,
+            "node1_pub": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
+            "node2_pub": "03a4166999a3ed70e4c1e5ef5be34b710010746117e7ee292a39c11c47c0cedde6",
+            "capacity": "6000000",
             "node1_policy": {
-                "time_lock_delta": 40,
+                "time_lock_delta": 18,
                 "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "11880000000",
-                "last_update": 1662814822
-            },
-            "node2_policy": {
-                "time_lock_delta": 40,
-                "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "11880000000",
-                "last_update": 1662814822
-            }
-        },
-        {
-            "channel_id": "168225279246337",
-            "chan_point": "db07cfb4944e7a97326719a55241eeae7415c2852ec87180633fe39764781b36:1",
-            "last_update": 1662814826,
-            "node1_pub": "029de6f33a8d3b213c8a25518b1b3db3c3091db1a46239245fe95af460992389a1",
-            "node2_pub": "02ef1514fcf25c1924c2499dc10c498ba60811f98e59f26249252655715be925de",
-            "capacity": "15000000",
-            "node1_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "1",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "14850000000",
-                "last_update": 1662814531
-            },
-            "node2_policy": {
-                "time_lock_delta": 40,
-                "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "15000000000",
-                "last_update": 1662814826
-            }
-        },
-        {
-            "channel_id": "169324790743040",
-            "chan_point": "cf43d03ba7a44af1d9a99f3c02635b92255ae01f653a357a8d56070dda72fcff:0",
-            "last_update": 1662814796,
-            "node1_pub": "034845e2e139c244d4d056119eadec32ed2788cba4580f2f4999ffb6eda23249c6",
-            "node2_pub": "0370cdd688144b72c6740e83b97a85f854290cd23996f8cae20b2a6de345a214d3",
-            "capacity": "1200000",
-            "node1_policy": {
-                "time_lock_delta": 6,
-                "min_htlc": "1",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
-                "disabled": false,
-                "max_htlc_msat": "1188000000",
-                "last_update": 1662814501
-            },
-            "node2_policy": {
-                "time_lock_delta": 40,
-                "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "1200000000",
-                "last_update": 1662814796
-            }
-        },
-        {
-            "channel_id": "173722837254144",
-            "chan_point": "50c6923f47e2c3e43daf8589d536ed7c61608e7377cfe6b6c2ff171dc27fe5ba:0",
-            "last_update": 1662814863,
-            "node1_pub": "02ef1514fcf25c1924c2499dc10c498ba60811f98e59f26249252655715be925de",
-            "node2_pub": "0323f4b85544bfeaa3c54fba9f771d67d1654e93b4f01792bb1f8fc174037b10f8",
-            "capacity": "12000000",
-            "node1_policy": {
-                "time_lock_delta": 40,
-                "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "11880000000",
-                "last_update": 1662814863
-            },
-            "node2_policy": {
-                "time_lock_delta": 40,
-                "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "11880000000",
-                "last_update": 1662814863
-            }
-        },
-        {
-            "channel_id": "174822348881920",
-            "chan_point": "969cedc268b35026ddd5ed7002671c45463446fcdfb9f41c6707d51c9e0819bb:0",
-            "last_update": 1662814858,
-            "node1_pub": "02ef1514fcf25c1924c2499dc10c498ba60811f98e59f26249252655715be925de",
-            "node2_pub": "034845e2e139c244d4d056119eadec32ed2788cba4580f2f4999ffb6eda23249c6",
-            "capacity": "1500000",
-            "node1_policy": {
-                "time_lock_delta": 40,
-                "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "1500000000",
-                "last_update": 1662814858
+                "fee_base_msat": "970",
+                "fee_rate_milli_msat": "143",
+                "disabled": true,
+                "max_htlc_msat": "6000000000",
+                "last_update": 1662987026
             },
             "node2_policy": {
                 "time_lock_delta": 6,
                 "min_htlc": "1",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
+                "fee_base_msat": "50",
+                "fee_rate_milli_msat": "63",
                 "disabled": false,
-                "max_htlc_msat": "1485000000",
-                "last_update": 1662814563
+                "max_htlc_msat": "5940000000",
+                "last_update": 1663004589
             }
         },
         {
-            "channel_id": "174822349012992",
-            "chan_point": "b744f1995085bfa921b105ef281faa84c8e2beb1f569cdcca21ba36f1acd11a2:0",
-            "last_update": 1662814891,
-            "node1_pub": "029de6f33a8d3b213c8a25518b1b3db3c3091db1a46239245fe95af460992389a1",
-            "node2_pub": "02ef1514fcf25c1924c2499dc10c498ba60811f98e59f26249252655715be925de",
-            "capacity": "15000000",
+            "channel_id": "376032976830464",
+            "chan_point": "857552f62aed541756a76289a895d4a22ffd79cbe6505b89d64a473eda83443a:0",
+            "last_update": 1663004590,
+            "node1_pub": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
+            "node2_pub": "03a4166999a3ed70e4c1e5ef5be34b710010746117e7ee292a39c11c47c0cedde6",
+            "capacity": "3900000",
+            "node1_policy": {
+                "time_lock_delta": 18,
+                "min_htlc": "1000",
+                "fee_base_msat": "70",
+                "fee_rate_milli_msat": "139",
+                "disabled": true,
+                "max_htlc_msat": "3900000000",
+                "last_update": 1662987025
+            },
+            "node2_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "1",
+                "fee_base_msat": "99",
+                "fee_rate_milli_msat": "441",
+                "disabled": false,
+                "max_htlc_msat": "3861000000",
+                "last_update": 1663004590
+            }
+        },
+        {
+            "channel_id": "434307093102593",
+            "chan_point": "92544471d16ea5565290681490b58de4a6d60eb44da207acd8b8dfbd9c15680e:1",
+            "last_update": 1663004590,
+            "node1_pub": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
+            "node2_pub": "03a4166999a3ed70e4c1e5ef5be34b710010746117e7ee292a39c11c47c0cedde6",
+            "capacity": "8200000",
+            "node1_policy": {
+                "time_lock_delta": 18,
+                "min_htlc": "1000",
+                "fee_base_msat": "4260",
+                "fee_rate_milli_msat": "99",
+                "disabled": true,
+                "max_htlc_msat": "8200000000",
+                "last_update": 1662987025
+            },
+            "node2_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "1",
+                "fee_base_msat": "396",
+                "fee_rate_milli_msat": "18",
+                "disabled": false,
+                "max_htlc_msat": "8118000000",
+                "last_update": 1663004590
+            }
+        },
+        {
+            "channel_id": "1658063534751744",
+            "chan_point": "103584f4c439fed902fed13a8d37503ddd96ae289c8c7277a1b41ae80b638390:0",
+            "last_update": 1663005243,
+            "node1_pub": "02b64954c40e4db7c8416492bae0a51e10d87028d3f2d60ccd65eca027e1eac5a4",
+            "node2_pub": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
+            "capacity": "3700000",
+            "node1_policy": {
+                "time_lock_delta": 40,
+                "min_htlc": "1000",
+                "fee_base_msat": "1000",
+                "fee_rate_milli_msat": "1",
+                "disabled": false,
+                "max_htlc_msat": "3663000000",
+                "last_update": 1663005243
+            },
+            "node2_policy": {
+                "time_lock_delta": 40,
+                "min_htlc": "1000",
+                "fee_base_msat": "1000",
+                "fee_rate_milli_msat": "1",
+                "disabled": false,
+                "max_htlc_msat": "3663000000",
+                "last_update": 1663005243
+            }
+        },
+        {
+            "channel_id": "1658063534817280",
+            "chan_point": "63e91a93aa79253b648e0432ceb9373ee7b1f1ff7c76a1bfae6d27c041068591:0",
+            "last_update": 1663005252,
+            "node1_pub": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
+            "node2_pub": "039a9b246210d5b87bbd27dd9d94cc2bf14a2acbb55435197cf8d0e6a85f1d9a7a",
+            "capacity": "1400000",
+            "node1_policy": {
+                "time_lock_delta": 40,
+                "min_htlc": "1000",
+                "fee_base_msat": "1000",
+                "fee_rate_milli_msat": "1",
+                "disabled": false,
+                "max_htlc_msat": "1400000000",
+                "last_update": 1663005252
+            },
+            "node2_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "1",
+                "fee_base_msat": "233",
+                "fee_rate_milli_msat": "12",
+                "disabled": false,
+                "max_htlc_msat": "1386000000",
+                "last_update": 1663005045
+            }
+        },
+        {
+            "channel_id": "1658063534882817",
+            "chan_point": "a0e90f82ab540b491bfb502f9b9f044f97beb36496a355a6745fbcbbb4d36def:1",
+            "last_update": 1663005243,
+            "node1_pub": "0295f51a452574ec413de776da548bc10d991e246a45737206f8b5dbda944007e6",
+            "node2_pub": "02b64954c40e4db7c8416492bae0a51e10d87028d3f2d60ccd65eca027e1eac5a4",
+            "capacity": "7300000",
             "node1_policy": {
                 "time_lock_delta": 6,
                 "min_htlc": "1",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
+                "fee_base_msat": "563",
+                "fee_rate_milli_msat": "797",
                 "disabled": false,
-                "max_htlc_msat": "14850000000",
-                "last_update": 1662814596
+                "max_htlc_msat": "7227000000",
+                "last_update": 1663004999
             },
             "node2_policy": {
                 "time_lock_delta": 40,
@@ -702,51 +465,103 @@
                 "fee_base_msat": "1000",
                 "fee_rate_milli_msat": "1",
                 "disabled": false,
-                "max_htlc_msat": "15000000000",
-                "last_update": 1662814891
+                "max_htlc_msat": "7300000000",
+                "last_update": 1663005243
             }
         },
         {
-            "channel_id": "175921860509697",
-            "chan_point": "c6d16f516f2ae8aeab3a5ff9722f1bf62267e084b4392a0fae972adb75e76f0a:1",
-            "last_update": 1662814864,
-            "node1_pub": "02ef1514fcf25c1924c2499dc10c498ba60811f98e59f26249252655715be925de",
-            "node2_pub": "0370cdd688144b72c6740e83b97a85f854290cd23996f8cae20b2a6de345a214d3",
-            "capacity": "288000000",
+            "channel_id": "1658063534948352",
+            "chan_point": "927d2a7430ae72208a9a18dd7ed205d1725ac7dff3d5a02523970bf9bdb3b00e:0",
+            "last_update": 1663005266,
+            "node1_pub": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
+            "node2_pub": "03a4166999a3ed70e4c1e5ef5be34b710010746117e7ee292a39c11c47c0cedde6",
+            "capacity": "5100000",
             "node1_policy": {
                 "time_lock_delta": 40,
                 "min_htlc": "1000",
                 "fee_base_msat": "1000",
                 "fee_rate_milli_msat": "1",
                 "disabled": false,
-                "max_htlc_msat": "285120000000",
-                "last_update": 1662814864
+                "max_htlc_msat": "5100000000",
+                "last_update": 1663005266
             },
             "node2_policy": {
-                "time_lock_delta": 40,
-                "min_htlc": "1000",
-                "fee_base_msat": "1000",
-                "fee_rate_milli_msat": "1",
-                "disabled": false,
-                "max_htlc_msat": "285120000000",
-                "last_update": 1662814864
-            }
-        },
-        {
-            "channel_id": "175921860575232",
-            "chan_point": "3b182eff784d2e222b6e9b99144d3e0a62f7a482ef56abbc6139f27eb941ab11:0",
-            "last_update": 1662814858,
-            "node1_pub": "034845e2e139c244d4d056119eadec32ed2788cba4580f2f4999ffb6eda23249c6",
-            "node2_pub": "0370cdd688144b72c6740e83b97a85f854290cd23996f8cae20b2a6de345a214d3",
-            "capacity": "1200000",
-            "node1_policy": {
                 "time_lock_delta": 6,
                 "min_htlc": "1",
-                "fee_base_msat": "1",
-                "fee_rate_milli_msat": "10",
+                "fee_base_msat": "930",
+                "fee_rate_milli_msat": "142",
                 "disabled": false,
-                "max_htlc_msat": "1188000000",
-                "last_update": 1662814563
+                "max_htlc_msat": "5049000000",
+                "last_update": 1663005041
+            }
+        },
+        {
+            "channel_id": "1664660604518401",
+            "chan_point": "38c2bd994513dc1343297e80af9d157c478574c9a640ec4c7197eee57141e88b:1",
+            "last_update": 1663005266,
+            "node1_pub": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
+            "node2_pub": "03a4166999a3ed70e4c1e5ef5be34b710010746117e7ee292a39c11c47c0cedde6",
+            "capacity": "8900000",
+            "node1_policy": {
+                "time_lock_delta": 40,
+                "min_htlc": "1000",
+                "fee_base_msat": "1000",
+                "fee_rate_milli_msat": "1",
+                "disabled": false,
+                "max_htlc_msat": "8900000000",
+                "last_update": 1663005266
+            },
+            "node2_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "1",
+                "fee_base_msat": "514",
+                "fee_rate_milli_msat": "656",
+                "disabled": false,
+                "max_htlc_msat": "8811000000",
+                "last_update": 1663005041
+            }
+        },
+        {
+            "channel_id": "1664660604583937",
+            "chan_point": "84ca1c2e4166cbcb3d28b35b94907184912ea692c89560996c1068c955da4390:1",
+            "last_update": 1663005252,
+            "node1_pub": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
+            "node2_pub": "039a9b246210d5b87bbd27dd9d94cc2bf14a2acbb55435197cf8d0e6a85f1d9a7a",
+            "capacity": "2300000",
+            "node1_policy": {
+                "time_lock_delta": 40,
+                "min_htlc": "1000",
+                "fee_base_msat": "1000",
+                "fee_rate_milli_msat": "1",
+                "disabled": false,
+                "max_htlc_msat": "2300000000",
+                "last_update": 1663005252
+            },
+            "node2_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "1",
+                "fee_base_msat": "924",
+                "fee_rate_milli_msat": "797",
+                "disabled": false,
+                "max_htlc_msat": "2277000000",
+                "last_update": 1663005045
+            }
+        },
+        {
+            "channel_id": "1671257674285057",
+            "chan_point": "b3d183e4681fd9d2eb10d433f3bf1d379302d5e5a62904263af8deef16b5d9b3:1",
+            "last_update": 1663005252,
+            "node1_pub": "02c03b8a350b43f06d3d3eede385db13123fd8976622f35a3c89a2687818ded6c6",
+            "node2_pub": "036167b960d154c43afcea886149a8f8fa9403c4ba99e76722df42ce748498cdc3",
+            "capacity": "9100000",
+            "node1_policy": {
+                "time_lock_delta": 40,
+                "min_htlc": "1000",
+                "fee_base_msat": "1000",
+                "fee_rate_milli_msat": "1",
+                "disabled": false,
+                "max_htlc_msat": "9009000000",
+                "last_update": 1663005252
             },
             "node2_policy": {
                 "time_lock_delta": 40,
@@ -754,8 +569,60 @@
                 "fee_base_msat": "1000",
                 "fee_rate_milli_msat": "1",
                 "disabled": false,
-                "max_htlc_msat": "1200000000",
-                "last_update": 1662814858
+                "max_htlc_msat": "9009000000",
+                "last_update": 1663005252
+            }
+        },
+        {
+            "channel_id": "1672357185912833",
+            "chan_point": "9d41178e8f7a2d59b19b9ba8bdde1113414ade8bef7749e0d23b5d486aa67b6e:1",
+            "last_update": 1663005044,
+            "node1_pub": "0295f51a452574ec413de776da548bc10d991e246a45737206f8b5dbda944007e6",
+            "node2_pub": "039a9b246210d5b87bbd27dd9d94cc2bf14a2acbb55435197cf8d0e6a85f1d9a7a",
+            "capacity": "9500000",
+            "node1_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "0",
+                "fee_base_msat": "107",
+                "fee_rate_milli_msat": "874",
+                "disabled": false,
+                "max_htlc_msat": "9405000000",
+                "last_update": 1663005042
+            },
+            "node2_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "0",
+                "fee_base_msat": "860",
+                "fee_rate_milli_msat": "947",
+                "disabled": false,
+                "max_htlc_msat": "9405000000",
+                "last_update": 1663005044
+            }
+        },
+        {
+            "channel_id": "1678954255745024",
+            "chan_point": "5c731ec86eee352b4f8543ab113a5b50217a47e585d663dd1db944310e19406e:0",
+            "last_update": 1663005042,
+            "node1_pub": "0295f51a452574ec413de776da548bc10d991e246a45737206f8b5dbda944007e6",
+            "node2_pub": "03a4166999a3ed70e4c1e5ef5be34b710010746117e7ee292a39c11c47c0cedde6",
+            "capacity": "6200000",
+            "node1_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "0",
+                "fee_base_msat": "421",
+                "fee_rate_milli_msat": "955",
+                "disabled": false,
+                "max_htlc_msat": "6138000000",
+                "last_update": 1663004999
+            },
+            "node2_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "0",
+                "fee_base_msat": "784",
+                "fee_rate_milli_msat": "437",
+                "disabled": false,
+                "max_htlc_msat": "6138000000",
+                "last_update": 1663005042
             }
         }
     ]

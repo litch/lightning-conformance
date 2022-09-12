@@ -11,7 +11,11 @@ docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddre
 docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet -generate=1
 docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 2
 docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 2
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 2
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
 docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_c1" 2
 
 docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet -generate=1
@@ -22,8 +26,10 @@ docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddre
 
 addr_lnd=$(docker exec lnd lncli --network=regtest newaddress p2wkh | jq '.address' -r)
 docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_lnd" 1.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_lnd" 1.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_lnd" 1.5
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_lnd" 1.1
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_lnd" 1.0
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_lnd" 0.8
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_lnd" 0.4
 
 addr_lnd2=$(docker exec lnd2 lncli --network=regtest newaddress p2wkh | jq '.address' -r)
 docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_lnd2" 3

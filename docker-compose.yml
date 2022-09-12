@@ -72,7 +72,7 @@ services:
       EXPOSE_TCP: "true"
     command: 
       - --network=regtest 
-      - --alias=cln-hub
+      - --alias=coreln-hub
       - --bitcoin-rpcconnect=bitcoin:18443
       - --bitcoin-rpcuser=admin1 
       - --bitcoin-rpcpassword=123 
@@ -94,7 +94,7 @@ services:
       EXPOSE_TCP: "true"
     command: 
       - --network=regtest 
-      - --alias=cln-remote
+      - --alias=coreln-remote
       - --bitcoin-rpcconnect=bitcoin:18443
       - --bitcoin-rpcuser=admin1 
       - --bitcoin-rpcpassword=123 
@@ -116,7 +116,7 @@ services:
       EXPOSE_TCP: "true"
     command: 
       - --network=regtest 
-      - --alias=cln-c1
+      - --alias=coreln-c1
       - --bitcoin-rpcconnect=bitcoin:18443
       - --bitcoin-rpcuser=admin1 
       - --bitcoin-rpcpassword=123 
@@ -138,7 +138,7 @@ services:
       EXPOSE_TCP: "true"
     command: 
       - --network=regtest 
-      - --alias=cln-c2
+      - --alias=coreln-c2
       - --bitcoin-rpcconnect=bitcoin:18443
       - --bitcoin-rpcuser=admin1 
       - --bitcoin-rpcpassword=123 
@@ -160,7 +160,7 @@ services:
       EXPOSE_TCP: "true"
     command: 
       - --network=regtest 
-      - --alias=cln-c3
+      - --alias=coreln-c3
       - --bitcoin-rpcconnect=bitcoin:18443
       - --bitcoin-rpcuser=admin1 
       - --bitcoin-rpcpassword=123 
@@ -182,7 +182,7 @@ services:
       EXPOSE_TCP: "true"
     command: 
       - --network=regtest 
-      - --alias=cln-c4
+      - --alias=coreln-c4
       - --bitcoin-rpcconnect=bitcoin:18443
       - --bitcoin-rpcuser=admin1 
       - --bitcoin-rpcpassword=123 
