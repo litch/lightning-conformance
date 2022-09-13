@@ -2,10 +2,10 @@ version: '3.8'
 services:
   bitcoin:
     image: ghcr.io/vulpemventures/bitcoin:latest
-    user: 1000:1000
+    user: root
     container_name: bitcoin
     command:
-      - -datadir=config
+      - -datadir=/config
     ports:
       - 18443:18443
       - 18444:18444
@@ -20,11 +20,11 @@ services:
   lnd:
     container_name: lnd
     image: lightninglabs/lnd:v0.15.1-beta
-    user: 1000:1000
+    user: root 
     depends_on:
       - bitcoin
     volumes:
-      - ./volumes/lnd:/data/.lnd
+      - ./volumes/lnd:/root/.lnd
     environment:
       HOME: /data
     restart: unless-stopped
@@ -36,11 +36,11 @@ services:
   lnd-15-0:
     container_name: lnd-15-0
     image: lightninglabs/lnd:v0.15.0-beta
-    user: 1000:1000
+    user: root
     depends_on:
       - bitcoin
     volumes:
-      - ./volumes/lnd-150:/data/.lnd
+      - ./volumes/lnd-150:/root/.lnd
     environment:
       HOME: /data
     restart: unless-stopped
@@ -52,11 +52,11 @@ services:
   lnd2:
     container_name: lnd2
     image: lightninglabs/lnd:v0.15.1-beta
-    user: 1000:1000
+    user: root
     depends_on:
       - bitcoin
     volumes:
-      - ./volumes/lnd2:/data/.lnd
+      - ./volumes/lnd2:/root/.lnd
     environment:
       HOME: /data
     restart: unless-stopped
