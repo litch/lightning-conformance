@@ -4,9 +4,11 @@ import os
 import random
 import subprocess
 from subprocess import Popen, PIPE
-
+from itertools import zip_longest
+import time
 import json
 import uuid
+from threading import Timer
 
 class InvoicePaymentError(Exception):
     pass
@@ -51,35 +53,108 @@ def pay_invoice_cln(node, invoice):
 
 def send_cln_cln(sender, receiver):
     invoice = generate_invoice_cln(receiver)
-    # print("Paying invoice: ", invoice)
     
     return pay_invoice_cln(sender, invoice)
 
+cln_nodes = ['cln-remote', 'cln-c3', 'cln-c2', 'cln-hub', 'cln-c1', 'cln-c4']
+lnd_nodes = ['lnd', 'lnd2', 'lnd-15-0']
 
-c1_invoices = []
-c4_invoices = []
-for receiver in ['cln-remote', 'cln-c3', 'cln-c2', 'cln-hub']:
-    c1_invoices.append(generate_invoice_cln(receiver))
-for receiver in ['lnd', 'lnd2', 'lnd-15-0']:
-    c1_invoices.append(generate_invoice_lnd(receiver))
-for receiver in ['cln-remote', 'cln-c1', 'cln-c2', 'cln-hub']:
-    c4_invoices.append(generate_invoice_cln(receiver))
-node = 'cln-c1'
-c1_cmds_list = [['docker', 'exec', node, 'lightning-cli', '--network=regtest', 'pay', invoice] for invoice in c1_invoices]
-node = 'cln-c4'
-c4_cmds_list = [['docker', 'exec', node, 'lightning-cli', '--network=regtest', 'pay', invoice] for invoice in c4_invoices]
+cmds_list = []
 
-cmds_list = c1_cmds_list+c4_cmds_list
-print("Invoices retrieved - now paying")
-procs_list = [Popen(cmd, stdout=PIPE, stderr=PIPE) for cmd in cmds_list]
-for proc in procs_list:
-	proc.wait()
+for sender in cln_nodes:
+    for receiver in lnd_nodes:
+        invoice = generate_invoice_lnd(receiver)
+        cmds_list.append(['docker', 'exec', sender, 'lightning-cli', '--network=regtest', 'pay', invoice])
+    for receiver in cln_nodes:
+        if receiver == sender:
+            pass
+        else:
+            invoice = generate_invoice_cln(receiver)
+            cmds_list.append(['docker', 'exec', sender, 'lightning-cli', '--network=regtest', 'pay', invoice])
 
-def parse_result(proc):
-    return proc.returncode
+for sender in lnd_nodes:
+    for receiver in cln_nodes:
+        invoice = generate_invoice_cln(receiver)
+        cmds_list.append(['docker', 'exec', sender, 'lncli', '--network=regtest', 'payinvoice', '-f', invoice])
+    for receiver in lnd_nodes:
+        if receiver == sender:
+            pass
+        else:
+            invoice = generate_invoice_lnd(receiver)
+            cmds_list.append(['docker', 'exec', sender, 'lncli', '--network=regtest', 'payinvoice', '-f', invoice])
 
-return_codes = list(map(parse_result,  procs_list))
+print("Invoices retrieved - now paying (Count: {})".format(len(cmds_list)))
 
-success_count = return_codes.count(0)
-error_count = return_codes.count(1)
-print("Successfully sent: {}, Failed: {}".format(success_count, error_count))
+def group_elements(n, iterable, padvalue='x'):
+    return zip_longest(*[iter(iterable)]*n, fillvalue=padvalue)
+
+def send_all():
+    for group in group_elements(6, cmds_list, padvalue=None):
+        start_time = time.time()
+        procs_list = [Popen(cmd, stdout=PIPE, stderr=PIPE) for cmd in group]
+        
+        for proc in procs_list:
+            proc.wait()
+
+        def parse_result(proc):
+            return proc.returncode
+
+
+        return_codes = list(map(parse_result,  procs_list))
+        end_time = time.time()
+        success_count = return_codes.count(0)
+        error_count = return_codes.count(1)
+        print("Successfully sent: {}, Failed: {}, Elapsed time: {}".format(success_count, error_count, end_time-start_time))
+
+
+def send_subset(count=10):
+    start_time = time.time()
+    random.shuffle(cmds_list)
+    subset = cmds_list[0:count]
+    print("Going to execute: ", subset)
+
+    procs_list = [Popen(cmd, stdout=PIPE, stderr=PIPE) for cmd in subset]
+    
+    
+
+    def parse_result(proc):
+        return proc.returncode
+
+
+    kill = lambda process: process.kill()
+    
+    my_timer = Timer(5, kill, [procs_list])
+    try:
+        my_timer.start()
+        for proc in procs_list:
+            proc.wait()
+        # stdout, stderr = ping.communicate()
+    finally:
+        my_timer.cancel()
+
+
+    return_codes = list(map(parse_result,  procs_list))
+    end_time = time.time()
+    success_count = return_codes.count(0)
+    error_count = return_codes.count(1)
+    print("Successfully sent: {}, Failed: {}, Elapsed time: {}".format(success_count, error_count, end_time-start_time))
+
+def send_serially():
+    start_time = time.time()
+    random.shuffle(cmds_list)
+    return_codes = []
+    
+    for cmd in cmds_list:
+        try:
+            print("Running: ", cmd)
+            proc = subprocess.run(cmd, timeout=7, stdout=PIPE, stderr=PIPE)
+            return_codes.append(proc.returncode)
+        except subprocess.TimeoutExpired:
+            return_codes.append(1)
+
+    end_time = time.time()
+    success_count = return_codes.count(0)
+    error_count = return_codes.count(1)
+    print("Successfully sent: {}, Failed: {}, Elapsed time: {}".format(success_count, error_count, end_time-start_time))
+
+send_serially()

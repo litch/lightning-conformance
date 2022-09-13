@@ -1,7 +1,7 @@
 #!/bin/zsh
 for i in {1..6}; do 
     for i in {1..6}; do 
-    ./route-test.sh
+    ./route-test.py
     ./randomize-fees.sh
     ./close-random-channel.py
     ./generate-blocks.sh 6
