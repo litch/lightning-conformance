@@ -1,5 +1,4 @@
-#!/opt/homebrew/bin/python3
-
+#!/usr/bin/python3
 import os
 import random
 import subprocess
@@ -60,6 +59,8 @@ cln_nodes = ['cln-remote', 'cln-c3', 'cln-c2', 'cln-hub', 'cln-c1', 'cln-c4']
 lnd_nodes = ['lnd', 'lnd2', 'lnd-15-0']
 
 cmds_list = []
+
+print("Generating invoices")
 
 for sender in cln_nodes:
     for receiver in lnd_nodes:
