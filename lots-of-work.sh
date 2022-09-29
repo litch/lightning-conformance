@@ -2,7 +2,7 @@
 
 closable_nodes=(lnd2 lnd-15-0 cln-c1 cln-c2 cln-hub)
 
-while true; do 
+for i in {1..6}; do 
     for i in {1..6}; do 
         ./route-test.py
         ./randomize-fees.sh

@@ -1,3 +1,8 @@
+# TODO
+
+- [ ] Add node locking/unlocking for LND nodes, and CLN (encrypt HSM)
+
+
 # Idea
 
 This package proivdes a way to startd up a configured regtest environment for testing.
@@ -5,6 +10,12 @@ This package proivdes a way to startd up a configured regtest environment for te
 There are a couple of levels of working with it, and I do both: handy bash scripts, and just `docker exec`ing random crap.
 
 Generally, this is a docker-compose.yml and a couple of resources that help bootstrap nodes.
+
+### Configuration
+
+Docker should be running in rootless mode to avoid lots of weird permissions/collisions.
+
+https://docs.docker.com/engine/security/rootless/
 
 ### Start it up
 
