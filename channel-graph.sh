@@ -56,7 +56,6 @@ channel_cli cln-remote $addr_lnd
 generate_blocks 6
 sleep 1
 
-channel_lnd lnd2 $addr_r
 channel_lnd lnd $addr_lnd2
 
 channel_cli cln-hub $addr_r
