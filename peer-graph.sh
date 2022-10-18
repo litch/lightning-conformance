@@ -1,4 +1,5 @@
 #!/bin/bash
+source ./variables.sh
 
 echo "Gathering pubkeys"
 addr_r=$(docker exec cln-remote lightning-cli --network=regtest getinfo | jq '.id' -r)
@@ -14,8 +15,6 @@ addr_lnd2=$(docker exec lnd2 lncli --network=regtest getinfo | jq '.identity_pub
 echo "Now opening peering connections"
 docker exec lnd lncli --network=regtest connect ${addr_r}@cln-remote:9735
 docker exec lnd lncli --network=regtest connect ${addr_c1}@cln-c1:9735
-
-docker exec lnd lncli --network=regtest connect ${addr_lnd2}@lnd2 9735
 docker exec lnd2 lncli --network=regtest connect ${addr_r}@cln-remote:9735
 
 docker exec lnd-15-0 lncli --network=regtest connect ${addr_hub}@cln-hub:9735
@@ -29,3 +28,11 @@ docker exec cln-hub lightning-cli --network=regtest connect $addr_c2 cln-c2 9735
 docker exec cln-hub lightning-cli --network=regtest connect $addr_c3 cln-c3 9735
 docker exec cln-hub lightning-cli --network=regtest connect $addr_c4 cln-c4 9735
 
+echo "Let's hub and spoke LND nodes to lnd2"
+for node in "${lnd_nodes[@]}"
+do
+    if [[ "$node" == 'lnd2' ]]; then
+        continue
+    fi
+    docker exec $node lncli --network=regtest connect ${addr_lnd2}@lnd2 9735
+done

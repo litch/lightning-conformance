@@ -1,4 +1,5 @@
 #!/bin/zsh
+source ./variables.sh
 
 addr_r=$(docker exec cln-remote lightning-cli --network=regtest getinfo | jq '.id' -r)
 addr_hub=$(docker exec cln-hub lightning-cli --network=regtest getinfo | jq '.id' -r)
@@ -71,3 +72,18 @@ sleep 1
 
 channel_cli cln-hub $addr_c3
 channel_cli cln-hub $addr_c4
+
+echo "Again hub and spoke LND nodes to lnd2"
+for node in "${lnd_nodes[@]}"; do
+    if [[ "$node" == 'lnd' ]]; then
+        continue
+    fi
+    if [[ "$node" == 'lnd2' ]]; then
+        continue
+    fi
+    echo "Opening from lnd2 to $node"
+    addr=$(docker exec $node lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
+    channel_lnd lnd2 $addr
+done
+
+generate_blocks 6

@@ -19,7 +19,7 @@ services:
 
   lnd:
     container_name: lnd
-    image: lightninglabs/lnd:v0.15.1-beta
+    image: lightninglabs/lnd:v0.15.3-beta
     user: root 
     depends_on:
       - bitcoin
@@ -48,6 +48,55 @@ services:
     ports:
       - "9735" # p2p
       - "10009" # grpc
+
+  lnd-15-1:
+    container_name: lnd-15-1
+    image: lightninglabs/lnd:v0.15.1-beta
+    user: root
+    depends_on:
+      - bitcoin
+    volumes:
+      - ./volumes/lnd-151:/root/.lnd
+    environment:
+      HOME: /data
+    restart: unless-stopped
+    stop_grace_period: 5m30s
+    ports:
+      - "9735" # p2p
+      - "10009" # grpc
+
+  lnd-15-2:
+    container_name: lnd-15-2
+    image: lightninglabs/lnd:v0.15.2-beta
+    user: root
+    depends_on:
+      - bitcoin
+    volumes:
+      - ./volumes/lnd-152:/root/.lnd
+    environment:
+      HOME: /data
+    restart: unless-stopped
+    stop_grace_period: 5m30s
+    ports:
+      - "9735" # p2p
+      - "10009" # grpc
+
+  lnd-15-3:
+    container_name: lnd-15-3
+    image: lightninglabs/lnd:v0.15.3-beta
+    user: root
+    depends_on:
+      - bitcoin
+    volumes:
+      - ./volumes/lnd-153:/root/.lnd
+    environment:
+      HOME: /data
+    restart: unless-stopped
+    stop_grace_period: 5m30s
+    ports:
+      - "9735" # p2p
+      - "10009" # grpc
+
 
   lnd2:
     container_name: lnd2

@@ -1,4 +1,5 @@
 #!/bin/bash
+source ./variables.sh
 
 echo "Randomizing fees"
 
@@ -22,8 +23,6 @@ do
     echo "Randomizing $node"
     docker exec $node lightning-cli --network=regtest listfunds | jq -r '.channels[].short_channel_id' | xargs -P 10 -I {} bash -c 'randomize_cln "$@" $@ ' _ {} $node >> output
 done
-
-lnd_nodes=( lnd lnd2 lnd-15-0)
 
 function randomize_lnd () {
     chan_point=$1
