@@ -29,7 +29,7 @@ channel_cli () {
     
     channel_size_sci=`seq 1000000 100000 10000000 | shuf | head -n1`
     channel_size=`printf '%5i\n' $channel_size_sci`
-    push_prop=`seq 0 .01 1 | shuf | head -n1`
+    push_prop=`seq 0.1 .01 0.6 | shuf | head -n1`
     push_amt=`printf '%5i\n' $(($channel_size*$push_prop*1000))`
     echo "Opening channel from $node to $destination (Size: $channel_size, Amount: $push_amt)"
     docker exec $node lightning-cli -k --network=regtest fundchannel id=$destination amount=$channel_size push_msat=$push_amt

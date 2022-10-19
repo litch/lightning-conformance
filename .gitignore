@@ -3,3 +3,11 @@
 output.txt
 output
 /data
+
+node_modules
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+visualize/server/auth/*

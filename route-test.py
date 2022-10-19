@@ -15,6 +15,9 @@ class InvoicePaymentError(Exception):
 class InvoiceGenerationError(Exception):
     pass
 
+cln_nodes = ['cln-remote', 'cln-c3', 'cln-c2', 'cln-hub', 'cln-c1', 'cln-c4']
+lnd_nodes = ['lnd', 'lnd2', 'lnd-15-0', 'lnd-15-1', 'lnd-15-2', 'lnd-15-3']
+
 def generate_invoice_lnd(node):
     amount = round(random.random()*100000)
     # identifier = random.randbytes(32)
@@ -54,9 +57,6 @@ def send_cln_cln(sender, receiver):
     invoice = generate_invoice_cln(receiver)
     
     return pay_invoice_cln(sender, invoice)
-
-cln_nodes = ['cln-remote', 'cln-c3', 'cln-c2', 'cln-hub', 'cln-c1', 'cln-c4']
-lnd_nodes = ['lnd', 'lnd2', 'lnd-15-0']
 
 cmds_list = []
 

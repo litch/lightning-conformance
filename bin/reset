@@ -11,6 +11,7 @@ echo "Sleeping to let node fundings stick, and some gossip propogate"
 sleep 10
 ./generate-blocks.sh 10
 ./channel-graph.sh
+./generate-blocks.sh 10
 
 echo "Ok, we should be in a known state"
 echo <<known_state
@@ -25,6 +26,6 @@ coreln-c3       1       1       0       0
 coreln-c4       1       1       0       0
 coreln-remote   4       0       3       0
 known_state
-./check-status.sh
 
+./check-status.sh
 ./generate-graph.sh
