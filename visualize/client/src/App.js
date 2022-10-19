@@ -41,12 +41,13 @@ class Visualize extends React.Component {
       initialNodes.map((n) => {
         let id = n.pubKey;
         let alias = n.alias || n.pubKey;
-        console.log("Pushing node", id, alias)
+        let label = n.alias || n.pubKey.substring(0,5)+"...";
+        console.log("Pushing node", id, alias, label)
         elements.push ({
           data: {
               id: id,
-              label: alias,
-              alias: alias,
+              label: label,
+              alias: label,
           }
         })
       })

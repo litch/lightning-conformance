@@ -3,6 +3,7 @@
 docker-compose down
 ./reset_everything.sh
 docker-compose up -d
+./provide-authentitation-to-visualizer.sh
 
 ./init-bitcoind.sh
 ./fund-nodes.sh
