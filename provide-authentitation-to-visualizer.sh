@@ -1,7 +1,12 @@
 #!/bin/zsh
+source ./variables.sh
 
-cp volumes/lnd/tls.cert visualize/server/auth/lnd.cert
-cp volumes/lnd/data/chain/bitcoin/regtest/admin.macaroon visualize/server/auth/lnd.macaroon
+for node in "${lnd_nodes[@]}"
+do
+    cp volumes/$node/tls.cert visualize/server/auth/$node.cert
+    cp volumes/$node/data/chain/bitcoin/regtest/admin.macaroon visualize/server/auth/$node.macaroon
+    cp volumes/$node/tls.cert brutalizer/auth/$node.cert
+    cp volumes/$node/data/chain/bitcoin/regtest/admin.macaroon brutalizer/auth/$node.macaroon
 
-cp volumes/lnd2/tls.cert visualize/server/auth/lnd2.cert
-cp volumes/lnd2/data/chain/bitcoin/regtest/admin.macaroon visualize/server/auth/lnd2.macaroon
+done
+

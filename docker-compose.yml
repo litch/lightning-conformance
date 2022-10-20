@@ -40,7 +40,7 @@ services:
     depends_on:
       - bitcoin
     volumes:
-      - ./volumes/lnd-150:/root/.lnd
+      - ./volumes/lnd-15-0:/root/.lnd
     environment:
       HOME: /data
     restart: unless-stopped
@@ -56,7 +56,7 @@ services:
     depends_on:
       - bitcoin
     volumes:
-      - ./volumes/lnd-151:/root/.lnd
+      - ./volumes/lnd-15-1:/root/.lnd
     environment:
       HOME: /data
     restart: unless-stopped
@@ -72,7 +72,7 @@ services:
     depends_on:
       - bitcoin
     volumes:
-      - ./volumes/lnd-152:/root/.lnd
+      - ./volumes/lnd-15-2:/root/.lnd
     environment:
       HOME: /data
     restart: unless-stopped
@@ -88,7 +88,7 @@ services:
     depends_on:
       - bitcoin
     volumes:
-      - ./volumes/lnd-153:/root/.lnd
+      - ./volumes/lnd-15-3:/root/.lnd
     environment:
       HOME: /data
     restart: unless-stopped
