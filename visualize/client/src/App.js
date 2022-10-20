@@ -4,7 +4,7 @@ import CytoscapeComponent from 'react-cytoscapejs';
 
 import Cytoscape from 'cytoscape';
 import COSEBilkent from 'cytoscape-cose-bilkent';
-
+import './App.css'
 
 Cytoscape.use(COSEBilkent);
 
@@ -14,24 +14,48 @@ class Visualize extends React.Component {
   }
 
   state = {
+    node: 'lnd',
     graph: {nodes: [], edges: []},
-    dataIsLoaded: false
+    graphIsLoaded: false,
+    info: {},
+    infoIsLoaded: false,
+    cy: null
   }
 
-  componentDidMount() {
-    fetch('/lnd-graph')
+  fetchData = () => {
+    fetch('/graph/'+this.state.node)
         .then((res) => res.json())
         .then((json) => {
-          console.log("I have some json", json)
             this.setState({
                 graph: json,
-                dataIsLoaded: true
+                graphIsLoaded: true,
             });
+        })
+    fetch('/info/'+this.state.node)
+        .then((res) => res.json())
+        .then((json)=> {
+          this.setState({
+            info: json,
+            infoIsLoaded: true,
+          })
         })
   }
 
+  componentDidMount() {
+    this.fetchData();
+    this.interval = setInterval(this.fetchData, 2000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
+  setNode(node) {
+    this.setState({node, infoIsLoaded: false})
+  }
+
   render() {  
-    if (this.state.dataIsLoaded) {
+    if (this.state.graphIsLoaded) {
       let initialNodes = this.state.graph.nodes;
       let initialEdges = this.state.graph.edges;
 
@@ -67,6 +91,7 @@ class Visualize extends React.Component {
           }
         )
       })
+
       const layout = { name: 'cose-bilkent' };
 
       const stylesheet = [
@@ -90,15 +115,54 @@ class Visualize extends React.Component {
         }
       ]
 
-      return <CytoscapeComponent 
-        stylesheet={stylesheet} 
-        elements={elements} 
-        layout={layout} 
-        style={ { width: '1800px', height: '1000px' } } />;
+      return <div className='container'>
+          <div className='info'>
+            <button onClick={() => this.setNode('lnd')} disabled={this.state.node == 'lnd'}>
+              LND
+            </button>
+            <button onClick={() => this.setNode('lnd2')} disabled={this.state.node == 'lnd2'}>
+              LND2
+            </button>
+            <Info info={this.state.info} infoIsLoaded={this.state.infoIsLoaded} /> 
+          </div>
+          <div className='graph'>
+            <CytoscapeComponent 
+              cy={(cy) => { this.cy = cy }}
+              stylesheet={stylesheet} 
+              elements={elements} 
+              layout={layout} 
+              style={ { width: '1800px', height: '1000px' } } />;
+        </div>
+      </div>
     } else {
       return <div>Loading...</div>
     }
 
+  }
+}
+
+function Info(props) {
+  console.log("Props", props)
+  let info = props.info;
+  let infoIsLoaded = props.infoIsLoaded;
+  
+  if (infoIsLoaded) {
+    return <div>
+      <dl>
+        <dt>Alias</dt>
+        <dd>{info.alias}</dd>
+        <dt>Blockheight</dt>
+        <dd>{info.blockHeight}</dd>
+        <dt># Peers</dt><dd>{info.numPeers}</dd>
+        <dt># Active Channels</dt><dd>{info.numActiveChannels}</dd>
+        <dt>Synced to Chain</dt><dd>{info.syncedToChain ? "True" : "False"}</dd>
+        <dt>Synced to Graph</dt><dd>{info.syncedToGraph ? "True" : "False"}</dd>
+        <dt>Version</dt><dd>{info.version}</dd>
+      </dl>
+      {/* {JSON.stringify(info)} */}
+    </div>
+  } else {
+    return <div>Loading...</div>
   }
 }
 

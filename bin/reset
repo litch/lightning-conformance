@@ -29,4 +29,3 @@ coreln-remote   4       0       3       0
 known_state
 
 ./check-status.sh
-./generate-graph.sh
