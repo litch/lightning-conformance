@@ -10,4 +10,5 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-visualize/server/auth/*
+visualize/server/auth
+brutalizer/auth

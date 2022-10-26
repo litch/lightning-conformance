@@ -1,0 +1,15 @@
+backupsEnabled: false
+masterPassword: thunderhub-$2a$12$8gOHmRjUFXNI9nzL5NVE7u0TJvtFvx0RnXaWmDi8RyOaRM3vSOi3q
+accounts:
+  - name: LND
+    serverUrl: lnd:10009
+    macaroonPath: /data/auth/lnd.macaroon
+    certificatePath: /data/auth/lnd.cert
+  - name: LND2
+    serverUrl: lnd2:10009
+    macaroonPath: /data/auth/lnd2.macaroon
+    certificatePath: /data/auth/lnd2.cert
+  - name: LND-15-3
+    serverUrl: lnd-15-3:10009
+    macaroonPath: /data/auth/lnd-15-3.macaroon
+    certificatePath: /data/auth/lnd-15-3.cert

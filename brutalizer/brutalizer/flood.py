@@ -3,27 +3,48 @@ from .lnd import describe_graph, stub_for_node, get_info, router_stub_for_node
 from time import sleep
 import codecs
 import secrets
+import google.protobuf.json_format as json_format
 from brutalizer.vendor import lightning_pb2 as ln
 from brutalizer.vendor import router_pb2 as router
 
-def send_bogus_payment(sender, receiver_pubkey):
+def send_bogus_payment(sender, receiver_pubkey, amt=100):
     sstub = router_stub_for_node(sender)
     
     dest_hex = receiver_pubkey
-
     dest_bytes = codecs.decode(dest_hex, 'hex')
+    
+    keySendPreimageType = 5482373484
+    messageType = 34349334
 
-    hash = secrets.token_bytes(256 // 8)
+    preimage_byte_length = 32
+    preimage = secrets.token_bytes(preimage_byte_length)
+    
+    m = sha256()
+    m.update(preimage)
+    preimage_hash = m.digest()
 
+    dest_custom_records = {
+            keySendPreimageType: secrets.token_bytes(preimage_byte_length), # this is not the same preimage
+            messageType: "wow a keysend".encode()
+    }
+    
     r = router.SendPaymentRequest(
         dest=dest_bytes, 
-        amt=100, 
+        amt=amt, 
+        payment_hash=preimage_hash,
+        dest_custom_records=dest_custom_records,
         timeout_seconds=10,
-        payment_hash=hash)
-    for response in sstub.SendPayment(r):
-        print(response)
+        fee_limit_msat=1999999
+    )
+        
+    for response in sstub.SendPaymentV2(r):
+        # print(response)
+        pass
 
-def keysend(sender, receiver_pubkey):
+    # print("Final response: ", response)
+    return response
+
+def keysend(sender, receiver_pubkey, amt=1000):
     sstub = router_stub_for_node(sender)
     
     dest_hex = receiver_pubkey
@@ -46,7 +67,7 @@ def keysend(sender, receiver_pubkey):
     
     r = router.SendPaymentRequest(
         dest=dest_bytes, 
-        amt=100, 
+        amt=amt, 
         payment_hash=preimage_hash,
         dest_custom_records=dest_custom_records,
         timeout_seconds=10,
@@ -91,11 +112,26 @@ def keysend_all_nodes(sender):
         dest = node.get('pubKey')
         if dest == my_pubkey:
             continue
-        response = keysend(sender, dest)
+        response = keysend(sender, dest, secrets.randbelow(1000000))
         message = f"Keysent (Destination: {dest}, Status: {response.status}, PaymentHash: {response.payment_hash}, FailureReason: {response.failure_reason}"
         print(message)
         collection.append(message)
     return collection
+
+def probe():
+    l153 = '03a2161085f34baa02ae4b58bfad6b4f03488a624d39faecf0ae352a8f4b2073e0'
+    amount = 2900000
+    while True:
+        result = send_bogus_payment('lnd', l153, amount)
+        if result.failure_reason == 4:
+            route = json_format.MessageToDict(result).get('htlcs')
+            print(list(map(lambda h: h.get('chanId'), route[0].get('route').get('hops'))))
+            print(f"Successfully got there, raise amount from {amount}")
+            amount += 10000
+        else:
+            print("Failed along the route, success!")
+            print(result)
+            break
 
 if __name__ == "__main__":
     receiver_pubkey = get_info('lnd2').get('identityPubkey')
@@ -104,9 +140,10 @@ if __name__ == "__main__":
     # invoice = generate_invoice('lnd2')
     # print(invoice)
     # pay_invoice('lnd', invoice)
-    # l153 = '03a2161085f34baa02ae4b58bfad6b4f03488a624d39faecf0ae352a8f4b2073e0'
-    # keysend('lnd', l153)
+    # probe()
+
     keysend_all_nodes('lnd2')
+    keysend_all_nodes('lnd')
 
 
 # PaymentStatus

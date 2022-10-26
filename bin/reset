@@ -3,9 +3,14 @@
 docker-compose down
 ./reset_everything.sh
 docker-compose up -d
-./provide-authentitation-to-visualizer.sh
+echo "Ok, sleeping for a bit to let nodes come online"
+sleep 5
 
 ./init-bitcoind.sh
+./provide-authentitation-to-visualizer.sh
+
+docker restart thunderhub
+
 ./fund-nodes.sh
 ./peer-graph.sh
 echo "Sleeping to let node fundings stick, and some gossip propogate"

@@ -17,6 +17,20 @@ services:
       - ./volumes/bitcoin/:/config
     restart: unless-stopped
 
+  thunderhub:
+    container_name: thunderhub
+    image: apotdevin/thunderhub:v0.13.16
+    depends_on:
+      - bitcoin
+      - lnd
+    environment:
+      ACCOUNT_CONFIG_PATH: '/data/thunderhub.yaml'
+    volumes:
+      - ./volumes/thunderhub:/data
+    ports: 
+      - 4200:3000 
+    
+
   lnd:
     container_name: lnd
     image: lightninglabs/lnd:v0.15.3-beta
