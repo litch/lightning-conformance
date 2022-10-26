@@ -93,7 +93,7 @@ services:
     stop_grace_period: 5m30s
     ports:
       - "9735" # p2p
-      - "10009" # grpc
+      - "4000:10009" # grpc
 
   lnd-15-3:
     container_name: lnd-15-3
