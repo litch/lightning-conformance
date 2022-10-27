@@ -17,6 +17,12 @@ services:
       - ./volumes/bitcoin/:/config
     restart: unless-stopped
 
+  visualizer:
+    container_name: visualizer
+    image: visual
+    ports: 
+      - 5100:5000
+
   thunderhub:
     container_name: thunderhub
     image: apotdevin/thunderhub:v0.13.16

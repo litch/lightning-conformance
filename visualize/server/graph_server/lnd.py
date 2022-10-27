@@ -29,7 +29,7 @@ def stub_for_node(node):
     combined_creds = grpc.composite_channel_credentials(cert_creds, auth_creds)
 
     # finally pass in the combined credentials when creating a channel
-    channel = grpc.secure_channel(f"localhost:{PORTS[node]}", combined_creds)
+    channel = grpc.secure_channel(f"{node}:10009", combined_creds)
     return lnrpc.LightningStub(channel)
 
 def get_info(node):
