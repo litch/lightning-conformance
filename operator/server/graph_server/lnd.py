@@ -28,7 +28,7 @@ def channel_for_node(node):
     combined_creds = grpc.composite_channel_credentials(cert_creds, auth_creds)
 
     # finally pass in the combined credentials when creating a channel
-    return grpc.secure_channel(f"{node}:1009", combined_creds)
+    return grpc.secure_channel(f"{node}:10009", combined_creds)
 
 def router_stub_for_node(node):
     channel = channel_for_node(node)
