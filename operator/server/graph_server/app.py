@@ -2,6 +2,8 @@ import os
 from flask import Flask, jsonify
 
 from graph_server.lnd import describe_graph, get_info
+from graph_server.flood import keysend_all_nodes
+
 
 app = Flask(__name__, static_folder='../static', static_url_path='/')
 
@@ -21,7 +23,11 @@ def lnd_info(node):
 def lnd_graph(node):
     return describe_graph(node) 
 
+@app.route("/keysend_all/<string:sender>")
+def _keysend_all_nodes(sender):
+    return keysend_all_nodes(sender)
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-    

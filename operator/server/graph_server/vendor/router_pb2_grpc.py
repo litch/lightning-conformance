@@ -3,7 +3,7 @@
 import grpc
 
 import graph_server.vendor.lightning_pb2 as lightning__pb2
-import router_pb2 as router__pb2
+import graph_server.vendor.router_pb2 as router__pb2
 
 
 class RouterStub(object):

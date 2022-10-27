@@ -17,9 +17,9 @@ services:
       - ./volumes/bitcoin/:/config
     restart: unless-stopped
 
-  visualizer:
-    container_name: visualizer
-    image: visual
+  operator:
+    container_name: operator
+    image: litch/operator
     ports: 
       - 5100:5000
 

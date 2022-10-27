@@ -6,15 +6,14 @@ import google.protobuf.json_format as json_format
 
 from graph_server.vendor import lightning_pb2 as ln
 from graph_server.vendor import lightning_pb2_grpc as lnrpc
+from graph_server.vendor import router_pb2_grpc as routerstub
 
 # Due to updated ECDSA generated tls.cert we need to let gprc know that
 # we need to use that cipher suite otherwise there will be a handhsake
 # error when we communicate with the lnd rpc server.
 os.environ["GRPC_SSL_CIPHER_SUITES"] = 'HIGH+ECDSA'
 
-PORTS = {'lnd': 30009, 'lnd2': 30010}
-
-def stub_for_node(node):
+def channel_for_node(node):
     cert = open(f"./auth/{node}.cert", 'rb').read()
     with open(f"./auth/{node}.macaroon", 'rb') as f:
         macaroon_bytes = f.read()
@@ -29,7 +28,14 @@ def stub_for_node(node):
     combined_creds = grpc.composite_channel_credentials(cert_creds, auth_creds)
 
     # finally pass in the combined credentials when creating a channel
-    channel = grpc.secure_channel(f"{node}:10009", combined_creds)
+    return grpc.secure_channel(f"{node}:1009", combined_creds)
+
+def router_stub_for_node(node):
+    channel = channel_for_node(node)
+    return routerstub.RouterStub(channel)
+
+def stub_for_node(node):
+    channel = channel_for_node(node)
     return lnrpc.LightningStub(channel)
 
 def get_info(node):
@@ -44,6 +50,12 @@ def describe_graph(node):
     response = stub.DescribeGraph(ln.ChannelGraphRequest())
     print("Successfully retrieved graph")
     return json_format.MessageToDict(response)
+
+def generate_invoice(node, amount, description):
+    stub = stub_for_node(node)
+    response = stub.AddInvoice(ln.AddInvoiceRequest())
+    return response
+
 
 
 if __name__ == "__main__":

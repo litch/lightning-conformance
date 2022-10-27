@@ -4,8 +4,8 @@ from time import sleep
 import codecs
 import secrets
 import google.protobuf.json_format as json_format
-from brutalizer.vendor import lightning_pb2 as ln
-from brutalizer.vendor import router_pb2 as router
+from graph_server.vendor import lightning_pb2 as ln
+from graph_server.vendor import router_pb2 as router
 
 def send_bogus_payment(sender, receiver_pubkey, amt=100):
     sstub = router_stub_for_node(sender)
