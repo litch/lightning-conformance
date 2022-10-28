@@ -19,7 +19,9 @@ class Visualize extends React.Component {
     graphIsLoaded: false,
     info: {},
     infoIsLoaded: false,
-    cy: null
+    cy: null,
+    busy: false,
+    response: null,
   }
 
   fetchData = () => {
@@ -52,6 +54,30 @@ class Visualize extends React.Component {
 
   setNode(node) {
     this.setState({node, infoIsLoaded: false})
+  }
+
+  keysendAll() {
+    this.setState({busy: true, result: null})
+    fetch('/keysend_all/'+this.state.node)
+        .then((res) => res.json())
+        .then((json) => {
+            this.setState({
+                result: json,
+                busy: false,
+            });
+        })
+  }
+
+  randomMerchantTraffic() {
+    this.setState({busy: true, result: null})
+    fetch('/random_merchant_traffic')
+        .then((res) => res.json())
+        .then((json) => {
+            this.setState({
+                result: json,
+                busy: false,
+            });
+        })
   }
 
   render() {  
@@ -124,6 +150,13 @@ class Visualize extends React.Component {
               LND2
             </button>
             <Info info={this.state.info} infoIsLoaded={this.state.infoIsLoaded} /> 
+            <button onClick={() => this.keysendAll() } disabled={this.state.busy}>
+              Keysend all visible nodes
+            </button>
+            <button onClick={() => this.randomMerchantTraffic() } disabled={this.state.busy}>
+              Random Merchant Traffic
+            </button>
+            {JSON.stringify(this.state.result)}
           </div>
           <div className='graph'>
             <CytoscapeComponent 

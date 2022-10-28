@@ -15,6 +15,9 @@ COPY server/requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY ./server ./
+
+RUN rm ./config/nodes.ini
+
 COPY --from=build /app/client/build/ ./static/
 
 EXPOSE 5000

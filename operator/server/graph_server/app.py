@@ -1,11 +1,23 @@
 import os 
+import logging
+import configparser
 from flask import Flask, jsonify
 
 from graph_server.lnd import describe_graph, get_info
 from graph_server.flood import keysend_all_nodes
-
+import graph_server.logging_config as logging_config
+from graph_server.flood import random_merchant_traffic
 
 app = Flask(__name__, static_folder='../static', static_url_path='/')
+
+config = configparser.ConfigParser()
+config.read(f"./config/graph_server.ini")
+
+logging_config.configure(config)
+
+logger = logging.getLogger(__name__)
+logger.info("Starting up")
+
 
 @app.route('/')
 def index():
@@ -27,7 +39,12 @@ def lnd_graph(node):
 def _keysend_all_nodes(sender):
     return keysend_all_nodes(sender)
 
+@app.route('/random_merchant_traffic')
+def _random_merchant_traffic():
+    return random_merchant_traffic(10)
+
 
 if __name__ == "__main__":
+
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)

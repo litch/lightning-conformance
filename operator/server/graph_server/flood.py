@@ -2,10 +2,14 @@ from hashlib import sha256
 from .lnd import describe_graph, stub_for_node, get_info, router_stub_for_node
 from time import sleep
 import codecs
+import logging
+import random
 import secrets
 import google.protobuf.json_format as json_format
 from graph_server.vendor import lightning_pb2 as ln
 from graph_server.vendor import router_pb2 as router
+
+logger = logging.getLogger(__name__)
 
 def send_bogus_payment(sender, receiver_pubkey, amt=100):
     sstub = router_stub_for_node(sender)
@@ -88,7 +92,6 @@ def generate_invoice(node):
     r = ln.Invoice(
         value = amt,
         r_preimage = hash,
-
     )
     invoice = nodestub.AddInvoice(r)
 
@@ -102,21 +105,59 @@ def pay_invoice(node, invoice):
     )
     for response in sstub.SendPaymentV2(r):
         print(response)
+    return response
 
 def keysend_all_nodes(sender):
+    logger.info(f"Keysending all nodes from {sender}")
     graph = describe_graph(sender)
     my_pubkey = get_info(sender).get('identityPubkey')
     nodes = graph.get('nodes')
     collection = []
     for node in nodes:
         dest = node.get('pubKey')
+        logger.info(f"Sending to {dest}")
         if dest == my_pubkey:
             continue
         response = keysend(sender, dest, secrets.randbelow(1000000))
         message = f"Keysent (Destination: {dest}, Status: {response.status}, PaymentHash: {response.payment_hash}, FailureReason: {response.failure_reason}"
-        print(message)
-        collection.append(message)
-    return collection
+        logger.info(message)
+
+        collection.append({
+            'destination': dest,
+            'status': response.status,
+            'payment_hash': response.payment_hash,
+            'failure_reason': response.failure_reason
+        })
+    success = 0
+    failure = 0
+    for result in collection:
+        if result['status'] == 2:
+            success += 1 
+        if result['status'] == 3:
+            failure += 1
+    return {'success': success, 'failure': failure}
+
+
+def random_merchant_traffic(number):
+    merchant = 'lnd2'
+    payers = ['lnd', 'lnd-15-0', 'lnd-15-1', 'lnd-15-2', 'lnd-15-3']
+    collection = []
+    for _ in range(number):
+        invoice = generate_invoice(merchant)
+        payer = random.choice(payers)
+        result = pay_invoice(payer, invoice)
+        logger.info(result)
+        collection.append(result)
+    success = 0
+    failure = 0
+    for result in collection:
+        if result.status == 2:
+            success += 1
+        else:
+            failure += 1
+    return {'success': success, 'failure': failure}
+
+
 
 def probe():
     l153 = '03a2161085f34baa02ae4b58bfad6b4f03488a624d39faecf0ae352a8f4b2073e0'
