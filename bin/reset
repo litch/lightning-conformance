@@ -20,17 +20,5 @@ sleep 10
 ./generate-blocks.sh 10
 
 echo "Ok, we should be in a known state"
-echo <<known_state
-alias           peers   pending open    inact   sync
-lnd-node        4       0       6       0       true    true
-lnd-node-2      2       0       1       0       true    true
-lnd-node-15-0   2       0       2       0       true    true
-coreln-c1       3       0       3       0
-coreln-hub      6       2       4       0
-coreln-c2       1       0       1       0
-coreln-c3       1       1       0       0
-coreln-c4       1       1       0       0
-coreln-remote   4       0       3       0
-known_state
 
 ./check-status.sh

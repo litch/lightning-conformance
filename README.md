@@ -1,11 +1,6 @@
-# TODO
-
-- [ ] Add node locking/unlocking for LND nodes, and CLN (encrypt HSM)
-
-
 # Idea
 
-This package proivdes a way to startd up a configured regtest environment for testing.
+This package provides a way to startd up a configured regtest environment for testing.
 
 There are a couple of levels of working with it, and I do both: handy bash scripts, and just `docker exec`ing random stuff.
 
@@ -22,6 +17,12 @@ https://docs.docker.com/engine/security/rootless/
 ```
 bin/reset
 ```
+
+### Thunderhub!
+
+A thunderhub instance is available at <hostname>:4200
+
+The password for all the nodes is `password`
 
 ### Structure
 

@@ -8,7 +8,7 @@ addr_c2=$(docker exec cln-c2 lightning-cli --network=regtest getinfo | jq '.id' 
 addr_c3=$(docker exec cln-c3 lightning-cli --network=regtest getinfo | jq '.id' -r)
 addr_c4=$(docker exec cln-c4 lightning-cli --network=regtest getinfo | jq '.id' -r)
 addr_lnd=$(docker exec lnd lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
-addr_lnd150=$(docker exec lnd-15-0 lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
+addr_lnd153=$(docker exec lnd-15-3 lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
 addr_lnd2=$(docker exec lnd2 lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
 
 channel_lnd () {
@@ -43,8 +43,8 @@ generate_blocks () {
 generate_blocks 7
 sleep 1
 
-channel_cli cln-hub $addr_lnd150
-channel_lnd lnd $addr_lnd150
+channel_cli cln-hub $addr_lnd153
+channel_lnd lnd $addr_lnd153
 
 #we will route over this pair
 channel_cli cln-c1 $addr_lnd

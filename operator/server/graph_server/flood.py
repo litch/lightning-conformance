@@ -140,7 +140,7 @@ def keysend_all_nodes(sender):
 
 def random_merchant_traffic(number):
     merchant = 'lnd2'
-    payers = ['lnd', 'lnd-15-0', 'lnd-15-1', 'lnd-15-2', 'lnd-15-3']
+    payers = ['lnd' 'lnd-15-1', 'lnd-15-2', 'lnd-15-3']
     collection = []
     for _ in range(number):
         invoice = generate_invoice(merchant)

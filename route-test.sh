@@ -42,14 +42,14 @@ send_sats_cln_cln cln-c1 cln-remote
 echo "Remote to C1"
 send_sats_cln_cln cln-remote cln-c1
 
-echo "LND-15-0 to C3"
-send_sats_lnd_cln lnd-15-0 cln-c3
+echo "LND-15-3 to C3"
+send_sats_lnd_cln lnd-15-3 cln-c3
 
 echo "LND2 to C2"
 send_sats_lnd_cln lnd2 cln-c2
 
-echo "Hub -> LND 15-0"
-invoice=$(docker exec lnd-15-0 lncli --network=regtest addinvoice 1219 | jq '.payment_request' -r)
+echo "Hub -> LND 15-3"
+invoice=$(docker exec lnd-15-3 lncli --network=regtest addinvoice 1219 | jq '.payment_request' -r)
 docker exec cln-hub lightning-cli --network=regtest pay $invoice
 
 randomize_amount
