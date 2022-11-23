@@ -54,6 +54,8 @@ services:
     image: litch/operator
     ports: 
       - 5100:5000
+    volumes:
+      - ./volumes/operator:/app/server/auth
     depends_on: 
       - lnd
 

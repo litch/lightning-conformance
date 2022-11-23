@@ -7,7 +7,7 @@ echo "Ok, sleeping for a bit to let nodes come online"
 sleep 5
 
 ./init-bitcoind.sh
-./provide-authentitation-to-visualizer.sh
+./provide-authentitation-to-operator.sh
 
 docker restart thunderhub
 
