@@ -17,6 +17,38 @@ services:
       - ./volumes/bitcoin/:/config
     restart: unless-stopped
 
+  # Block explorer server
+  electrs:
+    image: ghcr.io/vulpemventures/electrs:latest
+    container_name: electrs
+    entrypoint:
+      - /build/electrs
+    command:
+      - -vvvv
+      - --network
+      - regtest
+      - --daemon-dir
+      - /config
+      - --daemon-rpc-addr
+      - bitcoin:18443
+      - --cookie
+      - admin1:123
+      - --http-addr
+      - 0.0.0.0:30000
+      - --electrum-rpc-addr
+      - 0.0.0.0:50000
+      - --cors
+      - "*"
+      - --jsonrpc-import
+    depends_on:
+      - bitcoin
+    ports:
+      - 50000:50000
+      - 30000:30000
+    volumes:
+      - ./volumes/bitcoin/:/config
+    restart: unless-stopped
+
   operator:
     container_name: operator
     image: litch/operator
