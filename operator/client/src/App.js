@@ -88,6 +88,30 @@ class Visualize extends React.Component {
         })
   }
 
+  closeRandomChannel() {
+    this.setState({busy: true, result: null})
+    fetch('/close-random/'+this.state.node)
+        .then((res) => res.json())
+        .then((json) => {
+            this.setState({
+                result: json,
+                busy: false,
+            });
+        })
+  }
+
+  forceCloseRandomChannel() {
+    this.setState({busy: true, result: null})
+    fetch('/force-close-random/'+this.state.node)
+        .then((res) => res.json())
+        .then((json) => {
+            this.setState({
+                result: json,
+                busy: false,
+            });
+        })
+  }
+
   setCy(cy) {
     console.log("Hi", cy, this.cy)
     this.cy = cy
@@ -108,6 +132,12 @@ class Visualize extends React.Component {
         </button>
         <button onClick={() => this.randomMerchantTraffic() } disabled={this.state.busy}>
           Random Merchant Traffic
+        </button>
+        <button onClick={() => this.closeRandomChannel() } disabled={this.state.busy}>
+          Close Random Channel
+        </button>
+        <button onClick={() => this.forceCloseRandomChannel() } disabled={this.state.busy}>
+          Force Close Random Channel
         </button>
         {JSON.stringify(this.state.result)}
       </div>

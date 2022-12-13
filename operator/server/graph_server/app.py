@@ -7,6 +7,7 @@ from graph_server.lnd import describe_graph, get_info
 from graph_server.flood import keysend_all_nodes
 import graph_server.logging_config as logging_config
 from graph_server.flood import random_merchant_traffic
+from graph_server.channel import close_random_channel, force_close_random_channel
 
 app = Flask(__name__, static_folder='../static', static_url_path='/')
 
@@ -38,6 +39,15 @@ def lnd_graph(node):
 @app.route("/keysend_all/<string:sender>")
 def _keysend_all_nodes(sender):
     return keysend_all_nodes(sender)
+
+@app.route("/close-random/<string:node>")
+def _close_random_channel(node):
+    return close_random_channel(node)
+
+@app.route("/force-close-random/<string:node>")
+def _force_close_random_channel(node):
+    return force_close_random_channel(node)
+
 
 @app.route('/random_merchant_traffic')
 def _random_merchant_traffic():
