@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./variables.sh
 
 lnd_status () {
