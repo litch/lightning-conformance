@@ -120,26 +120,30 @@ class Visualize extends React.Component {
   render() {  
     return <div className='container'>
       <div className='info'>
-        <button onClick={() => this.setNode('lnd')} disabled={this.state.node == 'lnd'}>
-          LND
-        </button>
-        <button onClick={() => this.setNode('lnd2')} disabled={this.state.node == 'lnd2'}>
-          LND2
-        </button>
-        <Info info={this.state.info} infoIsLoaded={this.state.infoIsLoaded} /> 
-        <button onClick={() => this.keysendAll() } disabled={this.state.busy}>
-          Keysend all visible nodes
-        </button>
-        <button onClick={() => this.randomMerchantTraffic() } disabled={this.state.busy}>
-          Random Merchant Traffic
-        </button>
-        <button onClick={() => this.closeRandomChannel() } disabled={this.state.busy}>
-          Close Random Channel
-        </button>
-        <button onClick={() => this.forceCloseRandomChannel() } disabled={this.state.busy}>
-          Force Close Random Channel
-        </button>
-        {JSON.stringify(this.state.result)}
+        <div>
+          <button onClick={() => this.setNode('lnd')} disabled={this.state.node == 'lnd'}>
+            LND
+          </button>
+          <button onClick={() => this.setNode('lnd2')} disabled={this.state.node == 'lnd2'}>
+            LND2
+          </button>
+          <Info info={this.state.info} infoIsLoaded={this.state.infoIsLoaded} /> 
+          <button onClick={() => this.keysendAll() } disabled={this.state.busy}>
+            Keysend all visible nodes
+          </button>
+          <button onClick={() => this.randomMerchantTraffic() } disabled={this.state.busy}>
+            Random Merchant Traffic
+          </button>
+          <button onClick={() => this.closeRandomChannel() } disabled={this.state.busy}>
+            Close Random Channel
+          </button>
+          <button onClick={() => this.forceCloseRandomChannel() } disabled={this.state.busy}>
+            Force Close Random Channel
+          </button>
+        </div>
+        <div>
+          {JSON.stringify(this.state.result)}
+        </div>  
       </div>
       
       {this.state.graphIsLoaded ? <Graph graph={this.state.graph} setCy={this.setCy} h={this.state.h} w={this.state.w} /> : <div>Loading</div>}
