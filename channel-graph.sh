@@ -7,6 +7,8 @@ addr_c1=$(docker exec cln-c1 lightning-cli --network=regtest getinfo | jq '.id' 
 addr_c2=$(docker exec cln-c2 lightning-cli --network=regtest getinfo | jq '.id' -r)
 addr_c3=$(docker exec cln-c3 lightning-cli --network=regtest getinfo | jq '.id' -r)
 addr_c4=$(docker exec cln-c4 lightning-cli --network=regtest getinfo | jq '.id' -r)
+addr_sluggish=$(docker exec sluggish-cln lightning-cli --network=regtest getinfo | jq '.id' -r)
+
 addr_lnd=$(docker exec lnd lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
 addr_lnd153=$(docker exec lnd-15-3 lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
 addr_lnd2=$(docker exec lnd2 lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
@@ -23,7 +25,7 @@ channel_lnd () {
     docker exec $node lncli --network=regtest openchannel $destination $channel_size $push_amt
 }
 
-channel_cli () {
+channel_cln () {
     node=$1
     destination=$2
     
@@ -43,35 +45,36 @@ generate_blocks () {
 generate_blocks 7
 sleep 1
 
-channel_cli cln-hub $addr_lnd153
+channel_cln cln-hub $addr_lnd153
 channel_lnd lnd $addr_lnd153
 
 #we will route over this pair
-channel_cli cln-c1 $addr_lnd
+channel_cln cln-c1 $addr_lnd
+channel_cln cln-c1 $addr_sluggish
 channel_lnd lnd $addr_r
 generate_blocks 6
 sleep 1
 channel_lnd lnd $addr_c1
-channel_cli cln-remote $addr_lnd
+channel_cln cln-remote $addr_lnd
 
 generate_blocks 6
 sleep 1
 
 channel_lnd lnd $addr_lnd2
 
-channel_cli cln-hub $addr_r
+channel_cln cln-hub $addr_r
 
 generate_blocks 6
 sleep 1
 
-channel_cli cln-hub $addr_c1
-channel_cli cln-hub $addr_c2
+channel_cln cln-hub $addr_c1
+channel_cln cln-hub $addr_c2
 
 generate_blocks 6
 sleep 1
 
-channel_cli cln-hub $addr_c3
-channel_cli cln-hub $addr_c4
+channel_cln cln-hub $addr_c3
+channel_cln cln-hub $addr_c4
 
 echo "Again hub and spoke LND nodes to lnd2"
 for node in "${lnd_nodes[@]}"; do
