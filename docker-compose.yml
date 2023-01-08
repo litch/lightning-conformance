@@ -294,14 +294,14 @@ services:
     volumes:
       - ./volumes/lightningd-c4:/root/.lightning
 
-  sluggish-cln:
-    container_name: sluggish-cln
-    image: litch/sluggish-cln:latest
+  cln-sluggish:
+    container_name: cln-sluggish
+    image: litch/cln-sluggish:latest
     environment:
       EXPOSE_TCP: "true"
     command: 
       - --network=regtest 
-      - --alias=sluggish-cln
+      - --alias=cln-sluggish
       - --bitcoin-rpcconnect=bitcoin:18443
       - --bitcoin-rpcuser=admin1 
       - --bitcoin-rpcpassword=123 
@@ -315,4 +315,27 @@ services:
       - 9835 # rpc
     restart: unless-stopped
     volumes:
-      - ./volumes/sluggish-cln:/root/.lightning
+      - ./volumes/cln-sluggish:/root/.lightning
+
+  cln-spaz:
+    container_name: cln-spaz
+    image: litch/cln-spaz:latest
+    environment:
+      EXPOSE_TCP: "true"
+    command: 
+      - --network=regtest 
+      - --alias=cln-spaz
+      - --bitcoin-rpcconnect=bitcoin:18443
+      - --bitcoin-rpcuser=admin1 
+      - --bitcoin-rpcpassword=123 
+      - --log-level=debug 
+      - --bind-addr=0.0.0.0:9735
+      - --plugin=/spaz
+    depends_on:
+      - bitcoin
+    ports:
+      - 9735 # p2p
+      - 9835 # rpc
+    restart: unless-stopped
+    volumes:
+      - ./volumes/cln-spaz:/root/.lightning
