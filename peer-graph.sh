@@ -29,6 +29,7 @@ docker exec cln-c3 lightning-cli --network=regtest connect $pubkey_sluggish cln-
 docker exec cln-c2 lightning-cli --network=regtest connect $pubkey_spaz cln-spaz 9735
 docker exec cln-hub lightning-cli --network=regtest connect $pubkey_spaz cln-spaz 9735
 docker exec cln-spaz lightning-cli --network=regtest connect $pubkey_lnd2 lnd2 9735
+docker exec cln-spaz lightning-cli --network=regtest connect $pubkey_lnd lnd 9735
 
 docker exec cln-hub lightning-cli --network=regtest connect $pubkey_r cln-remote 9735
 docker exec cln-hub lightning-cli --network=regtest connect $pubkey_c1 cln-c1 9735

@@ -55,8 +55,9 @@ channel_cln cln-c1 $pubkey_sluggish
 channel_cln cln-c3 $pubkey_sluggish
 
 channel_cln cln-c2 $pubkey_spaz
-channel_cln cln-spaz $addr_hub
-channel_cln cln-spaz $addr_lnd2
+channel_cln cln-spaz $pubkey_hub
+channel_cln cln-spaz $pubkey_lnd2
+channel_cln cln-spaz $pubkey_lnd
 
 channel_lnd lnd $pubkey_r
 generate_blocks 6
