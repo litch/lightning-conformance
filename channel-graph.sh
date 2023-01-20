@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 source ./variables.sh
 
 pubkey_r=$(docker exec cln-remote lightning-cli --network=regtest getinfo | jq '.id' -r)
@@ -18,10 +18,9 @@ channel_lnd () {
     node=$1
     destination=$2
     
-    channel_size_sci=`seq 1000000 100000 10000000 | shuf | head -n1`
-    channel_size=`printf '%5i\n' $channel_size_sci`
-    push_prop=`seq 0.2 .01 0.6 | shuf | head -n1`
-    push_amt=`printf '%5i\n' $(($channel_size*$push_prop))`
+    channel_size=$(awk 'BEGIN {srand(); print int(1000000 + (10000000 - 1000000) * rand())}')
+    push_prop=$(awk 'BEGIN {srand(); print int(20 + (60 - 20) * rand())}')
+    push_amt=$(echo "$channel_size*$push_prop/100" | bc)
     echo "Opening channel from $node to $destination (Size: $channel_size, Amount: $push_amt)"
     docker exec $node lncli --network=regtest openchannel $destination $channel_size $push_amt
 }
@@ -30,10 +29,9 @@ channel_cln () {
     node=$1
     destination=$2
     
-    channel_size_sci=`seq 1000000 100000 10000000 | shuf | head -n1`
-    channel_size=`printf '%5i\n' $channel_size_sci`
-    push_prop=`seq 0.1 .01 0.6 | shuf | head -n1`
-    push_amt=`printf '%5i\n' $(($channel_size*$push_prop*1000))`
+    channel_size=$(awk 'BEGIN {srand(); print int(1000000 + (10000000 - 1000000) * rand())}')
+    push_prop=$(awk 'BEGIN {srand(); print int(20 + (60 - 20) * rand())}')
+    push_amt=$(echo "$channel_size*$push_prop/100" | bc)
     echo "Opening channel from $node to $destination (Size: $channel_size, Amount: $push_amt)"
     docker exec $node lightning-cli -k --network=regtest fundchannel id=$destination amount=$channel_size push_msat=$push_amt
 }

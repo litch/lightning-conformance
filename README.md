@@ -38,6 +38,8 @@ The password for all the nodes is `password`
 ## Mac
 brew install coreutils jq
 
+* If you do not install coreutils, you will not have shuf
+
 ## Linux
 
 jq
