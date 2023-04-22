@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   bitcoin:
     image: ghcr.io/vulpemventures/bitcoin:latest
@@ -52,11 +52,11 @@ services:
   operator:
     container_name: operator
     image: litch/operator
-    ports: 
+    ports:
       - 5100:5000
     volumes:
       - ./volumes/operator:/app/server/auth
-    depends_on: 
+    depends_on:
       - lnd
 
   thunderhub:
@@ -66,16 +66,16 @@ services:
       - bitcoin
       - lnd
     environment:
-      ACCOUNT_CONFIG_PATH: '/data/thunderhub.yaml'
+      ACCOUNT_CONFIG_PATH: "/data/thunderhub.yaml"
     volumes:
       - ./volumes/thunderhub:/data
-    ports: 
-      - 4200:3000 
-  
+    ports:
+      - 4200:3000
+
   # faucet:
   #   container_name: faucet
   #   image: litch/faucet
-  #   ports: 
+  #   ports:
   #     - 8082:8082
   #   depends_on:
   #     - bitcoin
@@ -83,7 +83,7 @@ services:
   lnd:
     container_name: lnd
     image: lightninglabs/lnd:v0.15.3-beta
-    user: root 
+    user: root
     depends_on:
       - bitcoin
     volumes:
@@ -95,6 +95,7 @@ services:
     ports:
       - "9735" # p2p
       - "30009:10009" # grpc
+      - "4567:8080" # rest
 
   lnd2:
     container_name: lnd2
@@ -165,14 +166,14 @@ services:
     image: elementsproject/lightningd:v0.12.1
     environment:
       EXPOSE_TCP: "true"
-    command: 
-      - --network=regtest 
+    command:
+      - --network=regtest
       - --alias=coreln-hub
       - --large-channels
       - --bitcoin-rpcconnect=bitcoin:18443
-      - --bitcoin-rpcuser=admin1 
-      - --bitcoin-rpcpassword=123 
-      - --log-level=debug 
+      - --bitcoin-rpcuser=admin1
+      - --bitcoin-rpcpassword=123
+      - --log-level=debug
       - --bind-addr=0.0.0.0:9735
     depends_on:
       - bitcoin
@@ -182,20 +183,20 @@ services:
     restart: unless-stopped
     volumes:
       - ./volumes/lightningd-hub:/root/.lightning
-  
+
   lightning-remote:
     container_name: cln-remote
     image: elementsproject/lightningd:v0.12.1
     environment:
       EXPOSE_TCP: "true"
-    command: 
-      - --network=regtest 
+    command:
+      - --network=regtest
       - --alias=coreln-remote
       - --large-channels
       - --bitcoin-rpcconnect=bitcoin:18443
-      - --bitcoin-rpcuser=admin1 
-      - --bitcoin-rpcpassword=123 
-      - --log-level=debug 
+      - --bitcoin-rpcuser=admin1
+      - --bitcoin-rpcpassword=123
+      - --log-level=debug
       - --bind-addr=0.0.0.0:9735
     depends_on:
       - bitcoin
@@ -211,14 +212,14 @@ services:
     image: elementsproject/lightningd:v0.12.1
     environment:
       EXPOSE_TCP: "true"
-    command: 
-      - --network=regtest 
+    command:
+      - --network=regtest
       - --alias=coreln-c1
       - --bitcoin-rpcconnect=bitcoin:18443
-      - --bitcoin-rpcuser=admin1 
-      - --bitcoin-rpcpassword=123 
+      - --bitcoin-rpcuser=admin1
+      - --bitcoin-rpcpassword=123
       - --log-level=debug
-      - --bind-addr=0.0.0.0:9735 
+      - --bind-addr=0.0.0.0:9735
     depends_on:
       - bitcoin
     ports:
@@ -233,13 +234,13 @@ services:
     image: elementsproject/lightningd:v0.12.1
     environment:
       EXPOSE_TCP: "true"
-    command: 
-      - --network=regtest 
+    command:
+      - --network=regtest
       - --alias=coreln-c2
       - --bitcoin-rpcconnect=bitcoin:18443
-      - --bitcoin-rpcuser=admin1 
-      - --bitcoin-rpcpassword=123 
-      - --log-level=debug 
+      - --bitcoin-rpcuser=admin1
+      - --bitcoin-rpcpassword=123
+      - --log-level=debug
       - --bind-addr=0.0.0.0:9735
     depends_on:
       - bitcoin
@@ -255,13 +256,13 @@ services:
     image: elementsproject/lightningd:v0.12.0
     environment:
       EXPOSE_TCP: "true"
-    command: 
-      - --network=regtest 
+    command:
+      - --network=regtest
       - --alias=coreln-c3
       - --bitcoin-rpcconnect=bitcoin:18443
-      - --bitcoin-rpcuser=admin1 
-      - --bitcoin-rpcpassword=123 
-      - --log-level=debug 
+      - --bitcoin-rpcuser=admin1
+      - --bitcoin-rpcpassword=123
+      - --log-level=debug
       - --bind-addr=0.0.0.0:9735
     depends_on:
       - bitcoin
@@ -277,13 +278,13 @@ services:
     image: elementsproject/lightningd:v0.11.1
     environment:
       EXPOSE_TCP: "true"
-    command: 
-      - --network=regtest 
+    command:
+      - --network=regtest
       - --alias=coreln-c4
       - --bitcoin-rpcconnect=bitcoin:18443
-      - --bitcoin-rpcuser=admin1 
-      - --bitcoin-rpcpassword=123 
-      - --log-level=debug 
+      - --bitcoin-rpcuser=admin1
+      - --bitcoin-rpcpassword=123
+      - --log-level=debug
       - --bind-addr=0.0.0.0:9735
     depends_on:
       - bitcoin
@@ -299,13 +300,13 @@ services:
     image: litch/cln-sluggish:latest
     environment:
       EXPOSE_TCP: "true"
-    command: 
-      - --network=regtest 
+    command:
+      - --network=regtest
       - --alias=cln-sluggish
       - --bitcoin-rpcconnect=bitcoin:18443
-      - --bitcoin-rpcuser=admin1 
-      - --bitcoin-rpcpassword=123 
-      - --log-level=debug 
+      - --bitcoin-rpcuser=admin1
+      - --bitcoin-rpcpassword=123
+      - --log-level=debug
       - --bind-addr=0.0.0.0:9735
       - --plugin=/sluggish
     depends_on:
@@ -322,13 +323,13 @@ services:
     image: litch/cln-spaz:latest
     environment:
       EXPOSE_TCP: "true"
-    command: 
-      - --network=regtest 
+    command:
+      - --network=regtest
       - --alias=cln-spaz
       - --bitcoin-rpcconnect=bitcoin:18443
-      - --bitcoin-rpcuser=admin1 
-      - --bitcoin-rpcpassword=123 
-      - --log-level=debug 
+      - --bitcoin-rpcuser=admin1
+      - --bitcoin-rpcpassword=123
+      - --log-level=debug
       - --bind-addr=0.0.0.0:9735
       - --plugin=/spaz
     depends_on:
