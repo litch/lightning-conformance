@@ -13,6 +13,11 @@ services:
       # ZMQ
       - 28332:28332
       - 28333:28333
+    healthcheck:
+      test: ["CMD", "bitcoin-cli", "-conf=/config/bitcoin.conf", "getblockchaininfo"]
+      interval: 2s
+      timeout: 1s
+      retries: 30
     volumes:
       - ./volumes/bitcoin/:/config
     restart: unless-stopped
@@ -41,7 +46,8 @@ services:
       - "*"
       - --jsonrpc-import
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     ports:
       - 50000:50000
       - 30000:30000
@@ -82,10 +88,11 @@ services:
 
   lnd:
     container_name: lnd
-    image: lightninglabs/lnd:v0.15.3-beta
+    image: lightninglabs/lnd:v0.16.4-beta
     user: root 
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     volumes:
       - ./volumes/lnd:/root/.lnd
     environment:
@@ -98,10 +105,11 @@ services:
 
   lnd2:
     container_name: lnd2
-    image: lightninglabs/lnd:v0.15.1-beta
+    image: lightninglabs/lnd:v0.16.1-beta
     user: root
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     volumes:
       - ./volumes/lnd2:/root/.lnd
     environment:
@@ -117,7 +125,8 @@ services:
     image: lightninglabs/lnd:v0.15.1-beta
     user: root
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     volumes:
       - ./volumes/lnd-15-1:/root/.lnd
     environment:
@@ -133,7 +142,8 @@ services:
     image: lightninglabs/lnd:v0.15.2-beta
     user: root
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     volumes:
       - ./volumes/lnd-15-2:/root/.lnd
     environment:
@@ -149,7 +159,8 @@ services:
     image: lightninglabs/lnd:v0.15.3-beta
     user: root
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     volumes:
       - ./volumes/lnd-15-3:/root/.lnd
     environment:
@@ -159,6 +170,24 @@ services:
     ports:
       - "9735" # p2p
       - "10009" # grpc
+    
+  lnd-15-5:
+    container_name: lnd-15-5
+    image: lightninglabs/lnd:v0.15.5-beta
+    user: root
+    depends_on:
+      bitcoin:
+          condition: service_healthy
+    volumes:
+      - ./volumes/lnd-15-5:/root/.lnd
+    environment:
+      HOME: /data
+    restart: unless-stopped
+    stop_grace_period: 5m30s
+    ports:
+      - "9735" # p2p
+      - "30011:10009" # grpc
+  
 
   lightning-hub:
     container_name: cln-hub
@@ -175,7 +204,8 @@ services:
       - --log-level=debug 
       - --bind-addr=0.0.0.0:9735
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -198,7 +228,8 @@ services:
       - --log-level=debug 
       - --bind-addr=0.0.0.0:9735
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -208,9 +239,10 @@ services:
 
   lightning-child1:
     container_name: cln-c1
-    image: elementsproject/lightningd:v0.12.1
+    image: litch/cln-splicing:latest
     environment:
       EXPOSE_TCP: "true"
+      
     command: 
       - --network=regtest 
       - --alias=coreln-c1
@@ -218,9 +250,12 @@ services:
       - --bitcoin-rpcuser=admin1 
       - --bitcoin-rpcpassword=123 
       - --log-level=debug
+      - --experimental-splicing
+      - --dev-fast-gossip
       - --bind-addr=0.0.0.0:9735 
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -230,9 +265,10 @@ services:
 
   lightning-child2:
     container_name: cln-c2
-    image: elementsproject/lightningd:v0.12.1
+    image: litch/cln-splicing:latest
     environment:
       EXPOSE_TCP: "true"
+      
     command: 
       - --network=regtest 
       - --alias=coreln-c2
@@ -240,9 +276,12 @@ services:
       - --bitcoin-rpcuser=admin1 
       - --bitcoin-rpcpassword=123 
       - --log-level=debug 
+      - --experimental-splicing
+      - --dev-fast-gossip
       - --bind-addr=0.0.0.0:9735
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -252,9 +291,10 @@ services:
 
   lightning-child3:
     container_name: cln-c3
-    image: elementsproject/lightningd:v0.12.0
+    image: litch/cln-splicing:latest
     environment:
       EXPOSE_TCP: "true"
+      
     command: 
       - --network=regtest 
       - --alias=coreln-c3
@@ -262,9 +302,11 @@ services:
       - --bitcoin-rpcuser=admin1 
       - --bitcoin-rpcpassword=123 
       - --log-level=debug 
+      - --experimental-splicing
       - --bind-addr=0.0.0.0:9735
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -286,7 +328,8 @@ services:
       - --log-level=debug 
       - --bind-addr=0.0.0.0:9735
     depends_on:
-      - bitcoin
+      bitcoin:
+        condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -309,7 +352,8 @@ services:
       - --bind-addr=0.0.0.0:9735
       - --plugin=/sluggish
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -332,10 +376,55 @@ services:
       - --bind-addr=0.0.0.0:9735
       - --plugin=/spaz
     depends_on:
-      - bitcoin
+      bitcoin:
+          condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
     restart: unless-stopped
     volumes:
       - ./volumes/cln-spaz:/root/.lightning
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    command:
+      - --config.file=/etc/prometheus/prometheus.yaml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/usr/share/prometheus/console_libraries
+      - --web.console.templates=/usr/share/prometheus/consoles
+      - '--web.enable-lifecycle'
+    ports:
+      - 9090:9090
+    volumes:
+      - ./resources/prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - ./volumes/prometheus:/prometheus
+    restart: unless-stopped
+  
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports: 
+      - 9100:9100
+  
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.46.0
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+  
+  grafana:
+    image: grafana/grafana:latest
+    user: "1000"
+    ports:
+      - 3000:3015
+    volumes:
+      - ./volumes/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=123
+    restart: unless-stopped
+    depends_on:
+      - prometheus

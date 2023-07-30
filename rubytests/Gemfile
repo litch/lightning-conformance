@@ -1,0 +1,27 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+
+gem 'dotenv', '~> 2.7'
+gem 'gruf', "~> 2.9"
+gem 'settingslogic'
+
+group :development, :test do
+    gem 'better_errors'
+    gem 'binding_of_caller'
+    gem 'bundler-audit'
+    gem 'grpc-tools'
+    gem 'sqlite3', '~> 1.4'
+end
+
+group :development do
+    gem 'listen', '~> 3.3'
+    gem 'pry'
+end
+
+group :test do
+    gem 'gruf-rspec'
+    gem 'rspec'
+end

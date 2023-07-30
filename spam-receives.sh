@@ -11,14 +11,15 @@ ctrl_c () {
 
 before=$(docker exec lnd lncli --network=regtest listpayments --max_payments=1 | jq '.last_index_offset' -r)
 
-keysend_from_lnd () {
+invoicesend_to_lnd () {
     source=$1
     destination=$2
     ceil=10000000
     floor=10000
     amount=$(((RANDOM % $(($ceil- $floor))) + $floor))
+    invoice=$(docker exec $destination lncli --network=regtest addinvoice --amt=$amount | jq '.payment_request' -r)
+    docker exec $source lncli --network=regtest payinvoice $invoice $amount -f
 
-    docker exec $source lncli --network=regtest sendpayment --dest $destination --amt=$amount --keysend
 }
 
 lnd2_pubkey=$(docker exec lnd2 lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
@@ -29,10 +30,8 @@ cln_c1_pubkey=$(docker exec cln-c1 lightning-cli --network=regtest getinfo | jq 
 
 while true
 do
-keysend_from_lnd lnd $lnd2_pubkey &
-keysend_from_lnd lnd $lnd_15_2_pubkey &
-keysend_from_lnd lnd $lnd_15_3_pubkey &
-keysend_from_lnd lnd $spaz_pubkey &
-keysend_from_lnd lnd $cln_c1_pubkey &
+invoicesend_to_lnd lnd2 lnd &
+invoicesend_to_lnd lnd-15-2 lnd &
+invoicesend_to_lnd lnd2-15-3 lnd &
 wait
 done

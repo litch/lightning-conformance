@@ -47,3 +47,12 @@ do
     fi
     docker exec $node lncli --network=regtest connect ${pubkey_lnd2}@lnd2 9735
 done
+
+echo "Let's hub and spoke LND nodes to lnd2"
+for node in "${lnd_nodes[@]}"
+do
+    if [[ "$node" == 'lnd' ]]; then
+        continue
+    fi
+    docker exec $node lncli --network=regtest connect ${pubkey_lnd}@lnd 9735
+done
