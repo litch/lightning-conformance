@@ -13,11 +13,11 @@ services:
       # ZMQ
       - 28332:28332
       - 28333:28333
-   healthcheck: 
-     test: ["CMD", "bitcoin-cli", "-conf=/config/bitcoin.conf", "getblockchaininfo"]
-     interval: 2s
-     timeout: 1s
-     retries: 30
+    healthcheck: 
+      test: ["CMD", "bitcoin-cli", "-conf=/config/bitcoin.conf", "getblockchaininfo"]
+      interval: 2s
+      timeout: 1s
+      retries: 30
     volumes:
       - ./volumes/bitcoin/:/config
     restart: unless-stopped
@@ -90,7 +90,9 @@ services:
     image: lightninglabs/lnd:v0.15.3-beta
     user: root 
     depends_on:
-      - bitcoin
+      bitcoin:
+        condition: service_healthy
+
     volumes:
       - ./volumes/lnd:/root/.lnd
     environment:
@@ -106,7 +108,9 @@ services:
     image: lightninglabs/lnd:v0.15.1-beta
     user: root
     depends_on:
-      - bitcoin
+      bitcoin:
+        condition: service_healthy
+
     volumes:
       - ./volumes/lnd2:/root/.lnd
     environment:
@@ -180,7 +184,8 @@ services:
       - --log-level=debug 
       - --bind-addr=0.0.0.0:9735
     depends_on:
-      - bitcoin
+      bitcoin:
+        condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -203,7 +208,8 @@ services:
       - --log-level=debug 
       - --bind-addr=0.0.0.0:9735
     depends_on:
-      - bitcoin
+      bitcoin:
+        condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -225,7 +231,8 @@ services:
       - --log-level=debug
       - --bind-addr=0.0.0.0:9735 
     depends_on:
-      - bitcoin
+      bitcoin:
+        condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -247,7 +254,8 @@ services:
       - --log-level=debug 
       - --bind-addr=0.0.0.0:9735
     depends_on:
-      - bitcoin
+      bitcoin:
+        condition: service_healthy
     ports:
       - 9735 # p2p
       - 9835 # rpc
@@ -257,7 +265,7 @@ services:
 
   lightning-child3:
     container_name: cln-c3
-    image: elementsproject/lightningd:v0.12.0
+    image: elementsproject/lightningd:v23.05.1
     environment:
       EXPOSE_TCP: "true"
     command: 
@@ -279,7 +287,7 @@ services:
 
   lightning-child4:
     container_name: cln-c4
-    image: elementsproject/lightningd:v0.11.1
+    image: elementsproject/lightningd:v22.11.1
     environment:
       EXPOSE_TCP: "true"
     command: 
