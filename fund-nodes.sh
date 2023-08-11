@@ -1,61 +1,50 @@
 #!/bin/bash
 source ./variables.sh
 
-addr_hub=$(docker exec cln-hub lightning-cli --network=regtest newaddr bech32 | jq '.bech32' -r)
-addr_c1=$(docker exec cln-c1 lightning-cli --network=regtest newaddr bech32 | jq '.bech32' -r)
-addr_c3=$(docker exec cln-c3 lightning-cli --network=regtest newaddr bech32 | jq '.bech32' -r)
-addr_clnremote=$(docker exec cln-remote lightning-cli --network=regtest newaddr bech32 | jq '.bech32' -r)
-addr_spaz=$(docker exec cln-spaz lightning-cli --network=regtest newaddr bech32 | jq '.bech32' -r)
-addr_c2=$(docker exec cln-c2 lightning-cli --network=regtest newaddr bech32 | jq '.bech32' -r)
-
-# We send a bunch of transactions in order to generate a bunch of UTXO's on the hub
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 2
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 2
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 2
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 2
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet -generate=1
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 2
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 2
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_hub" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_c2" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_c2" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_c2" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_spaz" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_spaz" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_spaz" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_spaz" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_spaz" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_spaz" 0.5
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_c1" 1
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_clnremote" 0.75
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_clnremote" 0.75
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_clnremote" 0.75
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_clnremote" 0.75
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_c3" 1
-
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet -generate=1
-
-addr_r=$(docker exec cln-remote lightning-cli --network=regtest newaddr bech32 | jq '.bech32' -r)
-docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$addr_r" 2
+send_to_address () {
+    docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$1" 0.88
+}
 
 fund_lnd_node () {
     _addr=$(docker exec $1 lncli --network=regtest newaddress p2wkh | jq '.address' -r)
-    docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$_addr" 0.88
-    docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$_addr" 0.88
-    docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$_addr" 0.88
-    docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$_addr" 0.88
-    docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$_addr" 0.88
-    docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$_addr" 0.88
-    docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet sendtoaddress "$_addr" 0.88
+    fund_address $_addr $2
+}
+
+fund_cln_node () {
+    _addr=$(docker exec $1 lightning-cli --network=regtest newaddr bech32 | jq '.bech32' -r)
+    fund_address $_addr $2
+}
+
+fund_address () {
+    _addr=$1
+    _count=$2
+
+    if [ -z "$_count" ]
+    then
+        _count=1
+    fi
+
+    for i in $(seq 1 $_count)
+    do
+
+        send_to_address $_addr 
+    done
 }
 
 for node in "${lnd_nodes[@]}"
 do
-    fund_lnd_node $node
+    fund_lnd_node $node 4
     docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet -generate=1
 done
+
+for node in "${cln_nodes[@]}"
+do
+    fund_cln_node $node 4
+    docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet -generate=1
+done
+
+# Now we fund the hubs a bunch of times
+fund_cln_node cln-hub 20
+fund_lnd_node lnd2 20
+
+docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet -generate=10

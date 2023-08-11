@@ -1,26 +1,12 @@
 #!/bin/bash
 source ./variables.sh
 
-pubkey_r=$(docker exec cln-remote lightning-cli --network=regtest getinfo | jq '.id' -r)
-pubkey_hub=$(docker exec cln-hub lightning-cli --network=regtest getinfo | jq '.id' -r)
-pubkey_c1=$(docker exec cln-c1 lightning-cli --network=regtest getinfo | jq '.id' -r)
-pubkey_c2=$(docker exec cln-c2 lightning-cli --network=regtest getinfo | jq '.id' -r)
-pubkey_c3=$(docker exec cln-c3 lightning-cli --network=regtest getinfo | jq '.id' -r)
-pubkey_c4=$(docker exec cln-c4 lightning-cli --network=regtest getinfo | jq '.id' -r)
-pubkey_sluggish=$(docker exec cln-sluggish lightning-cli --network=regtest getinfo | jq '.id' -r)
-pubkey_spaz=$(docker exec cln-spaz lightning-cli --network=regtest getinfo | jq '.id' -r)
-
-pubkey_lnd=$(docker exec lnd lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
-pubkey_lnd153=$(docker exec lnd-15-3 lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
-pubkey_lnd2=$(docker exec lnd2 lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
-
 channel_lnd () {
     node=$1
     destination=$2
-    
-    channel_size=$(awk 'BEGIN {srand(); print int(1000000 + (10000000 - 1000000) * rand())}')
-    push_prop=$(awk 'BEGIN {srand(); print int(20 + (60 - 20) * rand())}')
-    push_amt=$(echo "$channel_size*$push_prop/100" | bc)
+    channel_size=$3
+    push_amt=$4
+
     echo "Opening channel from $node to $destination (Size: $channel_size, Amount: $push_amt)"
     docker exec $node lncli --network=regtest openchannel $destination $channel_size $push_amt
 }
@@ -28,10 +14,9 @@ channel_lnd () {
 channel_cln () {
     node=$1
     destination=$2
+    channel_size=$3
+    push_amt=$4    
     
-    channel_size=$(awk 'BEGIN {srand(); print int(1000000 + (10000000 - 1000000) * rand())}')
-    push_prop=$(awk 'BEGIN {srand(); print int(20 + (60 - 20) * rand())}')
-    push_amt=$(echo "$channel_size*$push_prop/100" | bc)
     echo "Opening channel from $node to $destination (Size: $channel_size, Amount: $push_amt)"
     docker exec $node lightning-cli -k --network=regtest fundchannel id=$destination amount=$channel_size push_msat=$push_amt
 }
@@ -41,58 +26,29 @@ generate_blocks () {
     docker exec bitcoin bitcoin-cli --datadir=config generatetoaddress $1 $address
 }
 
-generate_blocks 7
-sleep 1
-
-channel_cln cln-hub $pubkey_lnd153
-channel_lnd lnd $pubkey_lnd153
-
-#we will route over this pair
-channel_cln cln-c1 $pubkey_lnd
-channel_cln cln-c1 $pubkey_sluggish
-channel_cln cln-c3 $pubkey_sluggish
-
-channel_cln cln-c2 $pubkey_spaz
-channel_cln cln-spaz $pubkey_hub
-channel_cln cln-spaz $pubkey_lnd2
-channel_cln cln-spaz $pubkey_lnd
-
-channel_lnd lnd $pubkey_r
-generate_blocks 6
-sleep 1
-channel_lnd lnd $pubkey_c1
-channel_cln cln-remote $pubkey_lnd
-
-generate_blocks 6
-sleep 1
-
-channel_lnd lnd $pubkey_lnd2
-
-channel_cln cln-hub $pubkey_r
-
-generate_blocks 6
-sleep 1
-
-channel_cln cln-hub $pubkey_c1
-channel_cln cln-hub $pubkey_c2
-
-generate_blocks 6
-sleep 1
-
-channel_cln cln-hub $pubkey_c3
-channel_cln cln-hub $pubkey_c4
-
-echo "Again hub and spoke LND nodes to lnd2"
-for node in "${lnd_nodes[@]}"; do
-    if [[ "$node" == 'lnd' ]]; then
+echo "Hub and spoke CLN nodes to cln-hub"
+for node in "${cln_nodes[@]}"; do
+    if [[ "$node" == 'cln-hub' ]]; then
         continue
     fi
+    echo "Opening from cln-hub to $node"
+    addr=$(docker exec $node lightning-cli --network=regtest getinfo | jq '.id' -r)
+    channel_cln cln-hub $addr 10000000 2000000
+done
+
+
+echo "Hub and spoke LND nodes to lnd2"
+for node in "${lnd_nodes[@]}"; do
     if [[ "$node" == 'lnd2' ]]; then
         continue
     fi
     echo "Opening from lnd2 to $node"
     addr=$(docker exec $node lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
-    channel_lnd lnd2 $addr
+    channel_lnd lnd2 $addr 11000000 2000000
 done
+
+echo "Joining those graphs"
+pubkey_lnd=$(docker exec lnd lncli --network=regtest getinfo | jq '.identity_pubkey' -r)
+channel_cln cln-hub $pubkey_lnd 12000000 2000000
 
 generate_blocks 6
