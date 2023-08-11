@@ -22,7 +22,7 @@ if [ "$c1_c2_channel" == "null" ]; then
     ./generate-blocks.sh 4
     sleep 2
     ./generate-blocks.sh 4
-    sleep 2
+    sleep 10
     
     c1_c2_channel=$(docker exec cln-c1 lightning-cli --network=regtest listpeers $c2_pubkey | jq -r '.peers[0].channels[0].channel_id')
     
@@ -35,6 +35,17 @@ echo "c1_c2 channel id: $c1_c2_channel"
 if [ "$1" == "prep" ]; then
     echo "Exiting after prep"
     exit 0
+fi
+
+bitcoind_blockheight=$(docker exec bitcoin bitcoin-cli -datadir=config getblockcount)
+c1_blockheight=$(docker exec cln-c1 lightning-cli --network=regtest getinfo | jq -r '.blockheight')
+c2_blockheight=$(docker exec cln-c2 lightning-cli --network=regtest getinfo | jq -r '.blockheight')
+
+if [ "$bitcoind_blockheight" == "$c1_blockheight" ] && [ "$bitcoind_blockheight" == "$c2_blockheight" ]; then
+    echo "Blockheights match - $bitcoind_blockheight"
+else
+    echo "Blockheights don't match, exiting"
+    exit 1
 fi
 
 funds_psbt=$(docker exec cln-c1 lightning-cli --network=regtest fundpsbt -k satoshi=700000 feerate=urgent startweight=800 excess_as_change=true | jq -r '.psbt')
@@ -64,17 +75,39 @@ echo "Broadcastng splice" $(date)
 echo "************************************************************"
 echo "************************************************************"
 # send it
+original_scid=$(docker exec cln-c1 lightning-cli --network=regtest listpeers $c2_pubkey | jq -r '.peers[0].channels[0].short_channel_id')
+scid_updated=false
 docker exec cln-c1 lightning-cli --network=regtest splice_signed $c1_c2_channel $signed_psbt
+
+sleep 60
 
 for i in {1..6000}
 do
-    echo "Sleeping 10 seconds"
-    sleep 9
+    echo "Sleeping 30+3 seconds around blocks"
+    sleep 30
     ./generate-blocks.sh 1
-    sleep 1
+    sleep 3
     echo "Channel statuses: " $(date)
-    docker exec cln-c1 lightning-cli --network=regtest listpeers $c2_pubkey | jq -r '.peers[0].channels[0] | (.short_channel_id, .status[0])'
-    docker exec cln-c2 lightning-cli --network=regtest listpeers $c1_pubkey | jq -r '.peers[0].channels[0] | (.short_channel_id, .status[0])'
+    if [ "$scid_updated" == "false" ]; then
+        docker exec cln-c1 lightning-cli --network=regtest listpeers $c2_pubkey | jq -r '.peers[0].channels[0] | (.short_channel_id, .status)'
+        docker exec cln-c2 lightning-cli --network=regtest listpeers $c1_pubkey | jq -r '.peers[0].channels[0] | (.short_channel_id, .status)'
+    fi
+    
+    new_scid=$(docker exec cln-c1 lightning-cli --network=regtest listpeers $c2_pubkey | jq -r '.peers[0].channels[0].short_channel_id')
+    if [ "$new_scid" != "$original_scid" ]; then
+        echo "Channel ID changed - new SCID: $new_scid"
+        original_scid=$new_scid
+        scid_updated=true
+    fi
+    if [ "$scid_updated" == "true" ]; then
+        gossiped_count=$(docker exec cln-c1 lightning-cli --network=regtest listchannels $new_scid | jq -r '.channels | length')
+        echo "Gossiped count: $gossiped_count"
+        if [ "$gossiped_count" == "2" ]; then
+            echo "Gossiped count is 2, everything successful?"
+            exit 0
+        fi
+    fi
+    
 done
 
 
