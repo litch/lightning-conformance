@@ -86,8 +86,8 @@ RUN rustup toolchain install stable --component rustfmt --allow-downgrade
 
 WORKDIR /tmp/lightningd
 
-RUN git clone https://github.com/ddustin/lightning.git /tmp/lightningd && \
-    cd /tmp/lightningd && git checkout ddustin/splice
+RUN git clone https://github.com/elementsproject/lightning.git /tmp/lightningd && \
+    cd /tmp/lightningd
 
 ARG DEVELOPER=1
 ENV PYTHON_VERSION=3

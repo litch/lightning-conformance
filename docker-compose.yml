@@ -1,4 +1,9 @@
 version: '3.8'
+
+networks:
+  default:
+    name: lightning-conformance
+
 services:
   bitcoin:
     image: ghcr.io/vulpemventures/bitcoin:latest
@@ -171,7 +176,7 @@ services:
 
   lightning-hub:
     container_name: cln-hub
-    image: elementsproject/lightningd:v0.12.1
+    image: litch/lightningd:splicing
     environment:
       EXPOSE_TCP: "true"
     command: 
@@ -183,6 +188,8 @@ services:
       - --bitcoin-rpcpassword=123 
       - --log-level=debug 
       - --bind-addr=0.0.0.0:9735
+      - --experimental-splicing
+      - --dev-fast-gossip
     depends_on:
       bitcoin:
         condition: service_healthy
@@ -195,7 +202,7 @@ services:
   
   lightning-remote:
     container_name: cln-remote
-    image: elementsproject/lightningd:v0.12.1
+    image: litch/lightningd:splicing
     environment:
       EXPOSE_TCP: "true"
     command: 
@@ -207,6 +214,8 @@ services:
       - --bitcoin-rpcpassword=123 
       - --log-level=debug 
       - --bind-addr=0.0.0.0:9735
+      - --experimental-splicing
+      - --dev-fast-gossip
     depends_on:
       bitcoin:
         condition: service_healthy
@@ -219,7 +228,7 @@ services:
 
   lightning-child1:
     container_name: cln-c1
-    image: elementsproject/lightningd:v0.12.1
+    image: litch/lightningd:splicing
     environment:
       EXPOSE_TCP: "true"
     command: 
@@ -230,6 +239,8 @@ services:
       - --bitcoin-rpcpassword=123 
       - --log-level=debug
       - --bind-addr=0.0.0.0:9735 
+      - --experimental-splicing
+      - --dev-fast-gossip
     depends_on:
       bitcoin:
         condition: service_healthy
@@ -242,7 +253,7 @@ services:
 
   lightning-child2:
     container_name: cln-c2
-    image: elementsproject/lightningd:v0.12.1
+    image: litch/lightningd:splicing
     environment:
       EXPOSE_TCP: "true"
     command: 
@@ -253,6 +264,8 @@ services:
       - --bitcoin-rpcpassword=123 
       - --log-level=debug 
       - --bind-addr=0.0.0.0:9735
+      - --experimental-splicing
+      - --dev-fast-gossip
     depends_on:
       bitcoin:
         condition: service_healthy
