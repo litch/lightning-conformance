@@ -29,5 +29,6 @@ do
 keysend_from_lnd lnd lnd2 &
 keysend_from_lnd lnd lnd-15-2 &
 keysend_from_lnd lnd lnd-15-3 &
+keysend_from_lnd lnd2 lnd &
 wait
 done

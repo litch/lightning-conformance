@@ -1,5 +1,14 @@
 version: '3.8'
 services:
+  postgres:
+    image: postgres:15
+    ports: [ 5432:5432 ]
+    volumes: [ ./volumes/postgres/:/var/lib/postgresql/data ]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
   bitcoin:
     image: ghcr.io/vulpemventures/bitcoin:latest
     user: root
@@ -87,7 +96,7 @@ services:
 
   lnd:
     container_name: lnd
-    image: lightninglabs/lnd:v0.15.3-beta
+    image: lightninglabs/lnd:v0.16.4-beta
     user: root 
     depends_on:
       - bitcoin
@@ -103,10 +112,15 @@ services:
 
   lnd2:
     container_name: lnd2
-    image: lightninglabs/lnd:v0.15.1-beta
+    image: lightninglabs/lnd:v0.16.4-beta
     user: root
+    command:
+      - "--db.backend=postgres"
+      - "--db.postgres.dsn=postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable"
+       
     depends_on:
       - bitcoin
+      - postgres
     volumes:
       - ./volumes/lnd2:/root/.lnd
     environment:
@@ -119,7 +133,7 @@ services:
 
   lnd-15-1:
     container_name: lnd-15-1
-    image: lightninglabs/lnd:v0.15.1-beta
+    image: lightninglabs/lnd:v0.16.4-beta
     user: root
     depends_on:
       - bitcoin
@@ -135,7 +149,7 @@ services:
 
   lnd-15-2:
     container_name: lnd-15-2
-    image: lightninglabs/lnd:v0.15.2-beta
+    image: lightninglabs/lnd:v0.16.4-beta
     user: root
     depends_on:
       - bitcoin
@@ -151,7 +165,7 @@ services:
 
   lnd-15-3:
     container_name: lnd-15-3
-    image: lightninglabs/lnd:v0.15.3-beta
+    image: lightninglabs/lnd:v0.16.4-beta
     user: root
     depends_on:
       - bitcoin
