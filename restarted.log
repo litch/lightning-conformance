@@ -1,0 +1,147 @@
+2023-07-30 14:19:20.150 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Sending Ping(ping_bytes=00000030a9acb68ed24c1ea0091570e4b13494c6ef5891e4dd2c367e8bf826d48a2c27726828489f4057ce280ff7b6bf4ba85bec57510378f031be844202e12379f14a642a71c664ffff7f2000000000) to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:20.150 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): writeMessage to peer: (*lnwire.Ping)(0x4002285680)({
+2023-07-30 14:19:20.282 [DBG] PEER: Peer(03aecd31ff4003d2a6f56005fdc5c8b83091b4d4a4b5a9fb3ad586af468ab46006): Sending Ping(ping_bytes=00000030a9acb68ed24c1ea0091570e4b13494c6ef5891e4dd2c367e8bf826d48a2c27726828489f4057ce280ff7b6bf4ba85bec57510378f031be844202e12379f14a642a71c664ffff7f2000000000) to 03aecd31ff4003d2a6f56005fdc5c8b83091b4d4a4b5a9fb3ad586af468ab46006@192.168.16.3:9735
+2023-07-30 14:19:20.283 [TRC] PEER: Peer(03aecd31ff4003d2a6f56005fdc5c8b83091b4d4a4b5a9fb3ad586af468ab46006): writeMessage to peer: (*lnwire.Ping)(0x4001e38840)({
+2023-07-30 14:19:20.364 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received Pong(pong_bytes=76302e31302e312d333136372d676636) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:20.364 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readMessage from peer: (*lnwire.Pong)(0x4002adabd0)({
+2023-07-30 14:19:20.491 [DBG] PEER: Peer(03aecd31ff4003d2a6f56005fdc5c8b83091b4d4a4b5a9fb3ad586af468ab46006): Received Pong(pong_bytes=76302e31302e312d333136372d676636) from 03aecd31ff4003d2a6f56005fdc5c8b83091b4d4a4b5a9fb3ad586af468ab46006@192.168.16.3:9735
+2023-07-30 14:19:20.492 [TRC] PEER: Peer(03aecd31ff4003d2a6f56005fdc5c8b83091b4d4a4b5a9fb3ad586af468ab46006): readMessage from peer: (*lnwire.Pong)(0x4002adac48)({
+2023-07-30 14:19:20.942 [INF] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): unable to read message from peer: EOF
+2023-07-30 14:19:20.942 [INF] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): disconnecting 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, reason: read handler closed
+2023-07-30 14:19:20.943 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readHandler for peer done
+2023-07-30 14:19:20.943 [TRC] PEER: Update stream for gossiper exited
+2023-07-30 14:19:20.943 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): writeHandler for peer done
+2023-07-30 14:19:20.943 [INF] NTFN: Cancelling epoch notification, epoch_id=10
+2023-07-30 14:19:21.044 [DBG] SRVR: Peer 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735 has been disconnected
+2023-07-30 14:19:21.044 [DBG] FNDG: Cancelling all reservations for peer 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:21.044 [DBG] FNDG: No active reservations for node: 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:21.044 [INF] DISC: Removing GossipSyncer for peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:21.045 [INF] HSWC: ChannelLink(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): stopping
+2023-07-30 14:19:21.045 [DBG] DISC: Stopping GossipSyncer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd)
+2023-07-30 14:19:21.045 [INF] HSWC: ChannelLink(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): exited
+2023-07-30 14:19:21.045 [INF] HSWC: Removing channel link with ChannelID(b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9)
+2023-07-30 14:19:21.046 [DBG] SRVR: Notifying that peer 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735 is offline
+2023-07-30 14:19:21.046 [DBG] SRVR: removing peer 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:21.046 [DBG] PRNF: PeerNotifier notifying peer: 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd offline
+2023-07-30 14:19:21.045 [DBG] DISC: GossipSyncer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd) stopped
+2023-07-30 14:19:21.046 [DBG] DISC: Requesting online notification for peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:21.047 [DBG] SRVR: Scheduling connection re-establishment to persistent peer 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd in 1s
+2023-07-30 14:19:22.049 [DBG] SRVR: Attempting to re-establish persistent connection to peer 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.049 [DBG] SRVR: Attempting persistent connection to channel peer 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.049 [DBG] BTCN: Attempting to connect to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735 (reqid 1)
+2023-07-30 14:19:22.053 [DBG] BTCN: Connected to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735 (reqid 1)
+2023-07-30 14:19:22.053 [INF] SRVR: Established connection to: 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.053 [TRC] SRVR: Canceling [0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735 (reqid 1)]:
+2023-07-30 14:19:22.054 [INF] SRVR: Finalizing connection to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, inbound=false
+2023-07-30 14:19:22.054 [DBG] PRNF: PeerNotifier notifying peer: 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd online
+2023-07-30 14:19:22.054 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): starting with conn[192.168.16.5:45540->192.168.16.4:9735]
+2023-07-30 14:19:22.055 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Sending Init to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.055 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): writeMessage to peer: (*lnwire.Init)(0x4001e6cf60)({
+2023-07-30 14:19:22.056 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received Init from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.066 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readMessage from peer: (*lnwire.Init)(0x4001e6d050)({
+2023-07-30 14:19:22.067 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Loaded 1 active channels from database
+2023-07-30 14:19:22.078 [TRC] LNWL: ChannelPoint(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): starting local commitment: (*lnwallet.commitment)(0x400285a480)({
+2023-07-30 14:19:22.079 [TRC] LNWL: ChannelPoint(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): starting remote commitment: (*lnwallet.commitment)(0x400022ea80)({
+2023-07-30 14:19:22.089 [DBG] LNWL: ChannelPoint(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): Restoring 0 dangling remote updates
+2023-07-30 14:19:22.100 [DBG] LNWL: ChannelPoint(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): Restoring 0 local updates that the peer should sign
+2023-07-30 14:19:22.100 [INF] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Loading ChannelPoint(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0), isPending=false
+2023-07-30 14:19:22.101 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Using link policy of: (*htlcswitch.ForwardingPolicy)(0x400262fe60)({
+2023-07-30 14:19:22.101 [DBG] CNCT: New ChainEventSubscription(id=2) for ChannelPoint(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0)
+2023-07-30 14:19:22.102 [TRC] HSWC: Unable to remove link for ChannelID(b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9): channel link not found
+2023-07-30 14:19:22.103 [INF] HSWC: ChannelLink(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): starting
+2023-07-30 14:19:22.103 [INF] HSWC: Trimming open circuits for chan_id=141:2:0, start_htlc_id=0
+2023-07-30 14:19:22.103 [INF] HSWC: Adding live link chan_id=b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9, short_chan_id=141:2:0
+2023-07-30 14:19:22.103 [INF] NTFN: New block epoch subscription
+2023-07-30 14:19:22.103 [INF] CNCT: Attempting to update ContractSignals for ChannelPoint(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0)
+2023-07-30 14:19:22.104 [TRC] CNCT: ChannelArbitrator(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0) got new signal update!
+2023-07-30 14:19:22.103 [INF] HSWC: ChannelLink(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): HTLC manager started, bandwidth=8476119000 mSAT
+2023-07-30 14:19:22.104 [INF] HSWC: ChannelLink(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): attempting to re-synchronize
+2023-07-30 14:19:22.103 [DBG] SRVR: Notifying that peer 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735 is online
+2023-07-30 14:19:22.105 [DBG] DISC: Peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd is now online, proceeding to send pending messages
+2023-07-30 14:19:22.103 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Sending NodeAnnouncement(node=029e14bb0976f98543d7efaaad60cb04b1e10c39fcad241dd544bd7e1a77d6ee92, update_time=2023-07-30 13:41:42 +0000 UTC) to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.103 [INF] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Negotiated chan series queries
+2023-07-30 14:19:22.105 [DBG] DISC: Requesting offline notification for peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.106 [DBG] DISC: Successfully sent ChannelUpdate message for channel=141:2:0 with peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd upon reconnection
+2023-07-30 14:19:22.107 [DBG] DISC: Successfully sent AnnounceSignatures message for channel=141:2:0 with peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd upon reconnection
+2023-07-30 14:19:22.105 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): writeMessage to peer: (*lnwire.NodeAnnouncement)(0x4002d25930)({
+2023-07-30 14:19:22.106 [INF] DISC: Creating new GossipSyncer for peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.107 [TRC] DISC: Deleting message of type AnnounceSignatures from store for peer 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.107 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Sending ChannelReestablish(next_local_height=1, remote_tail_height=0) to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.117 [DBG] DISC: Created new GossipSyncer[state=chansSynced type=PassiveSync] for peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.118 [DBG] DISC: Starting GossipSyncer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd)
+2023-07-30 14:19:22.118 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): writeMessage to peer: (*lnwire.ChannelReestablish)(0x400031d180)({
+2023-07-30 14:19:22.118 [DBG] DISC: Removed stale AnnounceSignatures message for channel=141:2:0 with peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.118 [DBG] DISC: GossipSyncer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): state=chansSynced, type=ActiveSync
+2023-07-30 14:19:22.122 [INF] DISC: GossipSyncer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): applying gossipFilter(start=2023-07-30 14:19:22.122503845 +0000 UTC m=+2293.330920168, end=2159-09-05 20:47:37.122503845 +0000 UTC)
+2023-07-30 14:19:22.118 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received ChannelAnnouncement(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, short_chan_id=155031139647488) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.118 [TRC] PEER: Update stream for gossiper created
+2023-07-30 14:19:22.119 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Sending ChannelUpdate(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, short_chan_id=155031139647488, mflags=00000001, cflags=00000001, update_time=2023-07-30 13:41:41 +0000 UTC) to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.123 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readMessage from peer: (*lnwire.ChannelAnnouncement)(0x400037be00)({
+2023-07-30 14:19:22.123 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): writeMessage to peer: (*lnwire.ChannelUpdate)(0x40024b4630)({
+2023-07-30 14:19:22.123 [WRN] DISC: ignoring remote ChannelAnnouncement for own channel
+2023-07-30 14:19:22.123 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received ChannelUpdate(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, short_chan_id=155031139647488, mflags=00000001, cflags=00000000, update_time=2023-07-30 13:41:37 +0000 UTC) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.137 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readMessage from peer: (*lnwire.ChannelUpdate)(0x4002a424d0)({
+2023-07-30 14:19:22.133 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Sending AnnounceSignatures(chan_id=b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9, short_chan_id=155031139647488) to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.141 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): writeMessage to peer: (*lnwire.AnnounceSignatures)(0x4001ceac30)({
+2023-07-30 14:19:22.137 [TRC] DISC: Received network message: peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, msg=ChannelUpdate, is_remote=true
+2023-07-30 14:19:22.137 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received ChannelUpdate(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, short_chan_id=155031139647488, mflags=00000001, cflags=00000001, update_time=2023-07-30 13:41:41 +0000 UTC) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.142 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Sending GossipTimestampRange(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, first_stamp=2023-07-30 14:19:22 +0000 UTC, stamp_range=4294967295) to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.146 [DBG] DISC: Processing ChannelUpdate: peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, short_chan_id=155031139647488, 
+2023-07-30 14:19:22.147 [DBG] DISC: Ignored stale edge policy for short_chan_id(155031139647488): peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, msg=ChannelUpdate, is_remote=true
+2023-07-30 14:19:22.147 [TRC] DISC: Processed network message ChannelUpdate, returned len(announcements)=0, allowDependents=true
+2023-07-30 14:19:22.146 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readMessage from peer: (*lnwire.ChannelUpdate)(0x4002a42580)({
+2023-07-30 14:19:22.146 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): writeMessage to peer: (*lnwire.GossipTimestampRange)(0x40022f8440)({
+2023-07-30 14:19:22.148 [TRC] DISC: Received network message: peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, msg=ChannelUpdate, is_remote=true
+2023-07-30 14:19:22.148 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received NodeAnnouncement(node=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd, update_time=2023-07-30 13:41:41 +0000 UTC) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.154 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readMessage from peer: (*lnwire.NodeAnnouncement)(0x40029d0410)({
+2023-07-30 14:19:22.154 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received ChannelReestablish(next_local_height=1, remote_tail_height=0) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.167 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readMessage from peer: (*lnwire.ChannelReestablish)(0x40029bf9d0)({
+2023-07-30 14:19:22.154 [DBG] DISC: Processing ChannelUpdate: peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, short_chan_id=155031139647488, 
+2023-07-30 14:19:22.154 [TRC] DISC: Received network message: peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, msg=NodeAnnouncement, is_remote=true
+2023-07-30 14:19:22.167 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received ChannelReady(chan_id=b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9, next_point=03737a1713c3e2e4ea6b340ed58b30d8cba2cc765a515e48805084a5cbd5ef540f) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.167 [TRC] PEER: Update stream for ChannelID(b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9) created
+2023-07-30 14:19:22.170 [DBG] DISC: Ignored stale edge policy for short_chan_id(155031139647488): peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, msg=ChannelUpdate, is_remote=true
+2023-07-30 14:19:22.171 [TRC] DISC: Processed network message ChannelUpdate, returned len(announcements)=0, allowDependents=true
+2023-07-30 14:19:22.171 [DBG] CRTR: Waiting for dependent on job=lnwire.NodeAnnouncement, pub=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.172 [TRC] CRTR: Signal allow for job=lnwire.NodeAnnouncement, pub=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.171 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readMessage from peer: (*lnwire.ChannelReady)(0x4002efebe0)({
+2023-07-30 14:19:22.171 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Waiting for link=b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9 to be active
+2023-07-30 14:19:22.172 [DBG] DISC: Processing NodeAnnouncement: peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, timestamp=2023-07-30 13:41:41 +0000 UTC, node=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.173 [DBG] FNDG: Received ChannelReady for ChannelID(b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9) from peer 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.173 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received AnnounceSignatures(chan_id=b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9, short_chan_id=155031139647488) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.177 [TRC] HSWC: ChannelLink(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): Received msg=ChannelReestablish from peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd)
+2023-07-30 14:19:22.178 [INF] HSWC: ChannelLink(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): resending ChannelReady message to peer
+2023-07-30 14:19:22.178 [INF] HSWC: ChannelLink(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): received re-establishment message from remote side
+2023-07-30 14:19:22.178 [TRC] HSWC: Deleting resolved circuits: ([]models.CircuitKey) <nil>
+2023-07-30 14:19:22.177 [DBG] CRTR: Checking stale node 303239383238366332626439383238343165646538343862366663366262376234393261353963663639373266643265373061623061646465623232633366666664 got Ignoring outdated announcement for 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.178 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Sending ChannelReady(chan_id=b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9, next_point=02785e76c44708b99dfa91aa8e591beedca45ae35071e12a2465916ae716c53879) to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.180 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): writeMessage to peer: (*lnwire.ChannelReady)(0x4002b31130)({
+2023-07-30 14:19:22.178 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readMessage from peer: (*lnwire.AnnounceSignatures)(0x40029d0680)({
+2023-07-30 14:19:22.178 [DBG] FNDG: Consider closing ChannelID(b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9), peer does not implement the option-scid-alias feature properly
+2023-07-30 14:19:22.179 [DBG] HSWC: ChannelLink(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): loaded 0 fwd pks
+2023-07-30 14:19:22.179 [DBG] DISC: Skipped processing stale node: 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.182 [TRC] DISC: Received network message: peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, msg=AnnounceSignatures, is_remote=true
+2023-07-30 14:19:22.187 [TRC] HSWC: ChannelLink(d993afa35bdfe400b2d2b8eaafb1e8e1d0c653a1e381eed1d5f5d837152943b0:0): BatchTicker paused due to zero PendingLocalUpdateCount
+2023-07-30 14:19:22.187 [TRC] DISC: Processed network message NodeAnnouncement, returned len(announcements)=0, allowDependents=true
+2023-07-30 14:19:22.188 [INF] DISC: Received new remote announcement signature for 141:2:0
+2023-07-30 14:19:22.188 [DBG] DISC: Got AnnounceSignatures for channel with full proof.
+2023-07-30 14:19:22.189 [DBG] DISC: Already have proof for channel with chanID=b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9
+2023-07-30 14:19:22.189 [DBG] DISC: Processed network message AnnounceSignatures, returned len(announcements)=0
+2023-07-30 14:19:22.189 [DBG] DISC: Received half proof for channel b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9 with existing full proof. Sending full proof to peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd
+2023-07-30 14:19:22.189 [DBG] DISC: Full proof sent to peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd for chanID=b043291537d8f5d5d1ee81e3a153c6d0e1e8b1afeab8d2b200e4df5ba3af93d9
+2023-07-30 14:19:22.189 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Sending ChannelAnnouncement(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, short_chan_id=155031139647488) to 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:22.190 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): writeMessage to peer: (*lnwire.ChannelAnnouncement)(0x4002793860)({
+2023-07-30 14:19:31.891 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received GossipTimestampRange(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, first_stamp=2023-07-30 14:18:29 +0000 UTC, stamp_range=4294967295) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:19:31.892 [TRC] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): readMessage from peer: (*lnwire.GossipTimestampRange)(0x400292a100)({
+2023-07-30 14:19:31.894 [DBG] CHDB: ChanUpdatesInHorizon hit percentage: NaN (0/0)
+2023-07-30 14:19:31.897 [INF] DISC: GossipSyncer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): applying new update horizon: start=2023-07-30 14:18:29 +0000 UTC, end=2159-09-05 20:46:44 +0000 UTC, backlog_size=0
+2023-07-30 14:19:48.324 [DBG] RPCS: [/lnrpc.Lightning/GetInfo] requested
+2023-07-30 14:19:48.339 [DBG] RPCS: [/lnrpc.Lightning/DescribeGraph] requested
+2023-07-30 14:41:20.227 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received ChannelUpdate(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, short_chan_id=185817465159681, mflags=00000001, cflags=00000000, update_time=2023-07-30 14:19:19 +0000 UTC) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+2023-07-30 14:41:20.228 [DBG] PEER: Peer(0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd): Received ChannelUpdate(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, short_chan_id=185817465159681, mflags=00000001, cflags=00000001, update_time=2023-07-30 14:19:19 +0000 UTC) from 0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735
+ LastUpdate: (time.Time) 2023-07-30 14:19:19 +0000 UTC,
+2023-07-30 14:41:21.277 [DBG] DISC: Processed ChannelUpdate: peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, short_chan_id=185817465159681, timestamp=2023-07-30 14:19:19 +0000 UTC
+ LastUpdate: (time.Time) 2023-07-30 14:19:19 +0000 UTC,
+2023-07-30 14:41:21.800 [DBG] DISC: Processed ChannelUpdate: peer=0298286c2bd982841ede848b6fc6bb7b492a59cf6972fd2e70ab0addeb22c3fffd@192.168.16.4:9735, short_chan_id=185817465159681, timestamp=2023-07-30 14:19:19 +0000 UTC
+2023-07-30 14:42:51.334 [DBG] PEER: Peer(03aecd31ff4003d2a6f56005fdc5c8b83091b4d4a4b5a9fb3ad586af468ab46006): Sending ChannelUpdate(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, short_chan_id=185817465159681, mflags=00000001, cflags=00000000, update_time=2023-07-30 14:19:19 +0000 UTC) to 03aecd31ff4003d2a6f56005fdc5c8b83091b4d4a4b5a9fb3ad586af468ab46006@192.168.16.3:9735
+2023-07-30 14:42:51.366 [DBG] PEER: Peer(03aecd31ff4003d2a6f56005fdc5c8b83091b4d4a4b5a9fb3ad586af468ab46006): Sending ChannelUpdate(chain_hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, short_chan_id=185817465159681, mflags=00000001, cflags=00000001, update_time=2023-07-30 14:19:19 +0000 UTC) to 03aecd31ff4003d2a6f56005fdc5c8b83091b4d4a4b5a9fb3ad586af468ab46006@192.168.16.3:9735

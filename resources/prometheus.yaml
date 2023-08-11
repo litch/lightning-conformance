@@ -12,3 +12,6 @@ scrape_configs:
   - job_name: 'cAdvisor' 
     static_configs:
       - targets: ['cadvisor:8080']
+  - job_name: 'lnd'
+    static_configs:
+      - targets: ['lnd:8989']

@@ -32,9 +32,9 @@ if [ "$1" == "prep" ]; then
     exit 0
 fi
 
-funds_psbt=$(docker exec cln-c1 lightning-cli --network=regtest fundpsbt -k satoshi=111000sat feerate=urgent startweight=800 excess_as_change=true | jq -r '.psbt')
+funds_psbt=$(docker exec cln-c1 lightning-cli --network=regtest fundpsbt -k satoshi=700000 feerate=urgent startweight=800 excess_as_change=true | jq -r '.psbt')
 
-res=$(docker exec cln-c1 lightning-cli --network=regtest splice_init $c1_c2_channel 5000 $funds_psbt)
+res=$(docker exec cln-c1 lightning-cli --network=regtest splice_init $c1_c2_channel 500000 $funds_psbt)
 echo $res
 splice_psbt=$(echo $res | jq -r '.psbt')
 
@@ -54,6 +54,11 @@ echo "signed_result: $signed_result"
 signed_psbt=$(echo $signed_result | jq -r '.signed_psbt')
 
 
+echo "************************************************************"
+echo "************************************************************"
+echo "Broadcastng splice" $(date)
+echo "************************************************************"
+echo "************************************************************"
 # send it
 docker exec cln-c1 lightning-cli --network=regtest splice_signed $c1_c2_channel $signed_psbt
 
@@ -63,4 +68,32 @@ docker exec cln-c1 lightning-cli --network=regtest listpeers $c2_pubkey | jq -r 
 # Let's look at the channel state
 docker exec cln-c2 lightning-cli --network=regtest listpeers $c1_pubkey | jq -r '.peers[0].channels[0]'
 
+# Wait a minute
+echo "Sleeping 60 seconds"
 
+# lnd channel count should be 2
+channel_count=$(docker exec lnd lncli --network=regtest listchannels | jq '.[] | length')
+
+if [ "$channel_count" != "2" ]; then
+    echo "Channel count is not 2, exiting"
+    exit 1
+fi
+
+# Now we will mine a block to confirm the splice
+./generate-blocks.sh 1
+
+# Every 10 seconds, check the channel count and print it out along with the time and block height
+for i in {1..6000}
+do
+    echo "Sleeping 10 seconds"
+    sleep 10
+    ./generate-blocks.sh 1
+    channel_count=$(docker exec lnd lncli --network=regtest listchannels | jq '.[] | length')
+    echo "Channel count: $channel_count"
+    echo "Block height: $(docker exec bitcoin bitcoin-cli -datadir=config -rpcwallet=rpcwallet getblockcount)"
+    echo "Time: $(date)"
+    if [ "$channel_count" == "3" ]; then
+        echo "Channel count is 2, exiting"
+        exit 0
+    fi
+done

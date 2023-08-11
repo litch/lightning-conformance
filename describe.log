@@ -1,0 +1,356 @@
+{
+    "nodes": [
+        {
+            "last_update": 1690721723,
+            "pub_key": "024ccb0555396a237f54d328168144c6ee5f05646c0f44ffc1a5c3aeeb906306ac",
+            "alias": "lnd",
+            "addresses": [
+            ],
+            "color": "#3399ff",
+            "features": {
+                "0": {
+                    "name": "data-loss-protect",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "5": {
+                    "name": "upfront-shutdown-script",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "7": {
+                    "name": "gossip-queries",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "9": {
+                    "name": "tlv-onion",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "12": {
+                    "name": "static-remote-key",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "14": {
+                    "name": "payment-addr",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "17": {
+                    "name": "multi-path-payments",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "19": {
+                    "name": "wumbo-channels",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "23": {
+                    "name": "anchors-zero-fee-htlc-tx",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "27": {
+                    "name": "shutdown-any-segwit",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "31": {
+                    "name": "amp",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "45": {
+                    "name": "explicit-commitment-type",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "47": {
+                    "name": "scid-alias",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "51": {
+                    "name": "zero-conf",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "55": {
+                    "name": "keysend",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "2023": {
+                    "name": "script-enforced-lease",
+                    "is_required": false,
+                    "is_known": true
+                }
+            },
+            "custom_records": {
+            }
+        },
+        {
+            "last_update": 1690721615,
+            "pub_key": "033a550f5a08b84fff7a265a24c04b8d845333d57917e9b5e31fb999b491ca0db7",
+            "alias": "coreln-c1",
+            "addresses": [
+            ],
+            "color": "#033a55",
+            "features": {
+                "1": {
+                    "name": "data-loss-protect",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "5": {
+                    "name": "upfront-shutdown-script",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "7": {
+                    "name": "gossip-queries",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "8": {
+                    "name": "tlv-onion",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "11": {
+                    "name": "unknown",
+                    "is_required": false,
+                    "is_known": false
+                },
+                "13": {
+                    "name": "static-remote-key",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "14": {
+                    "name": "payment-addr",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "17": {
+                    "name": "multi-path-payments",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "25": {
+                    "name": "unknown",
+                    "is_required": false,
+                    "is_known": false
+                },
+                "27": {
+                    "name": "shutdown-any-segwit",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "29": {
+                    "name": "unknown",
+                    "is_required": false,
+                    "is_known": false
+                },
+                "35": {
+                    "name": "unknown",
+                    "is_required": false,
+                    "is_known": false
+                },
+                "45": {
+                    "name": "explicit-commitment-type",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "47": {
+                    "name": "scid-alias",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "51": {
+                    "name": "zero-conf",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "55": {
+                    "name": "keysend",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "63": {
+                    "name": "unknown",
+                    "is_required": false,
+                    "is_known": false
+                }
+            },
+            "custom_records": {
+            }
+        },
+        {
+            "last_update": 1690721615,
+            "pub_key": "03e534ab065e9f3e4ed784e9ab884f80dee11a35344dc17ffd4d203df01a2b5747",
+            "alias": "coreln-c2",
+            "addresses": [
+            ],
+            "color": "#03e534",
+            "features": {
+                "1": {
+                    "name": "data-loss-protect",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "5": {
+                    "name": "upfront-shutdown-script",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "7": {
+                    "name": "gossip-queries",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "8": {
+                    "name": "tlv-onion",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "11": {
+                    "name": "unknown",
+                    "is_required": false,
+                    "is_known": false
+                },
+                "13": {
+                    "name": "static-remote-key",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "14": {
+                    "name": "payment-addr",
+                    "is_required": true,
+                    "is_known": true
+                },
+                "17": {
+                    "name": "multi-path-payments",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "25": {
+                    "name": "unknown",
+                    "is_required": false,
+                    "is_known": false
+                },
+                "27": {
+                    "name": "shutdown-any-segwit",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "29": {
+                    "name": "unknown",
+                    "is_required": false,
+                    "is_known": false
+                },
+                "35": {
+                    "name": "unknown",
+                    "is_required": false,
+                    "is_known": false
+                },
+                "45": {
+                    "name": "explicit-commitment-type",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "47": {
+                    "name": "scid-alias",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "51": {
+                    "name": "zero-conf",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "55": {
+                    "name": "keysend",
+                    "is_required": false,
+                    "is_known": true
+                },
+                "63": {
+                    "name": "unknown",
+                    "is_required": false,
+                    "is_known": false
+                }
+            },
+            "custom_records": {
+            }
+        }
+    ],
+    "edges": [
+        {
+            "channel_id": "155031139581952",
+            "chan_point": "31fd15d03fa894eaa87f8efa1849b6cc4600d6e21006800cb17a34d163027d06:0",
+            "last_update": 1690721615,
+            "node1_pub": "024ccb0555396a237f54d328168144c6ee5f05646c0f44ffc1a5c3aeeb906306ac",
+            "node2_pub": "033a550f5a08b84fff7a265a24c04b8d845333d57917e9b5e31fb999b491ca0db7",
+            "capacity": "14257880",
+            "node1_policy": {
+                "time_lock_delta": 80,
+                "min_htlc": "1000",
+                "fee_base_msat": "1000",
+                "fee_rate_milli_msat": "1",
+                "disabled": false,
+                "max_htlc_msat": "14257880000",
+                "last_update": 1690721615,
+                "custom_records": {
+                }
+            },
+            "node2_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "1",
+                "fee_base_msat": "1",
+                "fee_rate_milli_msat": "10",
+                "disabled": false,
+                "max_htlc_msat": "14115302000",
+                "last_update": 1690721611,
+                "custom_records": {
+                }
+            },
+            "custom_records": {
+            }
+        },
+        {
+            "channel_id": "155031139647488",
+            "chan_point": "141b1647bd9aa8cabbaa6eb9afd1305cc1583546103242db411fe0e59023d50b:0",
+            "last_update": 1690721615,
+            "node1_pub": "024ccb0555396a237f54d328168144c6ee5f05646c0f44ffc1a5c3aeeb906306ac",
+            "node2_pub": "03e534ab065e9f3e4ed784e9ab884f80dee11a35344dc17ffd4d203df01a2b5747",
+            "capacity": "14257880",
+            "node1_policy": {
+                "time_lock_delta": 80,
+                "min_htlc": "1000",
+                "fee_base_msat": "1000",
+                "fee_rate_milli_msat": "1",
+                "disabled": false,
+                "max_htlc_msat": "14257880000",
+                "last_update": 1690721615,
+                "custom_records": {
+                }
+            },
+            "node2_policy": {
+                "time_lock_delta": 6,
+                "min_htlc": "1",
+                "fee_base_msat": "1",
+                "fee_rate_milli_msat": "10",
+                "disabled": false,
+                "max_htlc_msat": "14115302000",
+                "last_update": 1690721611,
+                "custom_records": {
+                }
+            },
+            "custom_records": {
+            }
+        }
+    ]
+}

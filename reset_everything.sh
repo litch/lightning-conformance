@@ -18,17 +18,5 @@ drop_lnd () {
 mkdir -p volumes/lnd
 drop_lnd lnd lnd
 
-mkdir -p volumes/lnd2
-drop_lnd lnd2 lnd2
-
-mkdir -p volumes/lnd-15-1
-drop_lnd lnd-15-1 lnd-15-1
-
-mkdir -p volumes/lnd-15-2
-drop_lnd lnd-15-2 lnd-15-2
-
-mkdir -p volumes/lnd-15-3
-drop_lnd lnd-15-3 lnd-15-3
-
 mkdir -p volumes/thunderhub/auth
 cp resources/thunderhub.yaml volumes/thunderhub/thunderhub.yaml
