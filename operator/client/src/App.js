@@ -14,7 +14,7 @@ class Visualize extends React.Component {
   }
 
   state = {
-    node: 'lnd',
+    connectableNodes: [],
     w: 0,
     h: 0,
     graph: {nodes: [], edges: []},
@@ -32,12 +32,26 @@ class Visualize extends React.Component {
     })
     // this.setUpListeners()
     this.cy = null
+    this.fetchConnectableNodes()
     this.fetchData()
     this.interval = setInterval(this.fetchData, 2000)
   }
-  
+
+  fetchConnectableNodes = () => {
+    fetch('/nodes')
+        .then((res) => res.json())
+        .then((json) => {
+            console.log("Got nodes", json)
+            this.setState({
+                connectableNodes: json,
+            });
+        })
+  }
 
   fetchData = () => {
+    if (!this.state.node) {
+      return
+    }
     fetch('/graph/'+this.state.node)
         .then((res) => res.json())
         .then((json) => {
@@ -64,101 +78,44 @@ class Visualize extends React.Component {
     this.setState({node, infoIsLoaded: false})
   }
 
-  keysendAll() {
-    this.setState({busy: true, result: null})
-    fetch('/keysend_all/'+this.state.node)
-        .then((res) => res.json())
-        .then((json) => {
-            this.setState({
-                result: json,
-                busy: false,
-            });
-        })
-  }
-
-  randomMerchantTraffic() {
-    this.setState({busy: true, result: null})
-    fetch('/random_merchant_traffic')
-        .then((res) => res.json())
-        .then((json) => {
-            this.setState({
-                result: json,
-                busy: false,
-            });
-        })
-  }
-
-  closeRandomChannel() {
-    this.setState({busy: true, result: null})
-    fetch('/close-random/'+this.state.node)
-        .then((res) => res.json())
-        .then((json) => {
-            this.setState({
-                result: json,
-                busy: false,
-            });
-        })
-  }
-
-  forceCloseRandomChannel() {
-    this.setState({busy: true, result: null})
-    fetch('/force-close-random/'+this.state.node)
-        .then((res) => res.json())
-        .then((json) => {
-            this.setState({
-                result: json,
-                busy: false,
-            });
-        })
-  }
-
-  setCy(cy) {
-    console.log("Hi", cy, this.cy)
-    this.cy = cy
-  }
-
-  render() {  
+  render() {
     return <div className='container'>
       <div className='info'>
         <div>
-          <button onClick={() => this.setNode('lnd')} disabled={this.state.node == 'lnd'}>
-            LND
-          </button>
-          <button onClick={() => this.setNode('lnd2')} disabled={this.state.node == 'lnd2'}>
-            LND2
-          </button>
-          <Info info={this.state.info} infoIsLoaded={this.state.infoIsLoaded} /> 
-          <button onClick={() => this.keysendAll() } disabled={this.state.busy}>
-            Keysend all visible nodes
-          </button>
-          <button onClick={() => this.randomMerchantTraffic() } disabled={this.state.busy}>
-            Random Merchant Traffic
-          </button>
-          <button onClick={() => this.closeRandomChannel() } disabled={this.state.busy}>
-            Close Random Channel
-          </button>
-          <button onClick={() => this.forceCloseRandomChannel() } disabled={this.state.busy}>
-            Force Close Random Channel
-          </button>
+          <h1>Visualize</h1>
+
+          <ConnectButtons connectableNodes={this.state.connectableNodes} setNode={(node) => this.setNode(node)} />
+          <Info info={this.state.info} infoIsLoaded={this.state.infoIsLoaded} />
+
         </div>
         <div>
           {JSON.stringify(this.state.result)}
-        </div>  
+        </div>
       </div>
-      
-      {this.state.graphIsLoaded ? <Graph graph={this.state.graph} setCy={this.setCy} h={this.state.h} w={this.state.w} /> : <div>Loading</div>}
+
+      {this.state.graphIsLoaded ? <Graph graph={this.state.graph} h={this.state.h} w={this.state.w} /> : <div>Loading</div>}
     </div>
   }
+}
+
+function ConnectButtons(props) {
+  let connectableNodes = props.connectableNodes;
+  let setNode = props.setNode;
+  return <div>
+    {connectableNodes.map((n) => {
+      // return <button onClick={() => setNode(n.name)}>{n.alias || n.pubKey.substring(0,5)+"..."}</button>
+      return <button onClick={() => setNode(n.name)}>{n.name}</button>
+    })}
+  </div>
 }
 
 
 function Graph(props) {
   console.log("Drawing!", props)
   let initialNodes = props.graph.nodes;
-  let initialEdges = props.graph.edges;
-
-  let elements = [
-  ];
+  let initialEdges = props.graph.edges || [];
+  let setCy = props.setCy;
+  let elements = [];
 
   initialNodes.map((n) => {
     let id = n.pubKey;
@@ -175,7 +132,6 @@ function Graph(props) {
   })
 
   initialEdges.map((e) => {
-    
     let capacity =  Number(e.capacity).toLocaleString();
     elements.push(
       {
@@ -201,7 +157,7 @@ function Graph(props) {
     {
       selector: 'edge',
       style: {
-        "target-arrow-shape": "triangle",   
+        "target-arrow-shape": "triangle",
         "curve-style": "bezier",
         "width": 1,
         'label': 'data(capacity)',
@@ -212,22 +168,22 @@ function Graph(props) {
   ]
 
   return <div className='graph'>
-        <CytoscapeComponent 
-          cy={(cy) => { props.setCy(cy) }}
-          stylesheet={stylesheet} 
-          elements={elements} 
-          layout={layout} 
+        <CytoscapeComponent
+          // cy={(cy) => { setCy(cy) }}
+          stylesheet={stylesheet}
+          elements={elements}
+          layout={layout}
           style={ { width: props.w, height: props.h } } />;
     </div>
 
-  
+
 }
 
 function Info(props) {
   console.log("Props", props)
   let info = props.info;
   let infoIsLoaded = props.infoIsLoaded;
-  
+
   if (infoIsLoaded) {
     return <div>
       <dl>

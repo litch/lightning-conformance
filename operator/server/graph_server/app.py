@@ -1,9 +1,9 @@
-import os 
+import os
 import logging
 import configparser
 from flask import Flask, jsonify
 
-from graph_server.lnd import describe_graph, get_info
+from graph_server.lnd import describe_graph, get_info, get_nodes
 from graph_server.flood import keysend_all_nodes
 import graph_server.logging_config as logging_config
 from graph_server.flood import random_merchant_traffic
@@ -28,13 +28,17 @@ def index():
 def hello_world():
     return "<p>Yep, I'm here!</p>"
 
+@app.route("/nodes")
+def lnd_nodes():
+    return get_nodes()
+
 @app.route("/info/<string:node>")
 def lnd_info(node):
     return get_info(node)
 
 @app.route("/graph/<string:node>")
 def lnd_graph(node):
-    return describe_graph(node) 
+    return describe_graph(node)
 
 @app.route("/keysend_all/<string:sender>")
 def _keysend_all_nodes(sender):

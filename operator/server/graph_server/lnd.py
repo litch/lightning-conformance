@@ -16,7 +16,7 @@ os.environ["GRPC_SSL_CIPHER_SUITES"] = 'HIGH+ECDSA'
 
 # This module provides the stubs for the node, and will perform some very
 # simple operations, get_info, describe graph, etc.  Any operation that
-# requires parameters should be put into their own module and depend on this 
+# requires parameters should be put into their own module and depend on this
 # as a stub provider.
 
 
@@ -25,6 +25,19 @@ import configparser
 config = configparser.ConfigParser()
 config.read(f"./config/nodes.ini")
 logger = logging.getLogger(__name__)
+
+def get_nodes():
+    config_list = []
+
+    for section in config.sections():
+        dict = {"name": section}
+
+        for key, value in config.items(section):
+            dict[key] = value
+
+        config_list.append(dict)
+
+    return config_list
 
 def endpoint_for(node):
     if node in config:

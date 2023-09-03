@@ -2,7 +2,7 @@
   "name": "visualize",
   "version": "0.1.0",
   "private": true,
-  "proxy":"http://localhost:5000/",
+  "proxy":"http://localhost:5100/",
   "dependencies": {
     "cytoscape": "^3.22.1",
     "cytoscape-cose-bilkent": "^4.1.0",

@@ -5,6 +5,7 @@ COPY ./client/package.json ./
 COPY ./client/yarn.lock ./
 RUN yarn install --production --frozen-lockfile
 COPY ./client ./
+
 RUN yarn run build
 
 FROM python:3.10.8-slim-buster
