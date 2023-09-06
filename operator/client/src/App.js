@@ -197,7 +197,6 @@ function Info(props) {
         <dt>Synced to Graph</dt><dd>{info.syncedToGraph ? "True" : "False"}</dd>
         <dt>Version</dt><dd>{info.version}</dd>
       </dl>
-      {/* {JSON.stringify(info)} */}
     </div>
   } else {
     return <div>Loading...</div>
