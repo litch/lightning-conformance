@@ -1,6 +1,7 @@
+
 import os
 import logging
-import configparser
+
 from flask import Flask, jsonify
 
 from graph_server.lnd import describe_graph, get_info, get_nodes
@@ -8,11 +9,11 @@ from graph_server.flood import keysend_all_nodes
 import graph_server.logging_config as logging_config
 from graph_server.flood import random_merchant_traffic
 from graph_server.channel import close_random_channel, force_close_random_channel
+from graph_server import load_config
 
 app = Flask(__name__, static_folder='../static', static_url_path='/')
 
-config = configparser.ConfigParser()
-config.read(f"./config/graph_server.ini")
+config = load_config("graph_server")
 
 logging_config.configure(config)
 
@@ -57,8 +58,8 @@ def _force_close_random_channel(node):
 def _random_merchant_traffic():
     return random_merchant_traffic(10)
 
-
 if __name__ == "__main__":
 
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+

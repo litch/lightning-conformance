@@ -19,11 +19,12 @@ os.environ["GRPC_SSL_CIPHER_SUITES"] = 'HIGH+ECDSA'
 # requires parameters should be put into their own module and depend on this
 # as a stub provider.
 
+from graph_server import load_config
 
-import configparser
+# config.read(f"./config/nodes.ini")
 
-config = configparser.ConfigParser()
-config.read(f"./config/nodes.ini")
+config = load_config("nodes")
+
 logger = logging.getLogger(__name__)
 
 def get_nodes():
