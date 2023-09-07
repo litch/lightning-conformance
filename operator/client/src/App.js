@@ -45,6 +45,7 @@ class Visualize extends React.Component {
             this.setState({
                 connectableNodes: json,
             });
+            this.setNode(json[0].name)
         })
   }
 
@@ -93,7 +94,7 @@ class Visualize extends React.Component {
         </div>
       </div>
 
-      {this.state.graphIsLoaded ? <Graph graph={this.state.graph} h={this.state.h} w={this.state.w} /> : <div>Loading</div>}
+      {this.state.graphIsLoaded ? <Graph graph={this.state.graph} h={this.state.h} w={this.state.w} /> : <div></div>}
     </div>
   }
 }
@@ -103,7 +104,6 @@ function ConnectButtons(props) {
   let setNode = props.setNode;
   return <div>
     {connectableNodes.map((n) => {
-      // return <button onClick={() => setNode(n.name)}>{n.alias || n.pubKey.substring(0,5)+"..."}</button>
       return <button onClick={() => setNode(n.name)}>{n.name}</button>
     })}
   </div>
@@ -175,8 +175,6 @@ function Graph(props) {
           layout={layout}
           style={ { width: props.w, height: props.h } } />;
     </div>
-
-
 }
 
 function Info(props) {

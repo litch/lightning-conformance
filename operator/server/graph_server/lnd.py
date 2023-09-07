@@ -8,6 +8,7 @@ import google.protobuf.json_format as json_format
 from graph_server.vendor import lightning_pb2 as ln
 from graph_server.vendor import lightning_pb2_grpc as lnrpc
 from graph_server.vendor import router_pb2_grpc as routerstub
+from graph_server import load_config
 
 # Due to updated ECDSA generated tls.cert we need to let gprc know that
 # we need to use that cipher suite otherwise there will be a handhsake
@@ -19,11 +20,8 @@ os.environ["GRPC_SSL_CIPHER_SUITES"] = 'HIGH+ECDSA'
 # requires parameters should be put into their own module and depend on this
 # as a stub provider.
 
+config = load_config("nodes")
 
-import configparser
-
-config = configparser.ConfigParser()
-config.read(f"./config/nodes.ini")
 logger = logging.getLogger(__name__)
 
 def get_nodes():
