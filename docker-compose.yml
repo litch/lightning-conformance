@@ -107,6 +107,7 @@ services:
     ports:
       - "9735" # p2p
       - "30009:10009" # grpc
+      - "4000:8080" # rest
 
   lnd2:
     container_name: lnd2
@@ -125,6 +126,7 @@ services:
     ports:
       - "9735" # p2p
       - "30010:10009" # grpc
+      - "4001:8080" # rest
 
   lnd-15-1:
     container_name: lnd-15-1
